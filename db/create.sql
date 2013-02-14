@@ -41,9 +41,9 @@ COMMENT ON COLUMN login.login_hash IS 'Hexadecimal SHA1 hash.';
 
 CREATE TABLE chance
 (
+  "RECORDID" serial NOT NULL,
   "TEXT" character varying(100),
   "RESULT" character varying(10),
-  "RECORDID" serial NOT NULL,
   CONSTRAINT chance_pkey PRIMARY KEY ("RECORDID")
 )
 WITH (
