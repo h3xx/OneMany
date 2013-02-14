@@ -6,7 +6,6 @@ class Database {
 	private $ini;
 	private $link;
 
-
 	function __construct () {
 		$this->ini = $this->getIni();
 	}
@@ -30,16 +29,16 @@ class Database {
 		$attributes = @$parse['database']['db_attributes'];
 
 		foreach ($parse['database']['dsn'] as $k => $v) {
-			$dsn .= "${k}=${v};" ;
+			$dsn .= "${k}=${v};";
 		}
 
-		$this->link = new PDO($dsn, $user, $password, $options) ;
+		$this->link = new PDO($dsn, $user, $password, $options);
 
 		if (isset($attributes)) {
 			foreach ($attributes as $k => $v) {
 				$this->link->setAttribute(
 						constant("PDO::{$k}")
-						, constant ( "PDO::{$v}" ) ) ;
+						, constant ("PDO::{$v}"));
 			}
 		}
 
@@ -70,6 +69,20 @@ class Database {
 		return call_user_func_array ( $callback , $args ) ;
 	}
 */
+
+	public function getChanceCards () {
+		# don't give a shit about ordering
+		$stmt = $this->getLink()->prepare('select "RECORDID", "TEXT", "RESULT" from chance');
+		$stmt->execute();
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
+
+	public function getCommunityChestCards () {
+		# don't give a shit about ordering
+		$stmt = $this->getLink()->prepare('select "RECORDID", "TEXT", "RESULT" from commchest');
+		$stmt->execute();
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+	}
 }
 
 // examples
