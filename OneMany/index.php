@@ -1,6 +1,6 @@
-<?
+<?php
 
-$ICONS = array (
+$ICONS = [
             "./images/thimble.jpg",      // index 0
             "./images/battleship.jpg",      // index 1
             "./images/car.jpg",      // index 2
@@ -8,62 +8,62 @@ $ICONS = array (
             "./images/dog.jpg",      // index 4
             "./images/wheelbarrow.jpg",      // index 5
             "./images/rider.jpg"      // index 6
-);
+];
 
-$PLAYERS = array (  //playerid(is index of array to use), name?, tokenid, cash, getouttajailcards, locationOnBoard, isInJail?
-            array("Zoe", 1, 1500, 0, 0, 0),
-            array("Mal", 2, 1400, 0, 0, 0),
-            array("River", 3, 1300, 0, 0, 0),
-            array("Kaylee", 4, 1450, 0, 0, 0),
-            array("Wash", 5, 1350, 0, 0, 0),
-            array("Jayne", 6, 1425, 0, 0, 0),
-            array("Book", 0, 1375, 0, 0, 0)
-);
+$PLAYERS = [  //playerid(is index of array to use), name?, tokenid, cash, getouttajailcards, locationOnBoard, isInJail?
+            ["Zoe", 1, 1500, 0, 0, 0],
+            ["Mal", 2, 1400, 0, 0, 0],
+            ["River", 3, 1300, 0, 0, 0],
+            ["Kaylee", 4, 1450, 0, 0, 0],
+            ["Wash", 5, 1350, 0, 0, 0],
+            ["Jayne", 6, 1425, 0, 0, 0],
+            ["Book", 0, 1375, 0, 0, 0]
+];
 
-DEFINE (BANK_START, 15140);
+DEFINE('BANK_START', 15140);
 
-$PROPERTIES = array( //propertyID(index of array to use), owner, houses, group, mortgaged?
-            array(-1, 0, "GO", 0),  //GO
-            array(-1, 0, 1, 0),  //mediterranean
-            array(-1, 0, "CC", 0),  //COMM CHEST
-            array(-1, 0, 1, 0),  //baltic
-            array(-1, 0, "IT", 0),  //INCOME TAX
-            array(-1, 0, "RR", 0),  //reading RAILROAD index 3
-            array(-1, 0, 2, 0),  //oriental
-            array(-1, 0, "C", 0),  //CHANCE
-            array(-1, 0, 2, 0),  //vermont
-            array(-1, 0, 2, 0),  //connecticut
-            array(-1, 0, "JV", 0),  //JUST VISITING JAIL
-            array(-1, 0, 3, 0),  //st charles
-            array(-1, 0, "U", 0),  //electric UTILITY index 8
-            array(-1, 0, 3, 0),  //states
-            array(-1, 0, 3, 0),  //virginia
-            array(-1, 0, "RR", 0),  //Pennsyvania RAILROAD index 11
-            array(-1, 0, 4, 0),  //st james
-            array(-1, 0, "CC", 0),  //COMM CHEST
-            array(-1, 0, 4, 0),  //tennessee
-            array(-1, 0, 4, 0),  //new york
-            array(-1, 0, "FP", 0),  //FREE PARKING
-            array(-1, 0, 5, 0),  //kentucky
-            array(-1, 0, "C", 0),  //CHANCE
-            array(-1, 0, 5, 0),  //indiana
-            array(-1, 0, 5, 0),  //illinois
-            array(-1, 0, "RR", 0),  //B & O RAILROAD index 18
-            array(-1, 0, 6, 0),  //atlantic
-            array(-1, 0, 6, 0),  //ventnor
-            array(-1, 0, "U", 0),  //water works UTILITY  index 21
-            array(-1, 0, 6, 0),  //marvin gardens
-            array(-1, 0, "G2", 0),  //GO TO JAIL
-            array(-1, 0, 7, 0),  //pacific
-            array(-1, 0, 7, 0),  //north carolina
-            array(-1, 0, "CC", 0),  //COMM CHEST
-            array(-1, 0, 7, 0),  //pennsylvania AVENUE
-            array(-1, 0, "RR", 0),  //short line RAILROAD  index 26
-            array(-1, 0, "C", 0),  //CHANCE
-            array(-1, 0, 8, 0),  //Park place
-            array(-1, 0, "LT", 0),  //Luxury Tax
-            array(-1, 0, 8, 0)  //boardwalk
-);
+$PROPERTIES = [ //propertyID(index of array to use), owner, houses, group, mortgaged?
+            [-1, 0, "GO", 0],  //GO
+            [-1, 0, 1, 0],  //mediterranean
+            [-1, 0, "CC", 0],  //COMM CHEST
+            [-1, 0, 1, 0],  //baltic
+            [-1, 0, "IT", 0],  //INCOME TAX
+            [-1, 0, "RR", 0],  //reading RAILROAD index 3
+            [-1, 0, 2, 0],  //oriental
+            [-1, 0, "C", 0],  //CHANCE
+            [-1, 0, 2, 0],  //vermont
+            [-1, 0, 2, 0],  //connecticut
+            [-1, 0, "JV", 0],  //JUST VISITING JAIL
+            [-1, 0, 3, 0],  //st charles
+            [-1, 0, "U", 0],  //electric UTILITY index 8
+            [-1, 0, 3, 0],  //states
+            [-1, 0, 3, 0],  //virginia
+            [-1, 0, "RR", 0],  //Pennsyvania RAILROAD index 11
+            [-1, 0, 4, 0],  //st james
+            [-1, 0, "CC", 0],  //COMM CHEST
+            [-1, 0, 4, 0],  //tennessee
+            [-1, 0, 4, 0],  //new york
+            [-1, 0, "FP", 0],  //FREE PARKING
+            [-1, 0, 5, 0],  //kentucky
+            [-1, 0, "C", 0],  //CHANCE
+            [-1, 0, 5, 0],  //indiana
+            [-1, 0, 5, 0],  //illinois
+            [-1, 0, "RR", 0],  //B & O RAILROAD index 18
+            [-1, 0, 6, 0],  //atlantic
+            [-1, 0, 6, 0],  //ventnor
+            [-1, 0, "U", 0],  //water works UTILITY  index 21
+            [-1, 0, 6, 0],  //marvin gardens
+            [-1, 0, "G2", 0],  //GO TO JAIL
+            [-1, 0, 7, 0],  //pacific
+            [-1, 0, 7, 0],  //north carolina
+            [-1, 0, "CC", 0],  //COMM CHEST
+            [-1, 0, 7, 0],  //pennsylvania AVENUE
+            [-1, 0, "RR", 0],  //short line RAILROAD  index 26
+            [-1, 0, "C", 0],  //CHANCE
+            [-1, 0, 8, 0],  //Park place
+            [-1, 0, "LT", 0],  //Luxury Tax
+            [-1, 0, 8, 0]  //boardwalk
+];
 
 
 //$myPlayers = PLAYERS;
@@ -96,7 +96,7 @@ writeOneManyFile();
 
 <BODY>
 
-<? printTable(); ?>
+<?php printTable(); ?>
 
 </BODY>
 
@@ -105,7 +105,7 @@ writeOneManyFile();
 
 
 
-<?
+<?php
 
 function readOneManyFile() {
     
