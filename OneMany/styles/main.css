@@ -1,0 +1,84 @@
+table {
+            border-collapse: collapse;
+            background-image: url(../images/monopolyBoard900.jpg);
+            background-repeat: no-repeat;
+}
+        
+td.propMain{
+            border: thin solid black;
+            text-align: center;
+            font-size: 9pt;
+}
+td.propVert {
+            width: 72px;
+            height: 123px;
+            margin: 0;
+            padding: 0;
+}
+td.propHorz {
+            width: 122px;
+            height: 73px;
+            margin: 0;
+            padding: 0;
+}
+.propCrnr {
+            width: 122px;
+            height: 123px;
+            margin: 0;
+            padding: 0;
+}
+td.go {
+            background-image: url(../images/go200.png);
+            background-repeat: no-repeat;
+}
+td.jail {
+            background-image: url(../images/JustVisiting.jpg);
+            background-repeat: no-repeat;
+}
+
+
+div.iconsVert {
+    width: 71px;
+    height: 30px;
+    margin: auto auto;
+    padding: 0;
+    text-align: left;
+    /* border: thin solid red; */
+}
+div.iconsHorz {
+    width: 30px;
+    height: 71px;
+    float: left;
+    margin: auto auto;
+    padding: 0;
+    /* border: thin solid red; */
+}
+div.iconsCorner {
+    width: 120px;
+    height: 120px;
+    margin: 0;
+    padding: 0;
+}
+div.vert {
+    width: 71px;
+    height: 62px;
+    margin: 0;
+    padding: 0;
+    /* border: thin solid red; */
+}
+div.horz {
+    width: 61px;
+    height: 71px;
+    float: left;
+    margin: 0;
+    padding: 0;
+    /* border: thin solid red; */
+}
+
+img.casa {
+    width: 17px;
+}
+img.token {
+    width: 40px;
+    height: 40px;
+}
