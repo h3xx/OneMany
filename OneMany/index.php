@@ -66,8 +66,6 @@ $PROPERTIES = [ //propertyID(index of array to use), owner, houses, group, mortg
 ];
 
 
-//$myPlayers = PLAYERS;
-//$myProps = PROPERTIES;
 $myPlayers = $PLAYERS;
 $myProps = $PROPERTIES;
 $myIcons = $ICONS;
