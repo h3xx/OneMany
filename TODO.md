@@ -6,9 +6,11 @@
 
 3. 3 doubles in a row throws user in jail (no GO money)
 
-4a. If user has enough money, buy un-owned property
+4. Implement buying property
 
-4b. ASK user to buy any un-owned property they land on
+ * If user has enough money, buy un-owned property
+
+ * ASK user to buy any un-owned property they land on
 
 5. Do the actual buying if they said 'yes' (end turn)
 
@@ -24,27 +26,31 @@
 
 11. Utility and railroad cost (based on number of props owned by owner of property landed on)
 
-12a. [B] Action based on card (DB to be given to you for this purpose)
+12. -
 
-12b. [C] +/- $75 for landing on card
+ * [B] Action based on card (DB to be given to you for this purpose)
+
+ * [C] +/- $75 for landing on card
 
 13. Implement jailing
 
-13a. Rolling doubles frees you, move that many, NO EXTRA TURN
+ * Rolling doubles frees you, move that many, NO EXTRA TURN
 
-13b. Pay $50 before roll to exit
+ * Pay $50 before roll to exit
 
-13c. [A] use get out of jail free card
+ * [A] use get out of jail free card
 
 14. Pay $75 to bank on Luxury tax
 
-15a. Pay $200 on Income Tax
+15. Implement income tax
 
-15b. Ask user to pay $200 or 10% of total worth (DO NOT SHOW THEM THIS 10%, but CALCULATE IT WHEN THEY DECIDE)
+ * Pay $200 on Income Tax
 
-16a. Implement payment for passing GO
+ * Ask user to pay $200 or 10% of total worth (DO NOT SHOW THEM THIS 10%, but CALCULATE IT WHEN THEY DECIDE)
 
-16b. [A] Implement non-payment of GO money in certain circumstances
+16. Implement payment for passing GO
+
+ * [A] Implement non-payment of GO money in certain circumstances
 
 17. Implement appropriate bankruptcy procedure (move icon off of board? no more turns?)
 
@@ -70,15 +76,17 @@
 
 28. Mortgage transferring fee (see above)
 
-29a. Number of players set to number of available users in DB if new game exists.
+29. -
 
-29b. Allow number of players/which players to be selected at game start.
+ * Number of players set to number of available users in DB if new game exists.
 
-29c. Implement ‘New Game’ function to start new game.
+ * Allow number of players/which players to be selected at game start.
 
-29d. Implement ‘Join Game’ functions to join new (un-started) game.
+ * Implement ‘New Game’ function to start new game.
 
-29e. Implement creating user function to BEGIN game. Disable Join Game function for this game.
+ * Implement ‘Join Game’ functions to join new (un-started) game.
+
+ * Implement creating user function to BEGIN game. Disable Join Game function for this game.
 
 ***NOTE: this list is NOT comprehensive.  There will be other things you will need to implement in order to fulfill these tasks correctly.***
 
