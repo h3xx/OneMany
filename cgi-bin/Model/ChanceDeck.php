@@ -1,6 +1,6 @@
 <?php
 
-class ChanceDeck {
+class ModelChanceDeck {
 	private $model, $deck, $game_id;
 
 	private static $table_name = 'chance',

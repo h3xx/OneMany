@@ -33,7 +33,7 @@ class Model {
 
 	private function getGame () {
 		if (!isset($this->game)) {
-			$this->game = new Game($this, $this->game_id);
+			$this->game = new ModelGame($this, $this->game_id);
 		}
 		return $this->game;
 	}
