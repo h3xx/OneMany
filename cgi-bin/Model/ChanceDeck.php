@@ -13,6 +13,13 @@ class ModelChanceDeck {
 
 	function init () {
 		# XXX : method stub
+		#       ( Nothing to do here! )
+		#       v
+		#    /\o
+		#     /\/
+		#    /\
+		#   /  \
+		#  LOL LOL
 	}
 
 	# initial creation inside the database
@@ -20,7 +27,7 @@ class ModelChanceDeck {
 		$this->newDeck();
 	}
 
-	private function getDeck () {
+	private function getCards ($limit) {
 		if (!isset($this->deck)) {
 			## don't give a shit about ordering
 			#$sth = $this->model->prepare('select "RECORDID", "TEXT", "RESULT" from '.self::$table_name);
@@ -31,7 +38,8 @@ class ModelChanceDeck {
 					.self::$table_name.'."RECORDID" = '
 					.self::$deck_table_name.'."chance_recordid"))'.
 				'where "game_id" = :gid and not "is_drawn"'.
-				'order by "sequence"'
+				'order by "sequence"'.
+				($limit > 0 ? ' limit '.$limit : '')
 			);
 
 			$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
@@ -42,19 +50,34 @@ class ModelChanceDeck {
 		return $this->deck;
 	}
 
-	private function drawCard () {
+	public function drawCard () {
 		# TODO : implement
+		$card = $this->getCards(1);
 	}
 
-	private function moveCardToBack ($card_id) {
-		# TODO : implement
+	public function moveCardToBack ($card_id) {
+		$sth = $this->model->prepare(
+			'update '.self::$deck_table_name.' set '.
+				'"is_drawn" = false, '.
+				'"sequence" = ('.
+					'select max("sequence") from '.self::$deck_table_name.
+					' where "game_id" = :gid'.
+				') + 1 '.
+				'where "game_id" = :gida and "chance_recordid" = :cid'
+		);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':gida', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':cid', $card_id, PDO::PARAM_INT);
+		$sth->execute();
+
+		# XXX : update internal structure too?
 	}
 
-	private function markCardNotDrawn ($card_id) {
+	public function markCardNotDrawn ($card_id) {
 		$this->markCardDrawnStatus($card_id, false);
 	}
 
-	private function markCardDrawn ($card_id) {
+	public function markCardDrawn ($card_id) {
 		$this->markCardDrawnStatus($card_id, true);
 	}
 
@@ -98,7 +121,7 @@ class ModelChanceDeck {
 	function __get ($name) {
 		switch ($name) {
 			case 'deck':
-				return $this->getDeck();
+				return $this->getCards(-1);
 				;;
 		}
 	}
