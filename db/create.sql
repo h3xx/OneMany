@@ -50,7 +50,7 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE chance
-  OWNER TO odbc_group;
+  OWNER TO odbc;
 COMMENT ON TABLE chance
   IS 'Data for chance cards';
 
@@ -69,9 +69,28 @@ WITH (
   OIDS=FALSE
 );
 ALTER TABLE commchest
-  OWNER TO odbc_group;
+  OWNER TO odbc;
 COMMENT ON TABLE commchest
   IS 'Data for community chest cards';
+
+-- Table: chat
+
+-- DROP TABLE chat;
+
+CREATE TABLE chat
+(
+  chat_id serial NOT NULL,
+  room_id integer NOT NULL,
+  user_id integer NOT NULL,
+  chat_text character varying(1024) NOT NULL,
+  chat_time timestamp without time zone NOT NULL,
+  CONSTRAINT chat_pkey PRIMARY KEY (chat_id)
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE chat
+  OWNER TO h3xx;
 
 -- -- -- FUNCTIONS -- -- --
 
