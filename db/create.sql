@@ -2,8 +2,8 @@ CREATE DATABASE onemany
   WITH
        ENCODING = 'UTF8'
        TABLESPACE = pg_default
-       LC_COLLATE = 'English_United States.1252'
-       LC_CTYPE = 'English_United States.1252'
+       LC_COLLATE = 'C'
+       LC_CTYPE = 'C'
        CONNECTION LIMIT = -1;
 
 COMMENT ON DATABASE onemany
@@ -13,16 +13,32 @@ CREATE EXTENSION pgcrypto; -- needed for cryptographic functions
 
 -- -- -- TABLES -- -- --
 
--- Table: login
+-- Table: game
 
--- DROP TABLE login;
+-- DROP TABLE game;
 
-CREATE TABLE login
+CREATE TABLE game
 (
-  login_name character varying(128) NOT NULL,
+  game_id serial NOT NULL,
+  game_state integer NOT NULL,
+  game_name character varying(1024) NOT NULL,
+  CONSTRAINT game_pkey PRIMARY KEY (game_id)
+)
+WITH (
+  OIDS=FALSE
+);
+
+-- Table: user
+
+-- DROP TABLE user;
+
+CREATE TABLE user
+(
+  user_id serial NOT NULL,
+  user_name character varying(128) NOT NULL,
   login_hash character(40) NOT NULL, -- Hexadecimal SHA1 hash.
   login_salt character varying(40) NOT NULL,
-  CONSTRAINT login_pkey PRIMARY KEY (login_name)
+  CONSTRAINT user_pkey PRIMARY KEY (user_id)
 )
 WITH (
   OIDS=FALSE

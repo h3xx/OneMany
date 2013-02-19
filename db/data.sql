@@ -14,6 +14,8 @@ insert  into "chance"("RECORDID","TEXT","RESULT") values (1,'Advance to Go (Coll
 	(10,'You have been elected chairman of the board – pay each player $50','PA50'),
 	(11,'Your building loan matures – collect $150','150');
 
+-- Table: commchest
+
 insert  into "commchest"("RECORDID","TEXT","RESULT") values
 	(1,'Advance to Go (Collect $200)','G0'),
 	(2,'Bank error in your favor – collect $200','200'),

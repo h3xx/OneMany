@@ -22,10 +22,11 @@ declare
 begin
 	select
 		into logn 
-		login_name
-		from	login
+		"user_name"
+		from	"user"
 		where
-			login_name = _login_name;
+			"user_name" = _login_name;
+
 	if logn is not null then
 		-- already exists; can't create
 		return false;
@@ -35,7 +36,7 @@ begin
 	select into salty_salt gen_salt('bf');
 	select into hashy_hash encode(digest(crypt(password_plain, salty_salt), 'sha1'), 'hex');
 
-	insert into login(login_name, login_hash, login_salt)
+	insert into "user"("user_name", "login_hash", "login_salt")
 		values(_login_name, hashy_hash, salty_salt);
 
 	return true;

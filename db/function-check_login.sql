@@ -22,10 +22,10 @@ begin
 
 	select
 		into hashy_hash 
-		login_hash
-		from	login
+		"login_hash"
+		from	"user"
 		where
-			login_name = _login_name;
+			"user_name" = _login_name;
 
 	if hashy_hash is null then
 		return false;
@@ -33,10 +33,10 @@ begin
 
 	select
 		into salty_salt 
-		login_salt
-		from	login
+		"login_salt"
+		from	"user"
 		where
-			login_name = _login_name;
+			"user_name" = _login_name;
 
 	-- (must necessarily exist)
 	--if salty_salt is null then
