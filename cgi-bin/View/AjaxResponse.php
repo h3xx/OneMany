@@ -7,13 +7,13 @@ class ViewAjaxResponse {
 		$this->model = $model;
 	}
 
-	public function getBoardUpdateInstructions ($game_id, $game_state) {
+	public function getBoardUpdateInstructions ($game_state) {
 
 		$jsondata = $this->model->game->getGameUpdates($game_state);
 		return json_encode($jsondata, JSON_UNESCAPED_UNICODE);
 	}
 
-	public function getChatUpdate ($game_id, $chat_last) {
+	public function getChatUpdate ($chat_last) {
 
 		$jsondata = $this->model->chat->getChatUpdates($chat_last);
 		return json_encode($jsondata, JSON_UNESCAPED_UNICODE);
