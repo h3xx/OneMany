@@ -1,11 +1,10 @@
 CREATE DATABASE onemany
-  WITH OWNER = odbc
+  WITH
        ENCODING = 'UTF8'
        TABLESPACE = pg_default
        LC_COLLATE = 'English_United States.1252'
        LC_CTYPE = 'English_United States.1252'
        CONNECTION LIMIT = -1;
-GRANT ALL ON DATABASE onemany TO odbc;
 
 COMMENT ON DATABASE onemany
   IS 'OneMany game database';
@@ -28,9 +27,6 @@ CREATE TABLE login
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE login
-  OWNER TO odbc;
-GRANT ALL ON TABLE login TO odbc;
 COMMENT ON TABLE login
   IS 'Login/password table';
 COMMENT ON COLUMN login.login_hash IS 'Hexadecimal SHA1 hash.';
@@ -49,8 +45,6 @@ CREATE TABLE chance
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE chance
-  OWNER TO odbc;
 COMMENT ON TABLE chance
   IS 'Data for chance cards';
 
@@ -68,8 +62,6 @@ CREATE TABLE commchest
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE commchest
-  OWNER TO odbc;
 COMMENT ON TABLE commchest
   IS 'Data for community chest cards';
 
