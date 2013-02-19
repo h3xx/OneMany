@@ -42,9 +42,14 @@ class Database {
 		$password = @$parse['database']['db_password'];
 		$options = @$parse['database']['db_options'];
 		$attributes = @$parse['database']['db_attributes'];
+		$initcmds = @$parse['database']['db_initcmd'];
 
-		foreach ($parse['database']['dsn'] as $k => $v) {
-			$dsn .= "${k}=${v};";
+		if (is_array($parse['database']['dsn'])) {
+			foreach ($parse['database']['dsn'] as $k => $v) {
+				$dsn .= "${k}=${v};";
+			}
+		} else {
+			$dsn .= $parse['database']['dsn'];
 		}
 
 		$this->dbh = new PDO($dsn, $user, $password, $options);
@@ -54,6 +59,16 @@ class Database {
 				$this->dbh->setAttribute(
 						constant("PDO::{$k}")
 						, constant ("PDO::{$v}"));
+			}
+		}
+
+		if (isset($initcmds)) {
+			if (is_array($initcmds)) {
+				foreach ($initcmds as $cmd) {
+					$this->dbh->exec($cmd);
+				}
+			} else {
+				$this->dbh->exec($initcmds);
 			}
 		}
 
