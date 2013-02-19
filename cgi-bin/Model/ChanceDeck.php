@@ -38,7 +38,7 @@ class ModelChanceDeck {
 					.self::$table_name.'."RECORDID" = '
 					.self::$deck_table_name.'."chance_recordid"))'.
 				'where "game_id" = :gid and not "is_drawn"'.
-				'order by "sequence"'.
+				'order by "sequence" asc'.
 				($limit > 0 ? ' limit '.$limit : '')
 			);
 
