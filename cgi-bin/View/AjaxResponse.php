@@ -3,7 +3,7 @@
 class ViewAjaxResponse {
 	private $model;
 
-	__construct ($model) {
+	function __construct ($model) {
 		$this->model = $model;
 	}
 
