@@ -23,6 +23,20 @@ class ModelChat {
 	function create () {
 	}
 
+	public function addChatMessage ($user_id, $chat_text) {
+		$sth = $this->model->prepare(
+			'insert into "chat" ('.
+				'"user_id", "game_id", "chat_text"'.
+			') values (:uid, :gid, :ctx)'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':ctx', $chat_text, PDO::PARAM_STR);
+
+		$sth->execute();
+	}
+
 	public function getChatUpdates ($chat_last) {
 		$sth = $this->model->prepare(
 			'select "user_name" as "user", '.
