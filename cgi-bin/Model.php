@@ -11,14 +11,6 @@ class Model {
 
 	function __construct ($game_id) {
 		$this->game_id = $game_id;
-		$this->init();
-	}
-
-	function init () {
-		# lazy create
-		if ($this->game_id < 0) {
-			$this->game_id = $this->getGame()->create();
-		}
 	}
 
 	function prepare ($sql) {
