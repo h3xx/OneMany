@@ -16,6 +16,7 @@ class Controller {
 		switch ($instr['func']) {
 			case 'chat':
 				$this->getChat()->postChatMessage($instr['args']);
+				break;
 				;;
 
 		}
