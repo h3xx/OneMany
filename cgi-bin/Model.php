@@ -50,13 +50,20 @@ class Model {
 		switch ($name) {
 			case 'game':
 				return $this->getGame();
+				break;
 				;;
 			case 'chat':
 				return $this->getChat();
+				break;
+				;;
+			case 'user':
+				return $this->getUser();
+				break;
 				;;
 			case 'dbi':
 				# XXX : debugging
 				return $this->getDbi();
+				break;
 				;;
 		}
 	}
