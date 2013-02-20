@@ -25,6 +25,7 @@ class ModelUser {
 	}
 
 	public function resolveUsername ($user_name) {
+
 		$sth = $this->model->prepare(
 			'select "user_id" from "user" '.
 			'where "user_name" = :un '.
@@ -37,7 +38,9 @@ class ModelUser {
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
-		return $result[0];
+		$user_id = @$result[0];
+
+		return $user_id;
 	}
 
 	public function resolveUserId ($user_id) {
@@ -53,7 +56,9 @@ class ModelUser {
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
-		return $result[0];
+		$user_name = @$result[0];
+
+		return $user_name;
 	}
 
 	public function isValidUserId ($user_id) {
@@ -69,6 +74,23 @@ class ModelUser {
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
 		return $result[0] > 0;
+	}
+
+	public function isUserInGame ($user_id, $game_id) {
+		$sth = $this->model->prepare(
+			'select count("user_id") from "c_user_game" '.
+			'where "user_id" = :uid '.
+			'and "game_id" = :gid'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+
+		$sth->execute();
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return $result[0];
 	}
 
 	function __get ($name) {
