@@ -72,8 +72,13 @@ class ModelChat {
 		$onlywant = ['user'=>0,'text'=>0,'time'=>0];
 		$instructions = [];
 
-		foreach ($result as $row) {
-			$instructions []= array_intersect_key($row, $onlywant);
+		if (count($result)) {
+			foreach ($result as $row) {
+				$instructions []= array_intersect_key($row, $onlywant);
+			}
+		} else {
+			# newstate will be 0 if nothing returned
+			$newstate = $chat_last;
 		}
 
 		$data = [
