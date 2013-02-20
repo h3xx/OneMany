@@ -98,6 +98,7 @@ CREATE TABLE space
   rent4 integer NOT NULL, -- Rent with 4 houses.
   rent5 integer NOT NULL, -- Rent with a hotel.
   mortgage integer NOT NULL, -- Mortgage value.
+  housecost integer NOT NULL, -- How much one house costs.
   CONSTRAINT space_pkey PRIMARY KEY (space_id)
 )
 WITH (
@@ -114,6 +115,7 @@ COMMENT ON COLUMN space.rent3 IS 'Rent with 3 houses.';
 COMMENT ON COLUMN space.rent4 IS 'Rent with 4 houses.';
 COMMENT ON COLUMN space.rent5 IS 'Rent with a hotel.';
 COMMENT ON COLUMN space.mortgage IS 'Mortgage value.';
+COMMENT ON COLUMN space.housecost IS 'How much one house costs.';
 
 -- Table: chat
 
