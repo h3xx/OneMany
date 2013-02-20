@@ -23,9 +23,29 @@ $.widget("ui.chatbox", {
 		hidden: false,
 		offset: 0, // relative to right edge of the browser window
 		width: 230, // width of the chatbox
+		pollInterval: 0,
+		pollSemaphore: {'hold': false},
+		timerId: null,
 		messageSent: function (id, user, msg) {
 			// override this
-			this.boxManager.addMsg(user.first_name, msg);
+			this.boxManager.addMsg(user.first_name, msg, {});
+		},
+		messagePoll: function (id) {
+			// override this
+			//this.boxManager.addMsg('sys', 'polling...', {});
+		},
+		doPoll: function (id) {
+			var self = this;
+			if (!this.pollSemaphore.hold) {
+				this.pollSemaphore.hold = true;
+				this.messagePoll(id);
+				this.pollSemaphore.hold = false;
+			}
+			if (this.pollInterval > 0) {
+				this.timerId = window.setTimeout(function(id) {
+					self.doPoll(id)
+				}, this.pollInterval, id);
+			}
 		},
 		boxClosed: function (id) {}, // called when the close icon is clicked
 		boxManager: {
@@ -34,10 +54,11 @@ $.widget("ui.chatbox", {
 			init: function (elem) {
 				this.elem = elem;
 			},
-			addMsg: function (peer, msg) {
+			addMsg: function (peer, msg, opts) {
 				var self = this;
 				var box = self.elem.uiChatboxLog;
 				var e = document.createElement('div');
+				var o = opts || {};
 				box.append(e);
 				$(e).hide();
 
@@ -46,6 +67,9 @@ $.widget("ui.chatbox", {
 				if (peer) {
 					var peerName = document.createElement("b");
 					$(peerName).text(peer + ": ");
+					if (o.uclass) {
+						$(peerName).addClass(o.uclass);
+					}
 					e.appendChild(peerName);
 				} else {
 					systemMessage = true;
@@ -70,7 +94,7 @@ $.widget("ui.chatbox", {
 				self.elem.uiChatbox.effect("bounce", {times:3}, 300, function () {
 						self.highlightLock = false;
 						self._scrollToBottom();
-						}
+					}
 				);
 			},
 			toggleBox: function () {
@@ -94,7 +118,7 @@ $.widget("ui.chatbox", {
 		return this.uiChatbox;
 	},
 
-	_create: function (){
+	_create: function () {
 		var self = this,
 		options = self.options,
 		title = options.title || "No Title",
@@ -143,7 +167,7 @@ $.widget("ui.chatbox", {
 			//.blur(function() {
 			//	uiChatboxTitlebarClose.removeClass('ui-state-focus');
 			//})
-			.click(function(event) {
+			.click(function (event) {
 				uiChatbox.hide();
 				self.options.boxClosed(self.options.id);
 				return false;
@@ -170,7 +194,7 @@ $.widget("ui.chatbox", {
 			//.blur(function() {
 			//	uiChatboxTitlebarMinimize.removeClass('ui-state-focus');
 			//})
-			.click(function(event) {
+			.click(function (event) {
 				self.toggleContent(event);
 				return false;
 			})
@@ -197,7 +221,7 @@ $.widget("ui.chatbox", {
 			.addClass('ui-widget-content ' + 
 				'ui-chatbox-input'
 			)
-			.click(function(event) {
+			.click(function (event) {
 				// anything?
 			})
 			.appendTo(uiChatboxContent),
@@ -207,7 +231,7 @@ $.widget("ui.chatbox", {
 				'ui-corner-all'
 			)
 			.appendTo(uiChatboxInput)
-			.keydown(function(event) {
+			.keydown(function (event) {
 				if(event.keyCode && event.keyCode == $.ui.keyCode.ENTER) {
 					msg = $.trim($(this).val());
 					if(msg.length > 0) {
@@ -217,12 +241,12 @@ $.widget("ui.chatbox", {
 					return false;
 				}
 			})
-			.focusin(function() {
+			.focusin(function () {
 				uiChatboxInputBox.addClass('ui-chatbox-input-focus');
 				var box = $(this).parent().prev();
 				box.scrollTop(box.get(0).scrollHeight);
 			})
-			.focusout(function() {
+			.focusout(function () {
 				uiChatboxInputBox.removeClass('ui-chatbox-input-focus');
 			});
 
@@ -230,7 +254,7 @@ $.widget("ui.chatbox", {
 		uiChatboxTitlebar.find('*').add(uiChatboxTitlebar).disableSelection();
 
 		// switch focus to input box when whatever clicked
-		uiChatboxContent.children().click(function(){
+		uiChatboxContent.children().click(function () {
 			// click on any children, set focus on input box
 			self.uiChatboxInputBox.focus();
 		});
@@ -243,9 +267,13 @@ $.widget("ui.chatbox", {
 		if (!self.options.hidden) {
 			uiChatbox.show();
 		}
+
+		if (self.options.pollInterval > 0) {
+			self.options.doPoll(self.options.id);
+		}
 	},
 
-	_setOption: function(option, value) {
+	_setOption: function (option, value) {
 		if (value != null) {
 			switch (option) {
 				case "hidden":
@@ -269,14 +297,14 @@ $.widget("ui.chatbox", {
 		$.Widget.prototype._setOption.apply(this, arguments);
 	},
 
-	_setWidth: function(width) {
+	_setWidth: function (width) {
 		this.uiChatboxTitlebar.width(width + "px");
 		this.uiChatboxLog.width(width + "px");
 		// this is a hack, but i can live with it so far
 		this.uiChatboxInputBox.css("width", (width - 14) + "px");
 	},
 
-	_position: function(offset) {
+	_position: function (offset) {
 		this.uiChatbox.css("right", offset);
 	}
 });
