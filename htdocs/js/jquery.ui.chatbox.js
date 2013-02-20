@@ -30,20 +30,20 @@ $.widget("ui.chatbox", {
 			// override this
 			this.boxManager.addMsg(user.first_name, msg, {});
 		},
-		messagePoll: function (id) {
+		messagePoll: function (id, isFirst) {
 			// override this
 			//this.boxManager.addMsg('sys', 'polling...', {});
 		},
-		doPoll: function (id) {
+		doPoll: function (id, isFirst) {
 			var self = this;
 			if (!this.pollSemaphore.hold) {
 				this.pollSemaphore.hold = true;
-				this.messagePoll(id);
+				this.messagePoll(id, isFirst);
 				this.pollSemaphore.hold = false;
 			}
 			if (this.pollInterval > 0) {
 				this.timerId = window.setTimeout(function(id) {
-					self.doPoll(id)
+					self.doPoll(id, false)
 				}, this.pollInterval, id);
 			}
 		},
@@ -54,14 +54,9 @@ $.widget("ui.chatbox", {
 			init: function (elem) {
 				this.elem = elem;
 			},
-			addMsg: function (peer, msg, opts) {
-				var self = this;
-				var box = self.elem.uiChatboxLog;
+			createMsg: function (peer, msg, opts) {
 				var e = document.createElement('div');
 				var o = opts || {};
-				box.append(e);
-				$(e).hide();
-
 				var systemMessage = false;
 
 				if (peer) {
@@ -79,7 +74,17 @@ $.widget("ui.chatbox", {
 				$(msgElement).text(msg);
 				e.appendChild(msgElement);
 				$(e).addClass("ui-chatbox-msg");
+			},
+			addMsgTo: function (box, e) {
+				$(e).hide();
+				box.append(e);
 				$(e).fadeIn();
+			},
+			addMsg: function (peer, msg, opts) {
+				var self = this;
+				var box = self.elem.uiChatboxLog;
+				var e = this.createMsg(peer, msg, opts);
+				this.addMsgTo(box, e);
 				self._scrollToBottom();
 
 				if (!self.elem.uiChatboxTitlebar.hasClass("ui-state-focus") && !self.highlightLock) {
@@ -269,7 +274,7 @@ $.widget("ui.chatbox", {
 		}
 
 		if (self.options.pollInterval > 0) {
-			self.options.doPoll(self.options.id);
+			self.options.doPoll(self.options.id, true);
 		}
 	},
 
