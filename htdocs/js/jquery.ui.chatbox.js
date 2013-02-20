@@ -74,6 +74,7 @@ $.widget("ui.chatbox", {
 				$(msgElement).text(msg);
 				e.appendChild(msgElement);
 				$(e).addClass("ui-chatbox-msg");
+				return e;
 			},
 			addMsgTo: function (box, e) {
 				$(e).hide();
