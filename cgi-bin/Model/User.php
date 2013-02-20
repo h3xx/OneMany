@@ -56,6 +56,21 @@ class ModelUser {
 		return $result[0];
 	}
 
+	public function isValidUserId ($user_id) {
+		$sth = $this->model->prepare(
+			'select count("user_id") from "user" '.
+			'where "user_id" = :uid'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+
+		$sth->execute();
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return $result[0] > 0;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 		}
