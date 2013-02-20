@@ -3,11 +3,12 @@
 require_once('Model/Database.php');
 require_once('Model/Game.php');
 require_once('Model/Chat.php');
+require_once('Model/User.php');
 
 class Model {
 	private $dbi;
 
-	private $game, $game_id;
+	private $game, $chat, $user, $game_id;
 
 	function __construct ($game_id) {
 		$this->game_id = $game_id;
@@ -36,6 +37,13 @@ class Model {
 			$this->chat = new ModelChat($this, $this->game_id);
 		}
 		return $this->chat;
+	}
+
+	private function getUser () {
+		if (!isset($this->user)) {
+			$this->user = new ModelUser($this, $this->game_id);
+		}
+		return $this->user;
 	}
 
 	function __get ($name) {
