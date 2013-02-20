@@ -15,7 +15,7 @@ class Controller {
 	public function processInstruction ($instr) {
 		switch ($instr['func']) {
 			case 'chat':
-				$this->getChat()->postChatMessage($instr['args']);
+				return $this->getChat()->postChatMessage($instr['args']);
 				break;
 				;;
 
