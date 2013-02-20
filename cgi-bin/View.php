@@ -3,12 +3,13 @@
 require_once('View/AjaxResponse.php');
 
 class View {
-	private $model;
+	private $model, $user_id;
 
 	private $ajr;
 
-	function __construct ($model) {
+	function __construct ($model, $user_id) {
 		$this->model = $model;
+		$this->user_id = $user_id;
 	}
 
 	public function processInstruction ($instr) {
@@ -25,7 +26,7 @@ class View {
 
 	private function getAjaxResponse () {
 		if (!isset($this->ajr)) {
-			$this->ajr = new ViewAjaxResponse($this->model);
+			$this->ajr = new ViewAjaxResponse($this->model, $this->user_id);
 		}
 		return $this->ajr;
 	}
