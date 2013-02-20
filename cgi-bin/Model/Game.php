@@ -1,6 +1,7 @@
 <?php
 
 require_once('ChanceDeck.php');
+require_once('Board.php');
 
 class ModelGame {
 	private $model, $game_name, $game_id;
@@ -10,18 +11,6 @@ class ModelGame {
 	function __construct ($model, $game_id) {
 		$this->model = $model;
 		$this->game_id = $game_id;
-	}
-
-	function init () {
-		$this->getChance()->init();
-	}
-
-	# initial creation inside the database
-	function create ($game_name) {
-		$this->game_name = $game_name;
-		$this->newGame();
-		$this->getChance()->create();
-		return $this->game_id;
 	}
 
 	private function newGame () {
