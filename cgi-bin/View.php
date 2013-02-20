@@ -1,11 +1,12 @@
 <?php
 
 require_once('View/AjaxResponse.php');
+require_once('View/Chat.php');
 
 class View {
 	private $model, $user_id;
 
-	private $ajr;
+	private $ajr, $chat;
 
 	function __construct ($model, $user_id) {
 		$this->model = $model;
@@ -29,6 +30,13 @@ class View {
 			$this->ajr = new ViewAjaxResponse($this->model, $this->user_id);
 		}
 		return $this->ajr;
+	}
+
+	private function getChat () {
+		if (!isset($this->chat)) {
+			$this->chat = new ViewChat($this->model, $this->user_id);
+		}
+		return $this->chat;
 	}
 
 	function __get ($name) {
