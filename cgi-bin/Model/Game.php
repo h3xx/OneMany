@@ -6,7 +6,7 @@ require_once('Board.php');
 class ModelGame {
 	private $model, $game_name, $game_id;
 
-	private $chance, $commchest;
+	private $chance, $commchest, $board;
 
 	function __construct ($model, $game_id) {
 		$this->model = $model;
@@ -43,6 +43,13 @@ class ModelGame {
 		return $this->commchest;
 	}
 
+	private function getBoard () {
+		if (!isset($this->board)) {
+			$this->board = new ModelBoard($this->model, $this->game_id);
+		}
+		return $this->board;
+	}
+
 	public function getGameUpdates ($game_state) {
 		$sth = $this->model->prepare(
 			'select "game_change" as "change", '.
@@ -75,9 +82,15 @@ class ModelGame {
 		switch ($name) {
 			case 'chance':
 				return $this->getChance();
+				break;
 				;;
 			case 'commchest':
 				return $this->getCommChest();
+				break;
+				;;
+			case 'board':
+				return $this->getBoard();
+				break;
 				;;
 			#case 'game_id':
 			#	return $this->game_id;

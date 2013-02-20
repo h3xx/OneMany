@@ -22,11 +22,6 @@ class ModelChanceDeck {
 		#  LOL LOL
 	}
 
-	# initial creation inside the database
-	function create () {
-		$this->newDeck();
-	}
-
 	private function getCards ($limit) {
 		if (!isset($this->deck)) {
 			## don't give a shit about ordering
