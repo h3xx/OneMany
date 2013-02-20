@@ -10,12 +10,12 @@ $uid = 1;
 $gid = 2;
 
 $mdl = new Model($gid);
-$view = new View($mdl);
+$view = new View($mdl, $uid);
 $ctr = new Controller($mdl, $uid);
 
-$what = @$_GET['method'];
-$func = @$_GET['func'];
-$args = @$_GET['args'];
+$what = @$_REQUEST['method'];
+$func = @$_REQUEST['func'];
+$args = @$_REQUEST['args'];
 
 $buff = ['func' => $func, 'args' => $args];
 
@@ -32,5 +32,7 @@ switch ($what) {
 
 }
 
-
-var_dump($res);
+if (isset($res)) {
+	header('Content-Type: application/json; charset=utf8');
+	print($res);
+}
