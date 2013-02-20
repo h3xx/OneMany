@@ -27,7 +27,8 @@ class ModelChat {
 		$sth = $this->model->prepare(
 			'insert into "chat" ('.
 				'"user_id", "game_id", "chat_text"'.
-			') values (:uid, :gid, :ctx)'
+			') values (:uid, :gid, :ctx) '.
+			'returning "chat_id"' # return the last inserted row id as the result set
 		);
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
@@ -35,6 +36,10 @@ class ModelChat {
 		$sth->bindParam(':ctx', $chat_text, PDO::PARAM_STR);
 
 		$sth->execute();
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
 	}
 
 	public function getChatUpdates ($chat_last) {
