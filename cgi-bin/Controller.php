@@ -33,6 +33,7 @@ class Controller {
 		switch ($name) {
 			case 'chat':
 				return $this->getChat();
+				break;
 				;;
 		}
 	}
