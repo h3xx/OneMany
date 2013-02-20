@@ -1,3 +1,14 @@
+
+#chatbox {
+	height: 300px;
+}
+
 #chatbox .chat-me {
 	color: red;
+}
+
+#chatlog {
+	border-bottom: 2px solid black;
+	padding-bottom: 3px;
+	float: left;
 }

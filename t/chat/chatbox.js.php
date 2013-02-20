@@ -19,18 +19,13 @@ $(document).ready(function(){
 				function (data) {
 					if (!data.result) {
 						alert("Failed to post message.");
-					} else {
-						var elem = $("#chatbox");
-						elem.chatbox("option", "pollSemaphore").hold = true;
-						elem.chatbox("option", "boxManager").addMsg(user.name, msg, {'uclass': 'chat-me'});
-						elem.chatbox("option", "state").cid = data.newstate;
-						elem.chatbox("option", "pollSemaphore").hold = false;
 					}
 				}
 			);
 		},
-		messagePoll: function(id) {
+		messagePoll: function(id, isFirst) {
 			var elem = $("#chatbox");
+			var self = this;
 			$.post('chattest.php',
 				{
 					'method': 'ask',
@@ -40,13 +35,29 @@ $(document).ready(function(){
 				function (data) {
 					for (var i in data.instructions) {
 						var d = data.instructions[i];
-						var uc = (d.user == elem.chatbox("option", "user").name ? 'chat-me' : null);
-						elem.chatbox("option", "boxManager").addMsg(d.user, d.text, {'uclass': uc});
+						if (isFirst) {
+							var e = document.createElement('div');
+							$('#chatlog').append(e);
+
+							var peerName = document.createElement("span");
+							$(peerName).text(d.user + ": ");
+							e.appendChild(peerName);
+
+							var msgElement = document.createElement("span");
+							$(msgElement).text(d.text);
+							e.appendChild(msgElement);
+							$(e).addClass("ui-chatbox-msg");
+						} else {
+							var uc = (d.user == elem.chatbox("option", "user").name ? 'chat-me' : null);
+							elem.chatbox("option", "boxManager").addMsg(d.user, d.text, {'uclass': uc});
+						}
+					}
+					if (isFirst) {
+						elem.chatbox("option", "boxManager")._scrollToBottom();
 					}
 					elem.chatbox("option", "state").cid = data.newstate;
 				}
 			);
-
 		},
 	});
 });
