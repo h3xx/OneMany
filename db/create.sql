@@ -170,6 +170,7 @@ CREATE TABLE c_game_space
   CONSTRAINT c_game_space_owner_id_fkey FOREIGN KEY (owner_id)
       REFERENCES "user" (user_id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
+  CONSTRAINT c_game_space_houses_check CHECK (houses < 6)
 )
 WITH (
   OIDS=FALSE
