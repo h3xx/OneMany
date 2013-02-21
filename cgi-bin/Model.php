@@ -5,11 +5,12 @@ require_once('Model/Game.php');
 require_once('Model/Chat.php');
 require_once('Model/User.php');
 require_once('Model/Update.php');
+require_once('Model/Rules.php');
 
 class Model {
 	private $dbi;
 
-	private $game, $chat, $user, $update, $game_id;
+	private $game, $chat, $user, $update, $rules, $game_id;
 
 	function __construct ($game_id) {
 		$this->game_id = $game_id;
@@ -54,6 +55,13 @@ class Model {
 		return $this->update;
 	}
 
+	private function getRules () {
+		if (!isset($this->rules)) {
+			$this->rules = new ModelRules($this, $this->game_id);
+		}
+		return $this->rules;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'game':
@@ -70,6 +78,10 @@ class Model {
 				;;
 			case 'update':
 				return $this->getUpdate();
+				break;
+				;;
+			case 'rules':
+				return $this->getRules();
 				break;
 				;;
 			case 'dbi':
