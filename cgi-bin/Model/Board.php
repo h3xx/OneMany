@@ -28,7 +28,9 @@ class ModelBoard {
 
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_ASSOC);
 
@@ -44,7 +46,9 @@ class ModelBoard {
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -60,7 +64,9 @@ class ModelBoard {
 
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -78,7 +84,9 @@ class ModelBoard {
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -114,7 +122,9 @@ class ModelBoard {
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_ASSOC);
 
@@ -153,7 +163,9 @@ class ModelBoard {
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -169,7 +181,9 @@ class ModelBoard {
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -199,7 +213,9 @@ class ModelBoard {
 
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -222,7 +238,9 @@ class ModelBoard {
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
 		$sth->bindParam(':gr', $group, PDO::PARAM_STR);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -240,7 +258,9 @@ class ModelBoard {
 
 		$sth->bindParam(':gr', $group, PDO::PARAM_STR);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -274,7 +294,9 @@ class ModelBoard {
 
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_ASSOC);
 
@@ -289,10 +311,31 @@ class ModelBoard {
 
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
 		return isset($result[0]) && $result[0] > -1;
+	}
+
+	public function setPropertyOwner ($space_id, $owner_id) {
+		$sth = $this->model->prepare(
+			'update "c_game_space" '.
+			'set "owner_id" = :oid '.
+			'where "space_id" = :sid and '.
+			'"game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':oid', $owner_id, PDO::PARAM_INT);
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		return true;
 	}
 }
