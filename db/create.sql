@@ -30,9 +30,9 @@ WITH (
 
 -- Table: user
 
--- DROP TABLE user;
+-- DROP TABLE "user";
 
-CREATE TABLE user
+CREATE TABLE "user"
 (
   user_id serial NOT NULL,
   user_name character varying(128) NOT NULL,
@@ -43,9 +43,9 @@ CREATE TABLE user
 WITH (
   OIDS=FALSE
 );
-COMMENT ON TABLE login
+COMMENT ON TABLE "user"
   IS 'Login/password table';
-COMMENT ON COLUMN login.login_hash IS 'Hexadecimal SHA1 hash.';
+COMMENT ON COLUMN "user".login_hash IS 'Hexadecimal SHA1 hash.';
 
 -- Table: chance
 
