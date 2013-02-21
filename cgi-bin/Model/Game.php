@@ -78,6 +78,23 @@ class ModelGame {
 		return $data;
 	}
 
+	public function getGameData () {
+		# FIXME
+	}
+
+	public function setGameState ($game_state) {
+		$sth = $this->model->prepare(
+			'update "game" '.
+			'set "game_state" = :gst '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':gst', $game_state, PDO::PARAM_INT);
+
+		return $sth->execute();
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'chance':
