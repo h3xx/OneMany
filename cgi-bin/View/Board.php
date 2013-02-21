@@ -10,4 +10,6 @@ class ViewBoard {
 		    "./images/wheelbarrow.jpg",      // index 5
 		    "./images/rider.jpg"      // index 6
 	];
+
+
 }
