@@ -104,14 +104,16 @@ class ModelUser {
 	}
 
 	public function joinGame ($user_id, $game_id) {
-		# FIXME : need more data
+		$initial_cash = $this->model->rules->getRuleValue('starting_cash');
+
 		$sth = $this->model->prepare(
-			'insert into "c_user_game" ("user_id", "game_id") '.
-			'values (:uid, :gid)'
+			'insert into "c_user_game" ("user_id", "game_id", "cash") '.
+			'values (:uid, :gid, :csh)'
 		);
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
 		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+		$sth->bindParam(':csh', $initial_cash, PDO::PARAM_INT);
 
 		if (!$sth->execute()) {
 			return false;
@@ -122,6 +124,7 @@ class ModelUser {
 			'type'	=> 'join',
 			'id'	=> $user_id,
 			'name'	=> $this->resolveUserId($user_id),
+			'cash'	=> $initial_cash,
 		]);
 	}
 
@@ -138,6 +141,8 @@ class ModelUser {
 			return false;
 		}
 
+		# TODO : tell update module about it?
+		# TODO : give up all property
 		return true;
 	}
 
