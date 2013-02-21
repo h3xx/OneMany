@@ -75,9 +75,13 @@ class ModelBoard {
 
 	public function whoOwnsSpace ($space_id) {
 		$sth = $this->model->prepare(
+			/*
 			'select "user_name" from "c_game_space" '.
 			'left join "user" on '.
 			'("user"."user_id" = "c_game_space"."owner_id") '.
+			'where "game_id" = :gid and "space_id" = :sid'
+			*/
+			'select "owner_id" from "c_game_space" '.
 			'where "game_id" = :gid and "space_id" = :sid'
 		);
 
@@ -336,6 +340,11 @@ class ModelBoard {
 			return false;
 		}
 
-		return true;
+		# XXX : tell update module about it?
+		return $this->model->update->pushUpdate([
+			'type'	=> 'buy',
+			'space'	=> $space_id,
+			'owner'	=> $owner_id,
+		]);
 	}
 }
