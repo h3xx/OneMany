@@ -20,16 +20,28 @@ class ModelGame {
 			'returning "game_id"' # return the last inserted row id as the result set
 		);
 		$sth->bindParam(':name', $this->game_name, PDO::PARAM_STR);
+
 		if (!$sth->execute()) {
 			return false;
 		}
 		
 		# grab our game_id from the result set
-		$res = $sth->fetchAll(PDO::FETCH_NUM);
-		$this->game_id = $res[0][0];
+		$res = $sth->fetch(PDO::FETCH_NUM);
+		$this->game_id = $res[0];
+
+		$sth_pop = $this->model->prepare(
+			'select populate_game(:gid)'
+		);
+		$sth_pop->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth_pop->execute()) {
+			return false;
+		}
+		$res = $sth_pop->fetch(PDO::FETCH_NUM);
+
+		return $res[0];
 
 		#logger("Game: inserted game named `{$this->game_name}' : game_id : {$this->game_id}");
-		# FIXME : run populate_game($game_id)
 	}
 
 	private function getChance () {
