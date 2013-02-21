@@ -94,32 +94,6 @@ class ModelChanceDeck {
 		return $sth->execute();
 	}
 
-	private function deleteDeck () {
-		$sth = $this->model->prepare('delete from '.self::$deck_table_name.' where "game_id" = :gid');
-		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
-		return $sth->execute();
-	}
-
-	private function newDeck () {
-		$this->deleteDeck();
-		
-		$sth = $this->model->prepare('select "RECORDID" from '.self::$table_name.' order by random()');
-		$sth->execute();
-		$ids = $sth->fetchAll(PDO::FETCH_NUM);
-
-		$sth_ins = $this->model->prepare('insert into '.self::$deck_table_name.
-			' ("game_id", "chance_recordid", "sequence")'.
-			' values (:gid, :cid, :seq)');
-		$sth_ins->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
-
-		foreach ($ids as $seq => $row) {
-			$cid = $row[0];
-			$sth_ins->bindParam(':cid', $cid, PDO::PARAM_INT);
-			$sth_ins->bindParam(':seq', $seq, PDO::PARAM_INT);
-			$sth_ins->execute();
-		}
-	}
-
 	function __get ($name) {
 		switch ($name) {
 			case 'deck':
