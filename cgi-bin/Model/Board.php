@@ -209,7 +209,7 @@ class ModelBoard {
 	public function ownedInGroup ($user_id, $group) {
 		$sth = $this->model->prepare(
 			'select '.
-				'count(*) '
+				'count(*) '.
 			'from "c_game_space" '.
 				'left join "space" on ("c_game_space"."space_id" = "space"."space_id") '.
 			'where "game_id" = :gid '.
