@@ -8,11 +8,12 @@ class ModelBoard {
 		$this->game_id = $game_id;
 	}
 
+	# used for constructing property cards in the view
 	public function getSpaceInfo ($space_id) {
 		$sth = $this->model->prepare(
 			'select '.
-				'"space_group",'.
-				'"space_name",'.
+				'"space_group" as "group",'.
+				'"space_name" as "name",'.
 				'"cost",'.
 				'"rent",'.
 				'"rent1",'.
