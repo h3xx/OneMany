@@ -44,6 +44,10 @@ class ModelUpdate {
 			'values (:gid, :nst, :chn)'
 		);
 
+		if (is_array($update_json)) {
+			$update_json = json_encode($update_json, JSON_UNESCAPED_UNICODE);
+		}
+
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':nst', $new_state, PDO::PARAM_INT);
 		$sth->bindParam(':chn', $update_json, PDO::PARAM_STR);
@@ -53,6 +57,12 @@ class ModelUpdate {
 		}
 
 		return true;
+	}
+
+	public function pushUpdate ($update_json) {
+		$new_state = $this->model->game->getGameState() + 1;
+		$this->addGameUpdate($update_json, $new_state);
+		$this->model->game->setGameState($new_state);
 	}
 }
 

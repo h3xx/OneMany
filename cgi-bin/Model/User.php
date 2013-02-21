@@ -104,6 +104,7 @@ class ModelUser {
 	}
 
 	public function joinGame ($user_id, $game_id) {
+		# FIXME : need more data
 		$sth = $this->model->prepare(
 			'insert into "c_user_game" ("user_id", "game_id") '.
 			'values (:uid, :gid)'
@@ -116,7 +117,12 @@ class ModelUser {
 			return false;
 		}
 
-		return true;
+		# XXX : tell update module about it?
+		return $this->model->update->pushUpdate([
+			'type'	=> 'join',
+			'id'	=> $user_id,
+			'name'	=> $this->resolveUserId($user_id),
+		]);
 	}
 
 	public function leaveGame ($user_id, $game_id) {
