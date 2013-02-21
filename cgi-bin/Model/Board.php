@@ -232,7 +232,7 @@ class ModelBoard {
 	public function totalInGroup ($group) {
 		$sth = $this->model->prepare(
 			'select '.
-				'count(*) '
+				'count(*) '.
 			'from "space" '.
 			'where "space_group" = :gr'
 			# (group by clause is unnecessary)
