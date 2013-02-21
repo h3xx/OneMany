@@ -29,6 +29,7 @@ class ModelGame {
 		$this->game_id = $res[0][0];
 
 		#logger("Game: inserted game named `{$this->game_name}' : game_id : {$this->game_id}");
+		# FIXME : run populate_game($game_id)
 	}
 
 	private function getChance () {
