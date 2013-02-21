@@ -8,9 +8,5 @@ class ViewAjaxResponse {
 		$this->user_id = $user_id;
 	}
 
-	private static function encodeJson ($json_data) {
-		return json_encode($json_data, JSON_UNESCAPED_UNICODE);
-	}
-
 
 }
