@@ -10,7 +10,7 @@ class ViewGame {
 
 	public function getBoardUpdateInstructions ($game_state) {
 
-		$json_data = $this->model->game->getGameUpdates($game_state);
+		$json_data = $this->model->update->getGameUpdates($game_state);
 		return $json_data;
 	}
 
