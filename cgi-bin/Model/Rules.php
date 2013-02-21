@@ -24,6 +24,23 @@ class ModelRules {
 	}
 	*/
 
+	public function getRuleDefaultValue ($rule_name) {
+		$sth = $this->model->prepare(
+			'select "rule_default" from "rules" '.
+			'where "rule_name" = :rn'
+		);
+
+		$sth->bindParam(':rn', $rule_name, PDO::PARAM_STR);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
 	public function getRuleValue ($rule_name) {
 		$sth = $this->model->prepare(
 			'select "rule_value" from "c_game_rules" '.
@@ -39,6 +56,12 @@ class ModelRules {
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
-		return @$result[0];
+		$val = @$result[0];
+
+		if (!isset ($val)) {
+			$val = $this->getRuleDefaultValue($rule_name);
+		}
+
+		return $val;
 	}
 }
