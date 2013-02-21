@@ -17,7 +17,9 @@ class ModelUser {
 		$sth->bindParam(':un', $user_name, PDO::PARAM_STR);
 		$sth->bindParam(':pw', $password, PDO::PARAM_STR);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -34,7 +36,9 @@ class ModelUser {
 
 		$sth->bindParam(':un', $user_name, PDO::PARAM_STR);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -52,7 +56,9 @@ class ModelUser {
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -69,7 +75,9 @@ class ModelUser {
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -86,7 +94,9 @@ class ModelUser {
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
 		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 

@@ -39,7 +39,9 @@ class ModelChanceDeck {
 
 			$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 
-			$sth->execute();
+			if (!$sth->execute()) {
+				return false;
+			}
 			$this->deck = $sth->fetchAll(PDO::FETCH_ASSOC);
 		}
 		return $this->deck;
@@ -63,9 +65,12 @@ class ModelChanceDeck {
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':gida', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':cid', $card_id, PDO::PARAM_INT);
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		# XXX : update internal structure too?
+		return true;
 	}
 
 	public function markCardNotDrawn ($card_id) {
@@ -85,12 +90,14 @@ class ModelChanceDeck {
 		$sth->bindParam(':drawn', $status, PDO::PARAM_BOOL);
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':cid', $card_id, PDO::PARAM_INT);
+
+		return $sth->execute();
 	}
 
 	private function deleteDeck () {
 		$sth = $this->model->prepare('delete from '.self::$deck_table_name.' where "game_id" = :gid');
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
-		$sth->execute();
+		return $sth->execute();
 	}
 
 	private function newDeck () {

@@ -35,7 +35,9 @@ class ModelChat {
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':ctx', $chat_text, PDO::PARAM_STR);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
@@ -64,7 +66,9 @@ class ModelChat {
 		$newstate = 0;
 		$sth->bindColumn(4, $newstate);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$result = $sth->fetchAll(PDO::FETCH_ASSOC);
 

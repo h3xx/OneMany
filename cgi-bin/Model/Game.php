@@ -20,7 +20,9 @@ class ModelGame {
 			'returning "game_id"' # return the last inserted row id as the result set
 		);
 		$sth->bindParam(':name', $this->game_name, PDO::PARAM_STR);
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 		
 		# grab our game_id from the result set
 		$res = $sth->fetchAll(PDO::FETCH_NUM);
@@ -66,7 +68,9 @@ class ModelGame {
 		$newstate = 0;
 		$sth->bindColumn(2, $newstate);
 
-		$sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
 
 		$instructions = $sth->fetchAll(PDO::FETCH_COLUMN, 0);
 
