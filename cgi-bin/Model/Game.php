@@ -70,6 +70,23 @@ class ModelGame {
 		return $sth->execute();
 	}
 
+	public function getGameState () {
+		$sth = $this->model->prepare(
+			'select "game_state" from "game" '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'chance':

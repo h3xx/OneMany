@@ -103,6 +103,38 @@ class ModelUser {
 		return $result[0];
 	}
 
+	public function joinGame ($user_id, $game_id) {
+		$sth = $this->model->prepare(
+			'insert into "c_user_game" ("user_id", "game_id") '.
+			'values (:uid, :gid)'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public function leaveGame ($user_id, $game_id) {
+		$sth = $this->model->prepare(
+			'delete from "c_user_game" '.
+			'where "user_id" = :uid and "game_id" = :gid'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		return true;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 		}

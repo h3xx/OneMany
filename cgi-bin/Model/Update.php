@@ -37,5 +37,22 @@ class ModelUpdate {
 
 		return $data;
 	}
+
+	public function addGameUpdate ($update_json, $new_state) {
+		$sth = $this->model->prepare(
+			'insert into "game_update" ("game_id", "game_newstate", "game_change") '.
+			'values (:gid, :nst, :chn)'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':nst', $new_state, PDO::PARAM_INT);
+		$sth->bindParam(':chn', $update_json, PDO::PARAM_STR);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		return true;
+	}
 }
 
