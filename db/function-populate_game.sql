@@ -49,6 +49,16 @@ begin
 			"space"."space_id"
 			from "space";
 
+	-- set up default rules
+	delete from "c_game_rules" where "game_id" = _game_id;
+	insert
+		into "c_game_rules" ("game_id", "rule_name", "rule_value")
+		select
+			_game_id as "game_id",
+			"rules"."rule_name",
+			"rules"."rule_default" as "rule_value"
+			from "rules";
+
 	return true;
 end;
 
