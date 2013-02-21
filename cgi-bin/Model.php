@@ -4,11 +4,12 @@ require_once('Model/Database.php');
 require_once('Model/Game.php');
 require_once('Model/Chat.php');
 require_once('Model/User.php');
+require_once('Model/Update.php');
 
 class Model {
 	private $dbi;
 
-	private $game, $chat, $user, $game_id;
+	private $game, $chat, $user, $update, $game_id;
 
 	function __construct ($game_id) {
 		$this->game_id = $game_id;
@@ -46,6 +47,13 @@ class Model {
 		return $this->user;
 	}
 
+	private function getUpdate () {
+		if (!isset($this->update)) {
+			$this->update = new ModelUpdate($this, $this->game_id);
+		}
+		return $this->update;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'game':
@@ -58,6 +66,10 @@ class Model {
 				;;
 			case 'user':
 				return $this->getUser();
+				break;
+				;;
+			case 'update':
+				return $this->getUpdate();
 				break;
 				;;
 			case 'dbi':
