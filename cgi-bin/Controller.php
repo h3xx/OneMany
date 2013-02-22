@@ -1,6 +1,7 @@
 <?php
 
 require_once('Controller/Chat.php');
+require_once('Controller/Game.php');
 
 class Controller {
 	private $model, $user_id;
@@ -29,10 +30,21 @@ class Controller {
 		return $this->chat;
 	}
 
+	private function getGame () {
+		if (!isset($this->game)) {
+			$this->game = new ControllerGame($this->model, $this->user_id);
+		}
+		return $this->game;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'chat':
 				return $this->getChat();
+				break;
+				;;
+			case 'game':
+				return $this->getGame();
 				break;
 				;;
 		}
