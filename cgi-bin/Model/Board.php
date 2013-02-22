@@ -288,6 +288,29 @@ class ModelBoard {
 		return $result;
 	}
 
+	public function setPropertyMortgaged ($space_id, $is_mortgaged) {
+		$sth = $this->model->prepare(
+			'update "c_game_space" '.
+			'set "is_mortgaged" = :mrt '
+			'where "space_id" = :sid and '.
+			'"game_id" = :gid'
+		);
+
+		$sth->bindParam(':mrt', $is_mortgaged, PDO::PARAM_BOOL);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		# XXX : tell update module about it
+		return $this->model->update->pushUpdate([
+			'type'	=> 'mortgage',
+			'space'	=> $space_id,
+		]);
+	}
+
 	public function setPropertyOwner ($space_id, $owner_id) {
 		$sth = $this->model->prepare(
 			'update "c_game_space" '.
@@ -304,7 +327,7 @@ class ModelBoard {
 			return false;
 		}
 
-		# XXX : tell update module about it?
+		# XXX : tell update module about it
 		return $this->model->update->pushUpdate([
 			'type'	=> 'buy',
 			'space'	=> $space_id,
