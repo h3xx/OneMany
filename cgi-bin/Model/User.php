@@ -121,6 +121,19 @@ class ModelUser {
 		return @$result[0];
 	}
 
+	public function setUserCash ($user_id, $cash) {
+		$sth = $this->model->prepare(
+			'update "c_user_game" set "cash" = :csh '.
+			'where "user_id" = :uid and "game_id" = :gid'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+		$sth->bindParam(':csh', $game_id, PDO::PARAM_INT);
+
+		return $sth->execute();
+	}
+
 	public function joinGame ($user_id, $game_id) {
 		$initial_cash = $this->model->rules->getRuleValue('starting_cash');
 
