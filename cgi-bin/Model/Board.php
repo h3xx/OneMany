@@ -37,25 +37,6 @@ class ModelBoard {
 		return $result;
 	}
 
-	public function isSpaceOwned ($space_id) {
-		$sth = $this->model->prepare(
-			'select "owner_id" from "c_game_space" '.
-			'where "game_id" = :gid and "space_id" = :sid'
-		);
-
-		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
-		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
-
-		if (!$sth->execute()) {
-			return false;
-		}
-
-		$result = $sth->fetch(PDO::FETCH_NUM);
-
-		return isset($result[0]);
-
-	}
-
 	public function getBuyFromBankCost ($space_id) {
 		$sth = $this->model->prepare(
 			'select "cost"'.
