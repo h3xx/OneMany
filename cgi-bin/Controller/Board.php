@@ -33,9 +33,12 @@ class ControllerBoard {
 		# everything seems fine - the user can buy it
 
 		if (!$this->model->board->setPropertyOwner($space_id, $this->user_id)) {
-			return false;
+			return ['result'=>false,'msg'=>'Failed to set property owner [WTF].'];
 		}
-		return $this->model->user->setUserCash($this->user_id, $cash_on_hand - $space_cost);
+		if (!$this->model->user->setUserCash($this->user_id, $cash_on_hand - $space_cost)) {
+			return ['result'=>false,'msg'=>'Failed to set user cash [WTF].'];
+		}
+		return ['result'=>true,'msg'=>'Successfully bought property.'];
 	}
 
 	public function mortgageProperty ($space_id) {
