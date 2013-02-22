@@ -131,7 +131,16 @@ class ModelUser {
 		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
 		$sth->bindParam(':csh', $game_id, PDO::PARAM_INT);
 
-		return $sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		# XXX : tell update module about it
+		return $this->model->update->pushUpdate([
+			'type'	=> 'cash',
+			'id'	=> $user_id,
+			'cash'	=> $cash,
+		]);
 	}
 
 	public function joinGame ($user_id, $game_id) {
@@ -150,7 +159,7 @@ class ModelUser {
 			return false;
 		}
 
-		# XXX : tell update module about it?
+		# XXX : tell update module about it
 		return $this->model->update->pushUpdate([
 			'type'	=> 'join',
 			'id'	=> $user_id,
