@@ -65,10 +65,6 @@ class ModelGame {
 		return $this->board;
 	}
 
-	public function getGameData () {
-		# FIXME
-	}
-
 	public function setGameState ($game_state) {
 		$sth = $this->model->prepare(
 			'update "game" '.
