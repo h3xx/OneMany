@@ -60,6 +60,11 @@ class ModelUpdate {
 	}
 
 	public function pushUpdate ($update_json) {
+		# FIXME : race condition
+		# possible fix is to move to a database function
+		# another fix [probably better] is to delete the
+		# 	"game"."game_state" column and just determine it from
+		# 	`max("game_update"."game_newstate")'
 		$new_state = $this->model->game->getGameState() + 1;
 		$this->addGameUpdate($update_json, $new_state);
 		$this->model->game->setGameState($new_state);
