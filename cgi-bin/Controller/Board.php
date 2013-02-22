@@ -9,11 +9,37 @@ class ControllerBoard {
 	}
 
 	public function buyProperty ($space_id) {
-		if ($this->model->board->isBuyable($space_id)) {
-			# FIXME
-		} else {
+		# TODO : this is horribly inefficient
+
+		$space_cost = $this->model->board->getBuyFromBankCost($space_id);
+		if (!isset($space_cost) || $space_cost < 0) {
+			return ['result'=>false,'msg'=>'Property is not buyable.'];
+		}
+
+		$owner = $this->model->board->whoOwnsSpace($space_id);
+		if (isset($owner)) {
+			if ($owner === $this->user_id) {
+				return ['result'=>false,'msg'=>'You already own this property.'];
+			}
+			return ['result'=>false,'msg'=>'Property is owned by ' . $this->model->user->resolveUserId($owner) . '.'];
+		}
+
+		$cash_on_hand = $this->model->user->getUserCash($this->user_id);
+
+		if ($cash_on_hand < $space_cost) {
+			return ['result'=>false,'msg'=>'You do not have enough cash to buy this property.'];
+		}
+
+		# everything seems fine - the user can buy it
+
+		if (!$this->model->board->setPropertyOwner($space_id, $this->user_id)) {
 			return false;
 		}
+		return $this->model->user->setUserCash($this->user_id, $cash_on_hand - $space_cost);
+	}
+
+	public function mortgageProperty ($space_id) {
+		# FIXME
 	}
 
 }
