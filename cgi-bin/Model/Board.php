@@ -288,23 +288,6 @@ class ModelBoard {
 		return $result;
 	}
 
-	public function isBuyable ($space_id) {
-		$sth = $this->model->prepare(
-			'select "cost" from "space" '.
-			'where "space_id" = :sid'
-		);
-
-		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
-
-		if (!$sth->execute()) {
-			return false;
-		}
-
-		$result = $sth->fetch(PDO::FETCH_NUM);
-
-		return isset($result[0]) && $result[0] > -1;
-	}
-
 	public function setPropertyOwner ($space_id, $owner_id) {
 		$sth = $this->model->prepare(
 			'update "c_game_space" '.
