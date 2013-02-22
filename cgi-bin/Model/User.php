@@ -84,7 +84,7 @@ class ModelUser {
 		return $result[0] > 0;
 	}
 
-	public function isUserInGame ($user_id, $game_id) {
+	public function isUserInGame ($user_id) {
 		$sth = $this->model->prepare(
 			'select count("user_id") from "c_user_game" '.
 			'where "user_id" = :uid '.
@@ -92,7 +92,7 @@ class ModelUser {
 		);
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
-		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 
 		if (!$sth->execute()) {
 			return false;
