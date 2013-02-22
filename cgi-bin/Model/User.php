@@ -103,6 +103,24 @@ class ModelUser {
 		return $result[0];
 	}
 
+	public function getUserCash ($user_id) {
+		$sth = $this->model->prepare(
+			'select "cash" from "c_user_game" '.
+			'where "user_id" = :uid and "game_id" = :gid'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
 	public function joinGame ($user_id, $game_id) {
 		$initial_cash = $this->model->rules->getRuleValue('starting_cash');
 
