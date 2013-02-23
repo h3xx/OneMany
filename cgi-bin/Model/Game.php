@@ -65,22 +65,9 @@ class ModelGame {
 		return $this->board;
 	}
 
-	public function setGameState ($game_state) {
-		$sth = $this->model->prepare(
-			'update "game" '.
-			'set "game_state" = :gst '.
-			'where "game_id" = :gid'
-		);
-
-		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
-		$sth->bindParam(':gst', $game_state, PDO::PARAM_INT);
-
-		return $sth->execute();
-	}
-
 	public function getGameState () {
 		$sth = $this->model->prepare(
-			'select "game_state" from "game" '.
+			'select max("game_newstate") from "game_update" '.
 			'where "game_id" = :gid'
 		);
 

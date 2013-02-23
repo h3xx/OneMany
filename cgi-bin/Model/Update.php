@@ -38,10 +38,11 @@ class ModelUpdate {
 		return $data;
 	}
 
-	public function addGameUpdate ($update_json, $new_state) {
+	public function pushUpdate ($update_json) {
 		$sth = $this->model->prepare(
-			'insert into "game_update" ("game_id", "game_newstate", "game_change") '.
-			'values (:gid, :nst, :chn)'
+			'insert into "game_update" ("game_id", "game_change") '.
+			'values (:gid, :chn)'
+			#.' returning "game_newstate"' # implement later?
 		);
 
 		if (is_array($update_json)) {
@@ -49,7 +50,6 @@ class ModelUpdate {
 		}
 
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
-		$sth->bindParam(':nst', $new_state, PDO::PARAM_INT);
 		$sth->bindParam(':chn', $update_json, PDO::PARAM_STR);
 
 		if (!$sth->execute()) {
@@ -59,15 +59,4 @@ class ModelUpdate {
 		return true;
 	}
 
-	public function pushUpdate ($update_json) {
-		# FIXME : race condition
-		# possible fix is to move to a database function
-		# another fix [probably better] is to delete the
-		# 	"game"."game_state" column and just determine it from
-		# 	`max("game_update"."game_newstate")'
-		$new_state = $this->model->game->getGameState() + 1;
-		$this->addGameUpdate($update_json, $new_state);
-		$this->model->game->setGameState($new_state);
-	}
 }
-

@@ -5,7 +5,7 @@
 CREATE TABLE game_update
 (
   game_id integer NOT NULL,
-  game_newstate integer NOT NULL,
+  game_newstate serial NOT NULL,
   game_change character varying(4096) NOT NULL,
   CONSTRAINT game_update_pkey PRIMARY KEY (game_id, game_newstate),
   CONSTRAINT game_update_game_id_fkey FOREIGN KEY (game_id)
