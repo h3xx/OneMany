@@ -79,6 +79,7 @@ class ModelBoard {
 	}
 
 	public function rentForSpace ($space_id) {
+		# FIXME : replace with database function?
 		$sth = $this->model->prepare(
 			'select '.
 				'"is_mortgaged", '.

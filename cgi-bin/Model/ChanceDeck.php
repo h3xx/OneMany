@@ -32,7 +32,7 @@ class ModelChanceDeck {
 				'('.self::$table_name.' left join '.self::$deck_table_name.' on ('
 					.self::$table_name.'."RECORDID" = '
 					.self::$deck_table_name.'."chance_recordid"))'.
-				'where "game_id" = :gid and not "is_drawn"'.
+				'where "game_id" = :gid and "drawn_by" is null'.
 				'order by "sequence" asc'.
 				($limit > 0 ? ' limit '.$limit : '')
 			);
@@ -55,7 +55,7 @@ class ModelChanceDeck {
 	public function moveCardToBack ($card_id) {
 		$sth = $this->model->prepare(
 			'update '.self::$deck_table_name.' set '.
-				'"is_drawn" = false, '.
+				'"drawn_by" = null, '.
 				'"sequence" = ('.
 					'select max("sequence") from '.self::$deck_table_name.
 					' where "game_id" = :gid'.
@@ -74,20 +74,20 @@ class ModelChanceDeck {
 	}
 
 	public function markCardNotDrawn ($card_id) {
-		$this->markCardDrawnStatus($card_id, false);
+		$this->markCardDrawnStatus($card_id, null);
 	}
 
-	public function markCardDrawn ($card_id) {
-		$this->markCardDrawnStatus($card_id, true);
+	public function markCardDrawn ($card_id, $user_id) {
+		$this->markCardDrawnStatus($card_id, $user_id);
 	}
 
-	private function markCardDrawnStatus ($card_id, $status) {
+	private function markCardDrawnStatus ($card_id, $user_id) {
 		$sth = $this->model->prepare(
-			'update '.self::$deck_table_name.' set "is_drawn" = :drawn '.
+			'update '.self::$deck_table_name.' set "drawn_by" = :uid '.
 			'where "game_id" = :gid and "chance_recordid" = :cid'
 		);
 
-		$sth->bindParam(':drawn', $status, PDO::PARAM_BOOL);
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':cid', $card_id, PDO::PARAM_INT);
 
@@ -96,6 +96,7 @@ class ModelChanceDeck {
 
 	function __get ($name) {
 		switch ($name) {
+			# FIXME : useless functionality
 			case 'deck':
 				return $this->getCards(-1);
 				;;
