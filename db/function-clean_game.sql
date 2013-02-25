@@ -15,10 +15,13 @@ $BODY$
 
 begin
 
+	delete from "chat" where "game_id" = _game_id;
+	delete from "c_user_game" where "game_id" = _game_id;
 	delete from "c_game_chance" where "game_id" = _game_id;
 	delete from "c_game_commchest" where "game_id" = _game_id;
-	delete from "c_game_space" where "game_id" = _game_id;
 	delete from "c_game_rules" where "game_id" = _game_id;
+	delete from "c_game_space" where "game_id" = _game_id;
+	delete from "game_update" where "game_id" = _game_id;
 
 	return true;
 end;
