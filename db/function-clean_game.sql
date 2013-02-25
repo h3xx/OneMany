@@ -1,4 +1,4 @@
--- Function: populate_game(text, text)
+-- Function: clean_game(integer)
 --
 -- Database engine: PostgreSQL 9.2
 --
@@ -7,7 +7,7 @@
 -- @author: Dan Church <h3xx@gmx.com>
 -- @license: GPL v3.0
 
--- DROP FUNCTION clean_game(text);
+-- DROP FUNCTION clean_game(integer);
 
 CREATE OR REPLACE FUNCTION clean_game(_game_id integer)
   RETURNS boolean AS
