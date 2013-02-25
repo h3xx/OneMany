@@ -12,7 +12,5 @@ CREATE TABLE rules
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE rules
-  OWNER TO odbc_group;
 COMMENT ON TABLE rules
   IS 'Rule definitions.';
