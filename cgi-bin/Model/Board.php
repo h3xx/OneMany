@@ -354,7 +354,7 @@ class ModelBoard {
 	public function setPropertyMortgaged ($space_id, $is_mortgaged) {
 		$sth = $this->model->prepare(
 			'update "c_game_space" '.
-			'set "is_mortgaged" = :mrt '
+			'set "is_mortgaged" = :mrt '.
 			'where "space_id" = :sid and '.
 			'"game_id" = :gid'
 		);
