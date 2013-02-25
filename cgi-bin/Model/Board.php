@@ -84,7 +84,7 @@ class ModelBoard {
 			'select '.
 				'"is_mortgaged", '.
 				'"houses", '.
-				'"space_group" as "group", '.
+				'"space"."space_group" as "group", '.
 				'"foo"."owned_in_group" as "owned_in_group", '.
 				'"c_game_space"."owner_id" as "owner_id", '.
 				'"rent", '.
@@ -99,14 +99,16 @@ class ModelBoard {
 		'select "space_group", "owner_id", count(*) as "owned_in_group" from "c_game_space" '.
 			'left join "space" on ("c_game_space"."space_id" = "space"."space_id") '.
 			'where "game_id" = :gid '.
-			'group by "space_group" '.
+			'group by "space_group", "c_game_space"."owner_id" '.
 	') as "foo" '.
 	'on ("foo"."space_group" = "space"."space_group" '.
 		'and "foo"."owner_id" = "c_game_space"."owner_id") '.
-	'where "c_game_space"."space_id" = :sid'
+	'where "c_game_space"."space_id" = :sid '.
+		'and "c_game_space"."game_id" = :gidd'
 		);
 
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':gidd', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
 		if (!$sth->execute()) {
