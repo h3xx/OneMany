@@ -124,7 +124,7 @@ class ModelBoard {
 
 		if (is_numeric($result['group'])) {
 			##### Regular property #####
-			# (XXX : assuming it's owned)
+			# (assuming it's owned)
 			switch ($result['houses']) {
 				case 0:
 					return $result['rent'];
@@ -184,6 +184,23 @@ class ModelBoard {
 		}
 		# type not recognized
 		return null;
+	}
+
+	public function getSpaceGroup ($space_id) {
+		$sth = $this->model->prepare(
+			'select "space_group" from "space" '.
+			'where "space_id" = :sid'
+		);
+
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
 	}
 
 	public function hasMonopoly ($user_id, $space_id) {
