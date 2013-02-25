@@ -140,6 +140,24 @@ class ModelBoard {
 		# FIXME
 	}
 
+	public function hasMonopoly ($user_id, $space_id) {
+		$sth = $this->model->prepare(
+			'select has_monopoly(:gid, :uid, :sid)'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
 	public function housesOnSpace ($space_id) {
 		$sth = $this->model->prepare(
 			'select "houses" from "c_game_space" '.
