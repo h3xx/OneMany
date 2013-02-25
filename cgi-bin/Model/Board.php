@@ -39,8 +39,8 @@ class ModelBoard {
 
 	public function getBuyFromBankCost ($space_id) {
 		$sth = $this->model->prepare(
-			'select "cost"'.
-			' from "space" where "space_id" = :sid'
+			'select "cost" '.
+			'from "space" where "space_id" = :sid'
 		);
 
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
