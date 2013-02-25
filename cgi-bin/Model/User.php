@@ -121,6 +121,24 @@ class ModelUser {
 		return @$result[0];
 	}
 
+	public function getTotalPlayerWorth ($user_id) {
+		$sth = $this->model->prepare(
+			# see `function-player_worth.sql'
+			'select player_worth(:gid, :uid)'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
 	public function setUserCash ($user_id, $cash) {
 		$sth = $this->model->prepare(
 			'update "c_user_game" set "cash" = :csh '.
