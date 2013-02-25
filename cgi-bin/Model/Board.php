@@ -238,38 +238,6 @@ class ModelBoard {
 		return @$result[0];
 	}
 
-	public function rentForHouses ($space_id, $num_houses) {
-		switch ($num_houses) {
-			case 0:
-				$column = 'rent';
-				break;
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 5:
-				$column = 'rent' . $num_houses;
-				break;
-			default:
-				return null;
-		}
-
-		$sth = $this->model->prepare(
-			'select "'.$column.'" from "space" '.
-			'where "space_id" = :sid'
-		);
-
-		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
-
-		if (!$sth->execute()) {
-			return false;
-		}
-
-		$result = $sth->fetch(PDO::FETCH_NUM);
-
-		return @$result[0];
-	}
-
 	public function ownedInGroup ($user_id, $group) {
 		$sth = $this->model->prepare(
 			'select '.
