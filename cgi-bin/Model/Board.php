@@ -78,14 +78,15 @@ class ModelBoard {
 		return @$result[0];
 	}
 
-	public function rentForSpace ($space_id) {
+	public function rentForSpace ($space_id, $dice_total) {
 		# FIXME : replace with database function?
 		$sth = $this->model->prepare(
 			'select '.
 				'"is_mortgaged", '.
 				'"houses", '.
 				'"space_group" as "group", '.
-				'"foo"."owned_in_group", '.
+				'"foo"."owned_in_group" as "owned_in_group", '.
+				'"c_game_space"."owner_id" as "owner_id", '.
 				'"rent", '.
 				'"rent1", '.
 				'"rent2", '.
@@ -114,13 +115,13 @@ class ModelBoard {
 
 		$result = $sth->fetch(PDO::FETCH_ASSOC);
 
-		if ($result['is_mortgaged']) {
-			# no rent if mortgaged
-			return 0;
+		if ($result['is_mortgaged'] || !isset($result['owner_id'])) {
+			# no rent if mortgaged or unowned
+			return null;
 		}
 
 		if (is_numeric($result['group'])) {
-			# regular, buyable property
+			##### Regular property #####
 			# (XXX : assuming it's owned)
 			switch ($result['houses']) {
 				case 0:
@@ -135,9 +136,52 @@ class ModelBoard {
 					return $result['rent' . $result['houses']];
 					break;
 					;;
+				default:
+					return null;
+					break;
+					;;
+			}
+		} else if ($result['group'] === 'RR') {
+			##### Rail roads #####
+			switch ($result['owned_in_group']) {
+				case 1:
+					return $result['rent'];
+					break;
+					;;
+				case 2:
+				case 3:
+				case 4:
+					return $result['rent' . ($result['owned_in_group']-1)];
+					break;
+					;;
+				default:
+					return null;
+					break;
+					;;
+			}
+
+		} else if ($result['group'] === 'U') {
+			##### Utilities #####
+			# "If 1 owned, 4x dice roll, if 2 owned, 10x dice roll"
+			switch ($result['owned_in_group']) {
+				case 1:
+					return $result['rent'] * $dice_total;
+					break;
+					;;
+				case 2:
+				case 3:
+				case 4:
+					return $result['rent' . ($result['owned_in_group']-1)] * $dice_total;
+					break;
+					;;
+				default:
+					return null;
+					break;
+					;;
 			}
 		}
-		# FIXME
+		# type not recognized
+		return null;
 	}
 
 	public function hasMonopoly ($user_id, $space_id) {
