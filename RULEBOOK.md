@@ -8,7 +8,7 @@ In 1934, Charles B. Darrow of Germantown, Pennsylvania, presented a
 game called MONOPOLY to the executives of Parker Brothers. Mr.
 Darrow, like many other Americans, was unemployed at the time and
 often played this game to amuse himself and pass the time. It was the
-game’s exciting promise of fame and fortune that initially prompted
+game's exciting promise of fame and fortune that initially prompted
 Darrow to produce this game on his own.
 
 With help from a friend who was a printer, Darrow sold 5,000 sets
@@ -34,8 +34,8 @@ Community Chest cards face down on their allotted spaces on the
 board. Each player chooses one token to represent him/her while
 traveling around the board.
 
-Each player is given $1500 divided as follows: 2 each of $500’s,
-$100’s and $50’s; 6 $20’s; 5 each of $10’s, $5’s and $1’s.
+Each player is given $1500 divided as follows: 2 each of $500's,
+$100's and $50's; 6 $20's; 5 each of $10's, $5's and $1's.
 
 All remaining money and other equipment go to the Bank.
 
@@ -45,7 +45,7 @@ personal funds separate from those of the Bank. When more than five
 persons play, the Banker may elect to act only as Banker and
 Auctioneer.
 
-**THE BANK...** Besides the Bank’s money, the Bank holds the Title Deed
+**THE BANK...** Besides the Bank's money, the Bank holds the Title Deed
 cards and houses and hotels prior to purchase and use by the players.
 The Bank pays salaries and bonuses. It sells and auctions properties
 and hands out their proper Title Deed cards; it sells houses and hotels
@@ -64,7 +64,7 @@ on the corner marked "GO," throw the dice and move your token in
 the direction of the arrow the number of spaces indicated by the dice.
 After you have completed your play, the turn passes to the left. The
 tokens remain on the spaces occupied and proceed from that point on
-the player’s next turn. Two or more tokens may rest on the same space
+the player's next turn. Two or more tokens may rest on the same space
 at the same time.
 
 According to the space your token reaches, you may be entitled to
@@ -78,7 +78,7 @@ move your token as before. If you throw doubles three times in
 succession, move your token immediately to the space marked "In
 Jail" (see JAIL).
 
-**"GO"...** Each time a player’s token lands on or passes over GO,
+**"GO"...** Each time a player's token lands on or passes over GO,
 whether by throwing the dice or drawing a card, the Banker pays
 him/her a $200 salary.
 
