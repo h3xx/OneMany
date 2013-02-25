@@ -23,3 +23,5 @@ CREATE TABLE c_user_game
 WITH (
   OIDS=FALSE
 );
+
+COMMENT ON COLUMN c_user_game.has_gojf IS 'Whether the user has a Get out of Jail Free card.';
