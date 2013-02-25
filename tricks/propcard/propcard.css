@@ -1,0 +1,50 @@
+.propcard {
+	width: 230px;
+	height: 230px;
+	border: 1px solid black;
+}
+
+.propcard .header {
+	margin: 10px;
+	text-align: center;
+	padding: 3px;
+	font-weight: bold;
+	border: 1px solid black;
+}
+
+.propcard .details {
+	font-size: 90%;
+}
+
+.propcard .details .pricebar,
+.propcard .details .rentbar,
+.propcard .details .mortgagebar {
+	margin: 4px 10px;
+	padding: 4px 0px;
+	border-bottom: 1px solid black;
+}
+
+.propcard .details .pricebar {
+	text-align: center;
+}
+
+.propcard .details .rentbar {
+	position: relative;
+}
+
+.propcard .details .rentbar .housecounts {
+	position: absolute;
+	left: 0px;
+	top: 4px;
+}
+.propcard .details .rentbar .rentlist {
+	text-align: right;
+}
+.propcard .details .rentbar .conditionalrent {
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+.propcard .details .mortgagebar {
+	text-align: center;
+}
