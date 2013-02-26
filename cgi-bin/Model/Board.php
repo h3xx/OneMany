@@ -55,6 +55,24 @@ class ModelBoard {
 		return $ids;
 	}
 
+	public function getGroupHouseCost ($space_id) {
+		$sth = $this->model->prepare(
+			'select sum("housecost") from "space" '.
+			'where "space_group" in ('.
+				'select space_group from space '.
+				'where space_id = :sid'.
+			')'
+		);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
 	public function getHouseCost ($space_id) {
 		$sth = $this->model->prepare(
 			'select "housecost" '.
