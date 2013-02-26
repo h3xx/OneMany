@@ -17,6 +17,14 @@ class ControllerGame {
 		return $this->board;
 	}
 
+	public function processGameInstruction ($instruction) {
+		# FIXME : implement
+		return [
+			'result'=> false,
+			'msg'	=> 'Not implemented yet.',
+		];
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'board':

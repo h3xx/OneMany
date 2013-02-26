@@ -18,6 +18,10 @@ class Controller {
 				$jsonresponse = $this->chat->postChatMessage($instr['args']);
 				break;
 				;;
+			case 'game':
+				$jsonresponse = $this->game->processGameInstruction($instr['args']);
+				break;
+				;;
 
 		}
 
