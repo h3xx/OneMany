@@ -10,4 +10,5 @@ insert  into "rules"("rule_name","rule_default","rule_desc") values
 	('luxurytax',		'75',		'How much Luxury Tax charges (flat rate).'),
 	('buy_gojf_card',	'1',		'Whether players may purchase a "Get out of Jail Free" card from another player.'),
 	('jail_bail',		'50',		'How much a player pays to get out of jail.'),
+	('jail_doubles',	'3',		'How many times in a row the user can roll doubles before being thrown in jail (0 to disable).'),
 	('parallel_improvement','1',		'Whether improvements must be bought in parallel.');
