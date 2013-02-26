@@ -9,6 +9,7 @@ CREATE TABLE c_user_game
   on_space integer NOT NULL DEFAULT 0,
   cash integer NOT NULL,
   has_gojf boolean NOT NULL DEFAULT false,
+  doubles integer NOT NULL DEFAULT 0, -- How many times in a row the user has rolled doubles.
   CONSTRAINT c_user_game_pkey PRIMARY KEY (user_id, game_id),
   CONSTRAINT c_user_game_game_id_fkey FOREIGN KEY (game_id)
       REFERENCES game (game_id) MATCH SIMPLE
@@ -25,3 +26,4 @@ WITH (
 );
 
 COMMENT ON COLUMN c_user_game.has_gojf IS 'Whether the user has a Get out of Jail Free card.';
+COMMENT ON COLUMN c_user_game.doubles IS 'How many times in a row the user has rolled doubles.';
