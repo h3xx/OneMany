@@ -99,7 +99,7 @@ class ControllerBoard {
 		if (!$this->model->game->board->setPropertyMortgaged($space_id, true)) {
 			return [
 				'result'=> false,
-				'msg'	=> 'Failed to mortgage property',
+				'msg'	=> 'Failed to mortgage property.',
 			];
 		}
 
@@ -123,6 +123,95 @@ class ControllerBoard {
 			'result'=> true,
 			'msg'	=> 'Sucessfully mortgaged property.',
 		];
+	}
+
+	private function _sellHousesNonParallel ($space_id, $houses_to_sell) {
+		# caveat: must have done all checking beforehand
+		$numhouses = $this->model->game->board->housesOnSpace($space_id);
+		if (!isset($numhouses)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Something went horribly wrong finding the number of houses [WTF].',
+			];
+		}
+
+		if ($numhouses === 0) {
+			return [
+				'result'=> false,
+				'msg'	=> 'There are no houses on that property to sell.',
+			];
+		}
+
+		if ($houses_to_sell > $numhouses) {
+			return [
+				'result'=> false,
+				'msg'	=> 'You cannot sell that many houses.',
+			];
+		}
+
+		if (!$this->model->game->board->setNumHouses($space_id, ($numhouses - $houses_to_sell))) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Something went horribly wrong setting the number of houses [WTF].',
+			];
+		}
+
+		return [
+			'result'=> true,
+			'msg'	=> 'Successfully sold houses.',
+		];
+	}
+
+	public function sellHouses ($space_id, $houses_to_sell) {
+		if (!is_numeric($houses_to_sell) || $houses_to_sell < 0) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Invalid number of houses to sell.',
+			];
+		}
+
+		$owner_id = $this->model->game->whoOwnsSpace($space_id);
+		if (!isset($owner_id) || $owner_id !== $this->user_id) {
+			return [
+				'result'=> false,
+				'msg'	=> 'You do not own that property.',
+			];
+		}
+
+		$parallel = $this->model->game->rules->getRuleValue('parallel_improvement');
+
+		if ($parallel) {
+			# must improve each property in the group
+			if (!$this->model->game->board->hasMonopoly($this->user_id, $space_id)) {
+				return [
+					'result'=> false,
+					'msg'	=> 'You must have a monopoly before you can buy improvements.',
+				];
+			}
+
+			$sids = $this->model->game->board->getSpaceIdsInGroup($space_id);
+			if (!isset($sids) || !is_array($sids)) {
+				return [
+					'result'=> false,
+					'msg'	=> 'Something went horribly wrong getting space ids in same group [WTF].',
+				];
+			}
+
+			foreach ($sids as $sid) {
+				$res = $this->_sellHousesNonParallel($sid, $houses_to_sell);
+				if (!$res['result']) {
+					# FUUUUUUU!!!!
+					return $res;
+				}
+			}
+			# nothing failed...
+			return [
+				'result'=> true,
+				'msg'	=> 'Success.',
+			];
+		} else {
+			return $this->_sellHousesNonParallel($sid, $houses_to_sell);
+		}
 	}
 
 	public function landOnSpace ($space_id) {
