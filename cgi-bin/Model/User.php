@@ -159,7 +159,7 @@ class ModelUser {
 	}
 
 	# simple internal function - requires no update to the view
-	public function rolledDoubles ($user_id) {
+	public function incrementDoubles ($user_id) {
 		$sth = $this->model->prepare(
 			'update "c_user_game" '.
 			'set "doubles" = "doubles" + 1 '.
@@ -177,6 +177,21 @@ class ModelUser {
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
 		return @$result[0];
+
+	}
+
+	# simple internal function - requires no update to the view
+	public function resetDoubles ($user_id) {
+		$sth = $this->model->prepare(
+			'update "c_user_game" '.
+			'set "doubles" = 0 '.
+			'where "game_id" = :gid and "user_id" = :uid'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		return $sth->execute();
 
 	}
 
