@@ -37,6 +37,40 @@ class ModelBoard {
 		return $result;
 	}
 
+	public function getHouseCost ($space_id) {
+		$sth = $this->model->prepare(
+			'select "housecost" '.
+			'from "space" where "space_id" = :sid'
+		);
+
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
+	public function getMortgageCost ($space_id) {
+		$sth = $this->model->prepare(
+			'select "mortgage" '.
+			'from "space" where "space_id" = :sid'
+		);
+
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
 	public function getBuyFromBankCost ($space_id) {
 		$sth = $this->model->prepare(
 			'select "cost" '.
