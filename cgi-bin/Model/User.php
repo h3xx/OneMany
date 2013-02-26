@@ -161,6 +161,37 @@ class ModelUser {
 		]);
 	}
 
+	public function addUserCash ($user_id, $cash_delta) {
+		$sth = $this->model->prepare(
+			'update "c_user_game" '.
+			'set "cash" = "cash" + :cshd '.
+			'where "user_id" = :uid and "game_id" = :gid '.
+			'returning "cash"'	# return the new cash amount
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+		$sth->bindParam(':cshd', $cash_delta, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		# XXX : tell update module about it
+		if (!$this->model->update->pushUpdate([
+			'type'	=> 'cash',
+			'id'	=> $user_id,
+			'cash'	=> $cash,
+		])) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+
+	}
+
 	public function joinGame ($user_id, $game_id) {
 		$initial_cash = $this->model->rules->getRuleValue('starting_cash');
 
