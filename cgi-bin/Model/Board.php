@@ -418,4 +418,28 @@ class ModelBoard {
 			'owner'	=> $owner_id,
 		]);
 	}
+
+	public function setNumHouses ($space_id, $houses) {
+		$sth = $this->model->prepare(
+			'update "c_game_space" '.
+			'set "houses" = :hou '.
+			'where "space_id" = :sid and '.
+			'"game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+		$sth->bindParam(':hou', $houses, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		# XXX : tell update module about it
+		return $this->model->update->pushUpdate([
+			'type'	=> 'improve',
+			'space'	=> $space_id,
+			'houses'=> $houses,
+		]);
+	}
 }
