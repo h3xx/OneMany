@@ -24,6 +24,6 @@ class ControllerChat {
 			];
 		}
 
-		return json_encode($result, JSON_UNESCAPED_UNICODE);
+		return $result;
 	}
 }

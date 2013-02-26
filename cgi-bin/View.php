@@ -1,5 +1,6 @@
 <?php
 
+require_once('Tools.php');
 require_once('View/AjaxResponse.php');
 require_once('View/Chat.php');
 require_once('View/Board.php');
@@ -13,9 +14,6 @@ class View {
 		$this->user_id = $user_id;
 	}
 
-	private static function encodeJson ($json_data) {
-		return json_encode($json_data, JSON_UNESCAPED_UNICODE);
-	}
 
 	public function processInstruction ($instr) {
 		switch ($instr['func']) {
@@ -34,7 +32,7 @@ class View {
 
 		}
 
-		return self::encodeJson($jsonresponse);
+		return Tools::encodeJson($jsonresponse);
 	}
 
 	private function getAjaxResponse () {

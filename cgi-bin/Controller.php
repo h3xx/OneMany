@@ -1,5 +1,6 @@
 <?php
 
+require_once('Tools.php');
 require_once('Controller/Chat.php');
 require_once('Controller/Game.php');
 
@@ -14,11 +15,13 @@ class Controller {
 	public function processInstruction ($instr) {
 		switch ($instr['func']) {
 			case 'chat':
-				return $this->chat->postChatMessage($instr['args']);
+				$jsonresponse = $this->chat->postChatMessage($instr['args']);
 				break;
 				;;
 
 		}
+
+		return Tools::encodeJson($jsonresponse);
 	}
 
 	private function getChat () {
