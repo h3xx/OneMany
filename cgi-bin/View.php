@@ -71,6 +71,14 @@ class View {
 
 	function __get ($name) {
 		switch ($name) {
+			case 'chat':
+				return $this->getChat();
+				break;
+				;;
+			case 'game':
+				return $this->getGame();
+				break;
+				;;
 			case 'ajr':
 				return $this->getAjaxResponse();
 				break;
