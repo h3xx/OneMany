@@ -1,7 +1,6 @@
 <?php
 
 require_once('Tools.php');
-require_once('View/AjaxResponse.php');
 require_once('View/Chat.php');
 require_once('View/Board.php');
 require_once('View/PropertyCard.php');
@@ -41,13 +40,6 @@ class View {
 		return Tools::encodeJson($jsonresponse);
 	}
 
-	private function getAjaxResponse () {
-		if (!isset($this->ajr)) {
-			$this->ajr = new ViewAjaxResponse($this->model, $this->user_id);
-		}
-		return $this->ajr;
-	}
-
 	private function getChat () {
 		if (!isset($this->chat)) {
 			$this->chat = new ViewChat($this->model, $this->user_id);
@@ -77,10 +69,6 @@ class View {
 				;;
 			case 'game':
 				return $this->getGame();
-				break;
-				;;
-			case 'ajr':
-				return $this->getAjaxResponse();
 				break;
 				;;
 		}
