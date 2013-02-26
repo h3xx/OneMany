@@ -7,6 +7,7 @@ insert  into "rules"("rule_name","rule_default","rule_desc") values
 	('auctions',		'1',		'Whether unbought properties may be auctioned by the bank upon landing on the space.'),
 	('incometax_flat',	'200',		'How much Income Tax charges (flat rate option).'),
 	('incometax_perc',	'10',		'How much Income Tax charges (percentage option).'),
+	('luxurytax',		'75',		'How much Luxury Tax charges (flat rate).'),
 	('buy_gojf_card',	'1',		'Whether players may purchase a "Get out of Jail Free" card from another player.'),
 	('jail_bail',		'50',		'How much a player pays to get out of jail.'),
 	('parallel_improvement','1',		'Whether improvements must be bought in parallel.');
