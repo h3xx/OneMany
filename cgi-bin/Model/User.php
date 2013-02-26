@@ -147,7 +147,7 @@ class ModelUser {
 		);
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
-		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 
 		if (!$sth->execute()) {
 			return false;
@@ -165,7 +165,7 @@ class ModelUser {
 		);
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
-		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':csh', $cash, PDO::PARAM_INT);
 
 		if (!$sth->execute()) {
@@ -189,7 +189,7 @@ class ModelUser {
 		);
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
-		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':cshd', $cash_delta, PDO::PARAM_INT);
 
 		if (!$sth->execute()) {
