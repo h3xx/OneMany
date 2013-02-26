@@ -147,7 +147,7 @@ class ModelUser {
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
 		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
-		$sth->bindParam(':csh', $game_id, PDO::PARAM_INT);
+		$sth->bindParam(':csh', $cash, PDO::PARAM_INT);
 
 		if (!$sth->execute()) {
 			return false;
