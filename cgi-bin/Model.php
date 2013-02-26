@@ -8,16 +8,14 @@ require_once('Model/Update.php');
 require_once('Model/Rules.php');
 
 class Model {
-	private $dbi;
-
-	private $game, $chat, $user, $update, $rules, $game_id;
+	private $game_id;
 
 	function __construct ($game_id) {
 		$this->game_id = $game_id;
 	}
 
 	function prepare ($sql) {
-		return $this->getDbi()->prepare($sql);
+		return $this->dbi->prepare($sql);
 	}
 
 	private function getDbi () {

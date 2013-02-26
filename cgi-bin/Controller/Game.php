@@ -5,8 +5,6 @@ require_once('Board.php');
 class ControllerGame {
 	private $model, $user_id;
 
-	private $board;
-
 	function __construct ($model, $user_id) {
 		$this->model = $model;
 		$this->user_id = $user_id;

@@ -1,7 +1,7 @@
 <?php
 
 class ModelBoard {
-	private $model, $game_name, $game_id;
+	private $model, $game_id;
 
 	function __construct ($model, $game_id) {
 		$this->model = $model;

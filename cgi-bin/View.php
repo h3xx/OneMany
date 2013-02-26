@@ -8,8 +8,6 @@ require_once('View/PropertyCard.php');
 class View {
 	private $model, $user_id;
 
-	private $ajr, $chat, $game, $propcard;
-
 	function __construct ($model, $user_id) {
 		$this->model = $model;
 		$this->user_id = $user_id;
@@ -22,15 +20,15 @@ class View {
 	public function processInstruction ($instr) {
 		switch ($instr['func']) {
 			case 'pollChat':
-				$jsonresponse = $this->getChat()->getChatUpdate($instr['args']);
+				$jsonresponse = $this->chat->getChatUpdate($instr['args']);
 				break;
 				;;
 			case 'pollGame':
-				$jsonresponse = $this->getGame()->getBoardUpdateInstructions($instr['args']);
+				$jsonresponse = $this->game->getBoardUpdateInstructions($instr['args']);
 				break;
 				;;
 			case 'propcardInfo':
-				$jsonresponse = $this->getPropCard()->getPropertyCardData($instr['args']);
+				$jsonresponse = $this->propcard->getPropertyCardData($instr['args']);
 				break;
 				;;
 

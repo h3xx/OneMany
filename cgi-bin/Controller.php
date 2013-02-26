@@ -6,8 +6,6 @@ require_once('Controller/Game.php');
 class Controller {
 	private $model, $user_id;
 
-	private $chat;
-
 	function __construct ($model, $user_id) {
 		$this->model = $model;
 		$this->user_id = $user_id;
@@ -16,7 +14,7 @@ class Controller {
 	public function processInstruction ($instr) {
 		switch ($instr['func']) {
 			case 'chat':
-				return $this->getChat()->postChatMessage($instr['args']);
+				return $this->chat->postChatMessage($instr['args']);
 				break;
 				;;
 

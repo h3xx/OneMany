@@ -3,10 +3,9 @@
 # set up the database connection
 
 class Database {
-	private $ini, $dbh;
+	private $dbh;
 
 	function __construct () {
-		$this->ini = $this->getIni();
 	}
 /*
 	function __construct ($ini) {
@@ -23,7 +22,7 @@ class Database {
 			case 'query':
 			case 'errorInfo':
 			case 'errorCode':
-				$callback = [ $this->getDbh(), $name ];
+				$callback = [ $this->dbh, $name ];
 				return call_user_func_array($callback, $args);
 			;;
 		}

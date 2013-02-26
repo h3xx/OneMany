@@ -6,8 +6,6 @@ require_once('Board.php');
 class ModelGame {
 	private $model, $game_name, $game_id;
 
-	private $chance, $commchest, $board;
-
 	function __construct ($model, $game_id) {
 		$this->model = $model;
 		$this->game_id = $game_id;
