@@ -8,4 +8,5 @@ insert  into "rules"("rule_name","rule_default","rule_desc") values
 	('incometax_flat',	'200',		'How much Income Tax charges (flat rate option).'),
 	('incometax_perc',	'10',		'How much Income Tax charges (percentage option).'),
 	('buy_gojf_card',	'1',		'Whether players may purchase a "Get out of Jail Free" card from another player.'),
-	('jail_bail',		'50',		'How much a player pays to get out of jail.');
+	('jail_bail',		'50',		'How much a player pays to get out of jail.'),
+	('parallel_improvement','1',		'Whether improvements must be bought in parallel.');
