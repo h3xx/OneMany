@@ -3,7 +3,6 @@
 # set up the database connection
 
 class Database {
-	private $dbh;
 
 	function __construct () {
 	}
