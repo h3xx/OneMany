@@ -177,6 +177,12 @@ class ModelUser {
 			return false;
 		}
 
+		$result = $sth->fetch(PDO::FETCH_NUM);
+		$cash = @$result[0];
+		if (!isset($cash)) {
+			return false;
+		}
+
 		# XXX : tell update module about it
 		if (!$this->model->update->pushUpdate([
 			'type'	=> 'cash',
@@ -186,10 +192,8 @@ class ModelUser {
 			return false;
 		}
 
-		$result = $sth->fetch(PDO::FETCH_NUM);
 
-		return @$result[0];
-
+		return $cash;
 	}
 
 	public function joinGame ($user_id, $game_id) {
