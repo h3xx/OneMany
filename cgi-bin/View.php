@@ -29,7 +29,13 @@ class View {
 				$jsonresponse = $this->propcard->getPropertyCardData($instr['args']);
 				break;
 				;;
-
+			default:
+				$jsonresponse = [
+					'result'=> false,
+					'msg'	=> 'Invalid function.',
+				];
+				break;
+				;;
 		}
 
 		return Tools::encodeJson($jsonresponse);

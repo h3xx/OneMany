@@ -22,7 +22,13 @@ class Controller {
 				$jsonresponse = $this->game->processGameInstruction($instr['args']);
 				break;
 				;;
-
+			default:
+				$jsonresponse = [
+					'result'=> false,
+					'msg'	=> 'Invalid function.',
+				];
+				break;
+				;;
 		}
 
 		return Tools::encodeJson($jsonresponse);
