@@ -158,6 +158,28 @@ class ModelUser {
 		return @$result[0];
 	}
 
+	# simple internal function - requires no update to the view
+	public function rolledDoubles ($user_id) {
+		$sth = $this->model->prepare(
+			'update "c_user_game" '.
+			'set "doubles" = "doubles" + 1 '.
+			'where "game_id" = :gid and "user_id" = :uid '.
+			'returning "doubles"'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+
+	}
+
 	public function setUserCash ($user_id, $cash) {
 		$sth = $this->model->prepare(
 			'update "c_user_game" set "cash" = :csh '.
