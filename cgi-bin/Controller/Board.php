@@ -156,6 +156,7 @@ class ControllerBoard {
 			];
 		}
 
+
 		return [
 			'result'=> true,
 			'msg'	=> 'Successfully sold houses.',
@@ -178,7 +179,7 @@ class ControllerBoard {
 			];
 		}
 
-		$parallel = $this->model->game->rules->getRuleValue('parallel_improvement');
+		$parallel = $this->model->rules->getRuleValue('parallel_improvement');
 
 		if ($parallel) {
 			# must improve each property in the group
@@ -197,20 +198,61 @@ class ControllerBoard {
 				];
 			}
 
+			$cash_delta = 0;
 			foreach ($sids as $sid) {
+				$housecost = $this->model->game->board->getHouseCost($sid);
+				if (!is_numeric($housecost)) {
+					return [
+						'result'=> false,
+						'msg'	=> 'Something went horribly wrong getting a house cost [WTF].',
+					];
+				}
+				$cash_delta += $housecost;
+
 				$res = $this->_sellHousesNonParallel($sid, $houses_to_sell);
 				if (!$res['result']) {
 					# FUUUUUUU!!!!
 					return $res;
 				}
 			}
+
+			$new_cash = $this->model->user->addUserCash($this->user_id, $cash_delta);
+			if (!is_numeric($new_cash)) {
+				return [
+					'result'=> false,
+					'msg'	=> 'Something went horribly wrong setting the user cash [WTF].',
+				];
+			}
+
 			# nothing failed...
 			return [
 				'result'=> true,
 				'msg'	=> 'Success.',
 			];
 		} else {
-			return $this->_sellHousesNonParallel($sid, $houses_to_sell);
+			$housecost = $this->model->game->board->getHouseCost($space_id);
+			if (!is_numeric($housecost)) {
+				return [
+					'result'=> false,
+					'msg'	=> 'Something went horribly wrong getting a house cost [WTF].',
+				];
+			}
+			$res = $this->_sellHousesNonParallel($sid, $houses_to_sell);
+			if (!$res['result']) {
+				return $res;
+			}
+
+			# it worked
+			$new_cash = $this->model->user->addUserCash($this->user_id, $housecost);
+			if (!is_numeric($new_cash)) {
+				return [
+					'result'=> false,
+					'msg'	=> 'Something went horribly wrong setting the user cash [WTF].',
+				];
+			}
+
+			# nothing failed...
+			return $res;
 		}
 	}
 
