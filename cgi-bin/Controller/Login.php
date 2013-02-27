@@ -8,7 +8,7 @@ class ControllerLogin {
 	}
 
 	# FIXME : use an actual URL
-	private static $rst_url = 'http://localhost:801/t/passreset/responder.php';
+	private static $rst_url = 'http://localhost:801/t/passreset/pwreset.php';
 
 	public function processInstruction ($instruction) {
 		$buff = preg_split('/:/', $instruction);
@@ -18,6 +18,18 @@ class ControllerLogin {
 				if (isset($buff[2])) {
 
 				}
+				break;
+				;;
+			case 'request':
+				if (!isset($buff[1])) {
+					return [
+						'result'=> false,
+						'msg'	=> 'No email address specified.',
+					];
+				}
+				return $this->requestResetPassword($buff[1]);
+				break;
+				;;
 		}
 
 		return [
@@ -28,29 +40,38 @@ class ControllerLogin {
 
 	public function requestResetPassword ($user_email) {
 		# XXX : security: don't report any failure, just send email if it worked
+		$response = [
+			'result'=> true,
+			'msg'	=> 'Submitted.',
+		];
 
 		$user_id = $this->model->user->resolveUserEmail($user_email);
 
 		if (!isset($user_id)) {
-			return true;
+			return $response;
 		}
 
 		$rst = $this->model->user->addPwResetRequest($user_id);
 
 		if (!isset($rst)) {
-			return true;
+			return $response;
 		}
 
-		$url = self::$rst_url . '?method=tell&func=login&args=reset:'.$user_id.':'.urlencode($rst);
+		$url = self::$rst_url . '?args=reset:'.$user_id.':'.urlencode($rst);
 
 		mail($user_email, 'OneMany Password Reset',
 			'<a href="'.htmlspecialchars($url).'">Reset your password</a>',
 			'Content-Type: text/html; charset=utf8'
 		);
 
-		return true;
+		return $response;
 	}
 
 	public function doResetPassword ($user_id, $reset_string, $new_pass) {
+		$result = $this->model->user->doPwReset($user_id, $reset_string, $new_pass);
+
+		return [
+			'result'=> $result,
+		];
 	}
 }
