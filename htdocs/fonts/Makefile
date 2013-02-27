@@ -8,6 +8,8 @@ FONTS_TTF = \
 	DejaVuSans-BoldOblique.ttf \
 	DejaVuSans-Oblique.ttf
 
+FONTFORGE = fontforge
+
 FONTS_OTF = $(FONTS_TTF:.ttf=.otf)
 FONTS_EOT = $(FONTS_TTF:.ttf=.eot)
 FONTS_AFM = $(FONTS_TTF:.ttf=.afm)
@@ -26,7 +28,7 @@ woff: $(FONTS_WOFF)
 %.woff: %.ttf
 
 %.otf %.eot %.afm %.woff: %.ttf
-	fontforge -lang=ff -c $$'Open($$1)\nGenerate($$2)' $< $@
+	$(FONTFORGE) -lang=ff -c $$'Open($$1)\nGenerate($$2)' $< $@
 
 clean:
 	$(RM) \
