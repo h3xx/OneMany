@@ -3,6 +3,7 @@
 require_once('Tools.php');
 require_once('Controller/Chat.php');
 require_once('Controller/Game.php');
+require_once('Controller/Login.php');
 
 class Controller {
 	private $model, $user_id;
@@ -20,6 +21,10 @@ class Controller {
 				;;
 			case 'game':
 				$jsonresponse = $this->game->processGameInstruction($instr['args']);
+				break;
+				;;
+			case 'login':
+				$jsonresponse = $this->login->processInstruction($instr['args']);
 				break;
 				;;
 			default:
@@ -48,6 +53,13 @@ class Controller {
 		return $this->game;
 	}
 
+	private function getLogin () {
+		if (!isset($this->login)) {
+			$this->login = new ControllerLogin($this->model);
+		}
+		return $this->login;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'chat':
@@ -56,6 +68,10 @@ class Controller {
 				;;
 			case 'game':
 				return $this->getGame();
+				break;
+				;;
+			case 'login':
+				return $this->getLogin();
 				break;
 				;;
 		}
