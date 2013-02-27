@@ -1,4 +1,4 @@
--- Function: take_user_reset(character varying, text)
+-- Function: take_user_reset(integer, character varying, text)
 --
 -- Database engine: PostgreSQL 9.2
 -- Dependencies: `pgcrypto' extension
@@ -8,24 +8,23 @@
 -- @author: Dan Church <h3xx@gmx.com>
 -- @license: GPL v3.0
 
--- DROP FUNCTION take_user_reset(character varying, text);
+-- DROP FUNCTION take_user_reset(integer, character varying, text);
 
-CREATE OR REPLACE FUNCTION take_user_reset(_reset_string character varying, password_plain text)
+CREATE OR REPLACE FUNCTION take_user_reset(_user_id integer, _reset_string character varying, password_plain text)
   RETURNS boolean AS
 $BODY$
 
 declare
 	hashy_hash	text;
 	salty_salt	text;
-	_user_id	integer;
 
 begin
 
 	select
-		into _user_id
-		"user_id"
+		count(*)
 		from "user"
 		where
+		"user_id" = _user_id and
 		"reset_string" = _reset_string and
 		"reset_expire" > now();
 
