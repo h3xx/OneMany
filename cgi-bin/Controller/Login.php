@@ -59,10 +59,18 @@ class ControllerLogin {
 
 		$url = self::$rst_url . '?args=reset:'.$user_id.':'.urlencode($rst);
 
-		mail($user_email, 'OneMany Password Reset',
-			'<a href="'.htmlspecialchars($url).'">Reset your password</a>',
-			'Content-Type: text/html; charset=utf8'
-		);
+		$subject = 'OneMany Password Reset';
+		$headers = [
+			'From: chudanj@dunwoody.edu',
+			'Content-Type: text/html; charset=utf8',
+		];
+		$content = '<a href="'.htmlspecialchars($url).'">Reset your password</a>';
+
+		if (!mail($user_email, $subject, $content, implode("\r\n", $headers))) {
+			return $response;
+		}
+
+		$response['msg'] .= 'foo'; # debugging
 
 		return $response;
 	}
