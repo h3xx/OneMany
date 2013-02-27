@@ -22,8 +22,8 @@ class ModelBoard {
 				'"rent4",'.
 				'"rent5",'.
 				'"housecost",'.
-				'"mortgage"'.
-			' from "space" where "space_id" = :sid'
+				'"mortgage" '.
+			'from "space" where "space_id" = :sid'
 		);
 
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
@@ -33,6 +33,45 @@ class ModelBoard {
 		}
 
 		$result = $sth->fetch(PDO::FETCH_ASSOC);
+		# XXX : sidestep a PDO bug re: booleans
+		$result['is_mortgaged'] = ($result['is_mortgaged'] && true);
+
+		return $result;
+	}
+
+	# used for constructing property cards in the view
+	public function getSpaceAndOwnershipInfo ($space_id) {
+		$sth = $this->model->prepare(
+			'select '.
+				'"space_group" as "group",'.
+				'"space_name" as "name",'.
+				'"cost",'.
+				'"rent",'.
+				'"rent1",'.
+				'"rent2",'.
+				'"rent3",'.
+				'"rent4",'.
+				'"rent5",'.
+				'"housecost",'.
+				'"mortgage",'.
+				'"owner_id" as "owner",'.
+				'"houses",'.
+				'"is_mortgaged" '.
+			'from "space" '.
+			'left join "c_game_space" on ("space"."space_id" = "c_game_space"."space_id") '.
+			'where "c_game_space"."space_id" = :sid and "c_game_space"."game_id" = :gid'
+		);
+
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_ASSOC);
+		# XXX : sidestep a PDO bug re: booleans
+		$result['is_mortgaged'] = ($result['is_mortgaged'] && true);
 
 		return $result;
 	}

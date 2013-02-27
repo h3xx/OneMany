@@ -28,37 +28,46 @@ class ViewPropertyCard {
 		$this->model = $model;
 	}
 
-	public function getPropertyCardData ($space_id) {
-		$json_data = $this->model->game->board->getSpaceInfo($space_id);
-
-		if (is_numeric($json_data['group'])) {
+	private static function selectColorsTypeForGroup ($group_name) {
+		$buff = [];
+		if (is_numeric($group_name)) {
 			# regular property
-			$json_data['type'] = 'regular';
-			$col_ovr = @self::$tcolor_overrides[$json_data['group']];
+			$buff['type'] = 'regular';
+			$col_ovr = @self::$tcolor_overrides[$group_name];
 			if (isset($col_ovr)) {
-				$json_data['color'] = $col_ovr;
+				$buff['color'] = $col_ovr;
 			} else {
-				$json_data['color'] = self::$regcolor;
+				$buff['color'] = self::$regcolor;
 			}
 		} else {
-			if ($json_data['group'] === 'RR') {
-				$json_data['type'] = 'rail';
-			} else if ($json_data['group'] === 'U') {
-				$json_data['type'] = 'util';
+			if ($group_name === 'RR') {
+				$buff['type'] = 'rail';
+			} else if ($group_name === 'U') {
+				$buff['type'] = 'util';
 			} else {
 				# ERROR - not a valid property type
 				return [];
 			}
-			$col_ovr = @self::$tcolor_overrides[$json_data['group']];
+			$col_ovr = @self::$tcolor_overrides[$group_name];
 			if (isset($col_ovr)) {
-				$json_data['color'] = $col_ovr;
+				$buff['color'] = $col_ovr;
 			} else {
-				$json_data['color'] = self::$nregcolor;
+				$buff['color'] = self::$nregcolor;
 			}
 		}
 
-		$json_data['bcolor'] = self::$bcolors[$json_data['group']];
+		$buff['bcolor'] = self::$bcolors[$group_name];
 
-		return $json_data;
+		return $buff;
+	}
+
+	public function getPropertyCardData ($space_id) {
+		$json_data = $this->model->game->board->getSpaceAndOwnershipInfo($space_id);
+
+		if (!is_array($json_data)) {
+			return null;
+		}
+
+		return array_merge($json_data, self::selectColorsTypeForGroup($json_data['group']));
 	}
 }
