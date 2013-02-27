@@ -67,14 +67,14 @@ class ModelUser {
 		return $user_name;
 	}
 
-	public function resolveUserEmail ($user_id) {
+	public function resolveUserEmail ($user_email) {
 		$sth = $this->model->prepare(
-			'select "user_email" from "user" '.
-			'where "user_id" = :uid '.
+			'select "user_id" from "user" '.
+			'where "user_email" = :uem '.
 			'limit 1'
 		);
 
-		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':uem', $user_email, PDO::PARAM_STR);
 
 		if (!$sth->execute()) {
 			return false;
@@ -82,9 +82,7 @@ class ModelUser {
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
-		$user_email = @$result[0];
-
-		return $user_email;
+		return @$result[0];
 	}
 
 	public function addPwResetRequest ($user_id) {
