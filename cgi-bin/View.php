@@ -71,6 +71,10 @@ class View {
 				return $this->getGame();
 				break;
 				;;
+			case 'propcard':
+				return $this->getPropCard();
+				break;
+				;;
 		}
 	}
 }
