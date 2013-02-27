@@ -10,6 +10,11 @@ function loadpropcard (where, propcardid) {
 			if (data) {
 				var card = document.createElement('div');
 				$(card).addClass('propcard');
+				if (data.is_mortgaged) {
+					$(card).addClass('mortgaged');
+				} else if (data.owner) {
+					$(card).addClass('sold');
+				}
 
 				var hdr = document.createElement('div');
 				$(hdr).css({

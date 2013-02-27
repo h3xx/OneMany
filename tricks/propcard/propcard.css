@@ -1,3 +1,16 @@
+.propcard.sold {
+	background-image: url('images/decal-sold.png');
+}
+
+.propcard.mortgaged {
+	background-image: url('images/decal-mortgaged.png');
+}
+
+.propcard.mortgaged .header,
+.propcard.mortgaged .details {
+	opacity: 0.65;
+}
+
 .propcard {
 	width: 230px;
 	height: 230px;
