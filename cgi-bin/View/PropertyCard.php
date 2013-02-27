@@ -16,7 +16,8 @@ class ViewPropertyCard {
 		'RR'	=> '#ffffff',
 		'U'	=> '#ffffff',
 	];
-	private static $color_overrides = [
+	# text color overrides for different groups
+	private static $tcolor_overrides = [
 		'1'	=> '#ffffff',
 	];
 
@@ -33,7 +34,7 @@ class ViewPropertyCard {
 		if (is_numeric($json_data['group'])) {
 			# regular property
 			$json_data['type'] = 'regular';
-			$col_ovr = @self::$color_overrides[$json_data['group']];
+			$col_ovr = @self::$tcolor_overrides[$json_data['group']];
 			if (isset($col_ovr)) {
 				$json_data['color'] = $col_ovr;
 			} else {
@@ -48,7 +49,7 @@ class ViewPropertyCard {
 				# ERROR - not a valid property type
 				return [];
 			}
-			$col_ovr = @self::$color_overrides[$json_data['group']];
+			$col_ovr = @self::$tcolor_overrides[$json_data['group']];
 			if (isset($col_ovr)) {
 				$json_data['color'] = $col_ovr;
 			} else {
