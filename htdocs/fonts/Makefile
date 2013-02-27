@@ -18,13 +18,19 @@ FONTS_WOFF = $(FONTS_TTF:.ttf=.woff)
 all: otf eot afm woff
 
 otf: $(FONTS_OTF)
+
 eot: $(FONTS_EOT)
+
 afm: $(FONTS_AFM)
+
 woff: $(FONTS_WOFF)
 
 %.otf: %.ttf
+
 %.eot: %.ttf
+
 %.afm: %.ttf
+
 %.woff: %.ttf
 
 %.otf %.eot %.afm %.woff: %.ttf
