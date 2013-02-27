@@ -87,6 +87,22 @@ class ModelUser {
 		return $user_email;
 	}
 
+	public function addPwResetRequest ($user_id) {
+		$sth = $this->model->prepare(
+			'select set_user_reset(:uid)'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
 	public function isValidUserId ($user_id) {
 		$sth = $this->model->prepare(
 			'select count("user_id") from "user" '.
