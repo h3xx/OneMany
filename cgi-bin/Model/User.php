@@ -101,6 +101,24 @@ class ModelUser {
 		return @$result[0];
 	}
 
+	public function doPwReset ($user_id, $reset_string, $new_pass) {
+		$sth = $this->model->prepare(
+			'select take_user_reset(:uid, :rst, :pw)'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':rst', $reset_string, PDO::PARAM_STR);
+		$sth->bindParam(':pw', $new_pass, PDO::PARAM_STR);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
 	public function isValidUserId ($user_id) {
 		$sth = $this->model->prepare(
 			'select count("user_id") from "user" '.
