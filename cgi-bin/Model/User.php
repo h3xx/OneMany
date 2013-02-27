@@ -67,6 +67,26 @@ class ModelUser {
 		return $user_name;
 	}
 
+	public function resolveUserEmail ($user_id) {
+		$sth = $this->model->prepare(
+			'select "user_email" from "user" '.
+			'where "user_id" = :uid '.
+			'limit 1'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		$user_email = @$result[0];
+
+		return $user_email;
+	}
+
 	public function isValidUserId ($user_id) {
 		$sth = $this->model->prepare(
 			'select count("user_id") from "user" '.
