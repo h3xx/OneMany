@@ -1,15 +1,32 @@
 $(document).ready(function () {
-	$('#emsub').click(function() {
-		var pwvars = 'request:' + $('#email').val();
-		//alert(pwvars);
+	$("#progressbar")
+		.progressbar({
+			value: false,
+		})
+		.hide();
 
-		$.post('responder.php', {
-			'method': 'tell',
-			'func': 'login',
-			'args': pwvars,
-		}, function (data) {
-			$('#email').val(null);
-			$('#result').text(data.msg);
+	$('#emsub')
+		.button()
+		.click(function(e) {
+			e.preventDefault();
+			var pwvars = 'request:' + $('#email').val();
+
+			$('#emsub').attr('disabled', 'disabled');
+			$('#email').attr('disabled', 'disabled');
+			$('#progressbar').show(500);
+
+			$.post('responder.php', {
+				'method': 'tell',
+				'func': 'login',
+				'args': pwvars,
+			}, function (data) {
+				$('#progressbar').hide(500);
+				$('#email').val(null);
+				$('#result').text(data.msg);
+				if (!data.result) {
+					$('#emsub').removeAttr('disabled');
+					$('#email').removeAttr('disabled');
+				}
+			});
 		});
-	});
 });

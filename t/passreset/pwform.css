@@ -1,0 +1,7 @@
+#progressbar {
+	width: 250px;
+}
+
+#progressbar .ui-progressbar-value {
+	background-color: #ccc;
+}
