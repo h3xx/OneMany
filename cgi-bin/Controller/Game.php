@@ -18,10 +18,46 @@ class ControllerGame {
 	}
 
 	public function processGameInstruction ($instruction) {
-		# FIXME : implement
+		$buff = preg_split('/:/', $instruction);
+
+		switch ($buff[0]) {
+			case 'buy':
+				return $this->board->buyPropertyYoureOn();
+				break;
+				;;
+			case 'mortgage':
+				return $this->board->mortgageProperty($buff[1]);
+				break;
+				;;
+			case 'roll':
+				return $this->rollDice();
+				break;
+				;;
+			default:
+				return [
+					'result'=> false,
+					'msg'	=> 'Invalid instruction.',
+				];
+				break;
+				;;
+		}
+	}
+
+	private function rollDice () {
+
+		$roll = $this->model->game->doRoll(2);
+
+		if (!is_array($roll)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Failed to roll dice.',
+			];
+		}
+
+		# FIXME : move piece
 		return [
-			'result'=> false,
-			'msg'	=> 'Not implemented yet.',
+			'result'=> true,
+			'msg'	=> 'Successfully rolled dice.',
 		];
 	}
 
