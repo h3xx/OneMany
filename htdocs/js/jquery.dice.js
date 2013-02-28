@@ -53,10 +53,11 @@ case 6: x =                   0; y = options.glyphSize; break;
 		}
 		self.uiDice.css('backgroundPosition', x+'px '+y+'px');
 	},
-	landOnNumber: function (num) {
+	landOnNumber: function () {
 		var self = this,
 		options = self.options;
-		this.uiDice.stop();
+		self.uiDice.stop();
+		self.selectGlyph(self.options.number);
 		if (options.callback && typeof(options.callback) === "function")
 			options.callback(options.number);
 	},
@@ -85,16 +86,12 @@ case 6: x =                   0; y = options.glyphSize; break;
 			return dfd.promise();
 		}))
 		.done(function() {
-			self.uiDice.stop();
 			if (options.number < 0) {
 				// re-run animation
 				return self.runanim();
 			}
 
-			self.selectGlyph(options.number);
-
-			if (options.callback && typeof(options.callback) === "function")
-				options.callback(options.number);
+			self.landOnNumber();
 		});
 	},
 
@@ -124,7 +121,7 @@ case 6: x =                   0; y = options.glyphSize; break;
 		if (this.options.running) {
 			this.runanim();
 		} else {
-			this.landOnNumber(this.options.number);
+			this.landOnNumber();
 		}
 	},
 
