@@ -72,6 +72,6 @@ function procGameUpdate (update) {
 	if (upd.type == 'roll') {
 		$('#dice1').dice({running:0,number:upd.val[0]});
 		$('#dice2').dice({running:0,number:upd.val[1]});
+		$('#currentnumber').append(upd.val[0]);
 	}
-	$('#currentnumber').append(upd.val[0]);
 }
