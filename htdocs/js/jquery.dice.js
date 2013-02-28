@@ -54,7 +54,8 @@ case 6: x =                   0; y = options.glyphSize; break;
 		self.uiDice.css('backgroundPosition', x+'px '+y+'px');
 	},
 	landOnNumber: function (num) {
-		this.options.number = num;
+		var self = this,
+		options = self.options;
 		this.uiDice.stop();
 		if (options.callback && typeof(options.callback) === "function")
 			options.callback(options.number);
