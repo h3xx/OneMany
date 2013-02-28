@@ -80,6 +80,38 @@ class ModelGame {
 		return @$result[0];
 	}
 
+	public function doRoll ($user_id, $num_dice) {
+
+		$rolls = [];
+		for ($throw = 0; $throw < $num_dice; ++$throw) {
+			$rolls []= rand(1, 6);
+		}
+
+		# format for insertion
+		$last_roll = '{' . implode(',', $rolls) . '}';
+
+		$sth = $this->model->prepare(
+			'update "game" '.
+			'set "last_roll" = :lroll '.
+			'where "game_id" = :gid'
+		);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		# XXX : tell update module about it
+		if (!$this->model->update->pushUpdate([
+			'type'	=> 'roll',
+			'val'	=> $rolls,
+			'id'	=> $user_id,
+		])) {
+			return false;
+		}
+
+		return $rolls;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'chance':
