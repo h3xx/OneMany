@@ -45,7 +45,7 @@ class ControllerGame {
 
 	private function rollDice () {
 
-		$roll = $this->model->game->doRoll(2);
+		$roll = $this->model->game->doRoll($this->user_id, 2);
 
 		if (!is_array($roll)) {
 			return [

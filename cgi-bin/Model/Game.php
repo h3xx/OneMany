@@ -96,6 +96,9 @@ class ModelGame {
 			'where "game_id" = :gid'
 		);
 
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':lroll', $last_roll, PDO::PARAM_STR);
+
 		if (!$sth->execute()) {
 			return false;
 		}
