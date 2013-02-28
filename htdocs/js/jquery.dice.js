@@ -127,8 +127,8 @@ case 6: x =                   0; y = options.glyphSize; break;
 		} else {
 			if (this.run) {
 				this.run = false;
-				this.landOnNumber();
 			}
+			this.landOnNumber();
 		}
 	},
 
