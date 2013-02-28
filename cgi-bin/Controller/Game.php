@@ -54,7 +54,7 @@ class ControllerGame {
 			];
 		}
 
-		# FIXME : move piece
+		# FIXME : check turn, move piece, etc.
 		return [
 			'result'=> true,
 			'msg'	=> 'Successfully rolled dice.',
