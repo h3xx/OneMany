@@ -38,6 +38,7 @@ $.widget("ui.dice", {
 		'number': 1,
 		'running': 0,
 	},
+	run: false,
 	selectGlyph: function (number) {
 		var self = this,
 		options = self.options;
@@ -119,9 +120,15 @@ case 6: x =                   0; y = options.glyphSize; break;
 		// _super and _superApply handle keeping the right this-context
 		this._superApply( arguments );
 		if (this.options.running) {
-			this.runanim();
+			if (!this.run) {
+				this.run = true;
+				this.runanim();
+			}
 		} else {
-			this.landOnNumber();
+			if (this.run) {
+				this.run = false;
+				this.landOnNumber();
+			}
 		}
 	},
 
