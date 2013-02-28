@@ -39,6 +39,7 @@ $(document).ready(function () {
 			});
 
 
+
 		});
 
 	window.gamestate = 0;
@@ -47,6 +48,8 @@ $(document).ready(function () {
 		.click(function (e) {
 			pollGameUpdate();
 		});
+
+	pollGameUpdate();
 });
 
 function pollGameUpdate () {
@@ -68,13 +71,27 @@ function pollGameUpdate () {
 			window.gamestate = data.newstate;
 		}
 	});
+
+	window.setTimeout(pollGameUpdate, 1000);
+}
+
+function setDice (a, b, r) {
+	if (!r) {
+		$('#dice1').dice({running:1,number:-1});
+		$('#dice2').dice({running:1,number:-1});
+		window.setTimeout(function () {
+			setDice(a,b,true);
+		}, 500);
+	} else {
+		$('#dice1').dice({running:0,number:a});
+		$('#dice2').dice({running:0,number:b});
+	}
 }
 
 function procGameUpdate (update) {
 	upd = jQuery.parseJSON(update);
 	if (upd.type == 'roll') {
-		$('#dice1').dice({running:0,number:upd.val[0]});
-		$('#dice2').dice({running:0,number:upd.val[1]});
-		$('#currentnumber').append(upd.val[0]);
+		setDice(upd.val[0],upd.val[1],false);
+		$('#currentnumber').append(upd.val + ' ');
 	}
 }
