@@ -45,27 +45,30 @@ $(document).ready(function () {
 	$('#poll')
 		.button()
 		.click(function (e) {
-			$.post('responder.php', {
-				'method': 'ask',
-				'func': 'pollGame',
-				'args': window.gamestate,
-			},
-			function (data) {
-				if (!data && !data.instructions) {
-					return;
-				}
-
-				for (var i in data.instructions) {
-					procGameUpdate(data.instructions[i]);
-				}
-
-				if (window.gamestate < data.newstate) {
-					window.gamestate = data.newstate;
-				}
-			});
-
+			pollGameUpdate();
 		});
 });
+
+function pollGameUpdate () {
+	$.post('responder.php', {
+		'method': 'ask',
+		'func': 'pollGame',
+		'args': window.gamestate,
+	},
+	function (data) {
+		if (!data && !data.instructions) {
+			return;
+		}
+
+		for (var i in data.instructions) {
+			procGameUpdate(data.instructions[i]);
+		}
+
+		if (window.gamestate < data.newstate) {
+			window.gamestate = data.newstate;
+		}
+	});
+}
 
 function procGameUpdate (update) {
 	upd = jQuery.parseJSON(update);
