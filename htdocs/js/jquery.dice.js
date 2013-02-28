@@ -30,7 +30,6 @@
 
 $.widget("ui.dice", {
 	options: {
-		id: null,
 		'background': '#ffffff',
 		'callback': null,
 		'glyphSize': 40,
@@ -52,7 +51,7 @@ case 4: x =   options.glyphSize; y = options.glyphSize; break;
 case 5: x = 2*options.glyphSize; y = options.glyphSize; break;
 case 6: x =                   0; y = options.glyphSize; break;
 		}
-		$(self.uiDice).css('backgroundPosition', x+'px '+y+'px');
+		self.uiDice.css('backgroundPosition', x+'px '+y+'px');
 	},
 	landOnNumber: function (num) {
 		this.options.number = num;
@@ -85,7 +84,7 @@ case 6: x =                   0; y = options.glyphSize; break;
 			return dfd.promise();
 		}))
 		.done(function() {
-			$(self.uiDice).stop();
+			self.uiDice.stop();
 			if (options.number < 0) {
 				// re-run animation
 				return self.runanim();
