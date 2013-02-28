@@ -152,7 +152,7 @@ class ModelUser {
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
-		return $result[0];
+		return @$result[0];
 	}
 
 	public function getUserOnSpace ($user_id) {
