@@ -27,71 +27,107 @@
  * @author Stefan Graupner <stefan.graupner@gmail.com>
  **/
 (function($) {
-  $.fn.dice = function(options)
-  {
-    var m_this = this;
-    var defaults = {
-      'background': '#ffffff',
-      'callback': null,
-      'glyphSize': 40,
-      'glyphSrc': 'dice.gif',
-      'juggleTimeout': 300,
-      'number': 1,
-      'selectGlyph': function (number)
-      {
-        var x, y;
-        switch (number)
-        {
-          default:
-          case 1: x =                   0; y =  0;                break;
-          case 2: x = 2*options.glyphSize; y =  0;                break;
-          case 3: x =   options.glyphSize; y =  0;                break;
-          case 4: x =   options.glyphSize; y = options.glyphSize; break;
-          case 5: x = 2*options.glyphSize; y = options.glyphSize; break;
-          case 6: x =                   0; y = options.glyphSize; break;
-        }
-        $(m_this).css('backgroundPosition', x+'px '+y+'px');
-      }
-    };
 
-    options = $.extend(defaults, options);
+$.widget("ui.dice", {
+	options: {
+		id: null,
+		'background': '#ffffff',
+		'callback': null,
+		'glyphSize': 40,
+		'glyphSrc': 'dice.gif',
+		'juggleTimeout': 300,
+		'number': 1,
+		'running': 0,
+	},
+	selectGlyph: function (number) {
+		var self = this,
+		options = self.options;
+		var x, y;
+		switch (number) {
+default:
+case 1: x =                   0; y =  0;                break;
+case 2: x = 2*options.glyphSize; y =  0;                break;
+case 3: x =   options.glyphSize; y =  0;                break;
+case 4: x =   options.glyphSize; y = options.glyphSize; break;
+case 5: x = 2*options.glyphSize; y = options.glyphSize; break;
+case 6: x =                   0; y = options.glyphSize; break;
+		}
+		$(self.uiDice).css('backgroundPosition', x+'px '+y+'px');
+	},
+	landOnNumber: function (num) {
+		this.options.number = num;
+		this.uiDice.stop();
+		if (options.callback && typeof(options.callback) === "function")
+			options.callback(options.number);
+	},
+	runanim: function () {
+		 var self = this,
+		 options = self.options;
 
-    $(this).css({
-      'background': options.background+' url('+options.glyphSrc+')',
-      'height': options.glyphSize,
-      'width': options.glyphSize
-    });
+		 $.when($.Deferred(function(dfd) {
+			 var z = self.uiDice.css('z-index');
+			 self.uiDice
+				 .css('z-index', 1)
+				 .animate(
+					 {
+						 'z-index': options.juggleTimeout
+					 },
+					 {
+						step: function(now, fx) {
+							self.selectGlyph(Math.floor(Math.random() * 6) + 1);
+						},
+						duration: options.juggleTimeout,
+						complete: dfd.resolve,
+					}
+				)
+				.css('z-index', z);
 
-    $(this).click(function()
-    {
-      $.when($.Deferred(function(dfd)
-      {
-        var z = $(m_this).css('z-index');
+			return dfd.promise();
+		}))
+		.done(function() {
+			$(self.uiDice).stop();
+			if (options.number < 0) {
+				// re-run animation
+				return self.runanim();
+			}
 
-        $(m_this).css('z-index', 1).animate(
-        {
-          'z-index': options.juggleTimeout
-        }, {
-          step: function(now, fx)
-          {
-            options.selectGlyph(Math.floor(Math.random() * 6) + 1);
-          },
-          duration: options.juggleTimeout,
-          complete: dfd.resolve
-        }).css('z-index', z);
+			self.selectGlyph(options.number);
 
-        return dfd.promise();
-      })).done(function() {
-        options.number = (Math.floor(Math.random() * 6) + 1);
-        $(this).stop();
-        options.selectGlyph(options.number);
+			if (options.callback && typeof(options.callback) === "function")
+				options.callback(options.number);
+		});
+	},
 
-        if (options.callback
-            && typeof(options.callback) === "function")
-          options.callback(options.number);
-      });
-    });
+	widget: function () {
+		return this.uiDice;
+	},
 
-    $(this).click();
-  }
+	_create: function () {
+		 var self = this,
+		 options = self.options,
+
+		 uiDice = (self.uiDice = $('<div></div>')
+			 .css({
+				'background': options.background+' url('+options.glyphSrc+')',
+				'height': options.glyphSize,
+				'width': options.glyphSize,
+			 })
+			
+		);
+		this.element.append(uiDice);
+		
+	},
+
+	_setOptions: function() {
+		// _super and _superApply handle keeping the right this-context
+		this._superApply( arguments );
+		if (this.options.running) {
+			this.runanim();
+		} else {
+			this.landOnNumber(this.options.number);
+		}
+	},
+
+});
+
 })(jQuery);
