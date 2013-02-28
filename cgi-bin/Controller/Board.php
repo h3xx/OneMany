@@ -64,6 +64,19 @@ class ControllerBoard {
 		];
 	}
 
+	public function buyPropertyYoureOn () {
+		$space_id = $this->model->user->getUserOnSpace($this->user_id);
+
+		if (!is_numeric($space_id)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Failed to determine your location.',
+			];
+		}
+
+		return $this->buyProperty($space_id);
+	}
+
 	public function mortgageProperty ($space_id) {
 		$owner_id = $this->model->game->whoOwnsSpace($space_id);
 		if (!isset($owner_id) || $owner_id !== $this->user_id) {
