@@ -3,6 +3,7 @@
 require_once('Tools.php');
 require_once('View/Chat.php');
 require_once('View/Board.php');
+require_once('View/Game.php');
 require_once('View/PropertyCard.php');
 
 class View {
