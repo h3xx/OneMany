@@ -146,10 +146,9 @@ class ModelGame {
 	}
 
 	public function setWhoseTurn ($user_id) {
+		# deprecated
 		$sth = $this->model->prepare(
-			'update "game" '.
-			'set "whoseturn" = :uid '.
-			'where "game_id" = :gid'
+			'select set_turn(:gid, :uid)'
 		);
 
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
@@ -168,9 +167,11 @@ class ModelGame {
 
 	public function whoseTurn () {
 		$sth = $this->model->prepare(
-			'select "whoseturn" '.
-			'from "game" '.
-			'where "game_id" = :gid'
+			'select "user_id" '.
+			'from "c_user_game" '.
+			'where "game_id" = :gid '.
+			'order by "sequence" '.
+			'limit 1'
 		);
 
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
