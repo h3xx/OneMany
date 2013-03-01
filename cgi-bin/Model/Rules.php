@@ -3,6 +3,8 @@
 class ModelRules {
 	private $model, $game_id;
 
+	private $cache;
+
 	function __construct ($model, $game_id) {
 		$this->model = $model;
 		$this->game_id = $game_id;
@@ -25,6 +27,11 @@ class ModelRules {
 	*/
 
 	public function getRuleValue ($rule_name) {
+		# use cache first
+		if (isset($this->cache[$rule_name])) {
+			return $this->cache[$rule_name];
+		}
+
 		$sth = $this->model->prepare(
 			'select rule_or_default(:gid, :rn)'
 		);
@@ -37,6 +44,8 @@ class ModelRules {
 		}
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
+		# store in cache
+		$this->cache[$rule_name] = @$result[0];
 
 		return @$result[0];
 	}
