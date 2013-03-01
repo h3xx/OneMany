@@ -115,6 +115,26 @@ class ModelGame {
 		return $rolls;
 	}
 
+	public function setWhoseTurn ($user_id) {
+		$sth = $this->model->prepare(
+			'update "game" '.
+			'set "whoseturn" = :uid '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		return $this->model->update->pushUpdate([
+			'type'	=> 'turn',
+			'id'	=> $user_id,
+		]);
+	}
+
 	public function whoseTurn () {
 		$sth = $this->model->prepare(
 			'select "whoseturn" '.
