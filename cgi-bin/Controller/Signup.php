@@ -1,6 +1,6 @@
 <?php
 
-require_once('../Tools.php');
+#require_once('../Tools.php');
 
 class ControllerSignup {
 	private $model;
@@ -21,9 +21,9 @@ class ControllerSignup {
 		}
 
 		# making a new login
-		$user_name = @$instruction[1];
-		$email = @$instruction[2];
-		$password = @$instruction[3];
+		$user_name = @$instruction[0];
+		$email = @$instruction[1];
+		$password = @$instruction[2];
 		return $this->doSignup($user_name, $email, $password);
 	}
 

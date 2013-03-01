@@ -1,6 +1,6 @@
 <?php
 
-require_once('../Tools.php');
+#require_once('../Tools.php');
 
 class ControllerLogin {
 	private $model;
