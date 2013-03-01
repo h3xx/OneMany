@@ -20,20 +20,11 @@ class ControllerSignup {
 			];
 		}
 
-		switch (@$instruction[0]) {
-
-			case 'request':
-				# making a new login
-				$user_name = @$instruction[1];
-				$email = @$instruction[2];
-				$password = @$instruction[3];
-				return $this->doSignup($user_name, $email, $password);
-				break;
-				;;
-			case 'verify':
-				# verifying that login
-				$user_name = 
-		}
+		# making a new login
+		$user_name = @$instruction[1];
+		$email = @$instruction[2];
+		$password = @$instruction[3];
+		return $this->doSignup($user_name, $email, $password);
 	}
 
 	private function doSignup ($user_name, $email, $password) {
