@@ -155,25 +155,6 @@ class ModelUser {
 		return $result[0] > 0;
 	}
 
-	public function getUserOnSpace ($user_id) {
-		$sth = $this->model->prepare(
-			'select "on_space" '.
-			'from "c_user_game" '.
-			'where "game_id" = :gid and "user_id" = :uid'
-		);
-
-		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
-		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
-
-		if (!$sth->execute()) {
-			return false;
-		}
-
-		$result = $sth->fetch(PDO::FETCH_NUM);
-
-		return @$result[0];
-	}
-
 	public function getUserCash ($user_id) {
 		$sth = $this->model->prepare(
 			'select "cash" from "c_user_game" '.

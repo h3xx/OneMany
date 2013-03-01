@@ -65,7 +65,7 @@ class ControllerBoard {
 	}
 
 	public function buyPropertyYoureOn () {
-		$space_id = $this->model->user->getUserOnSpace($this->user_id);
+		$space_id = $this->model->game->getUserOnSpace($this->user_id);
 
 		if (!is_numeric($space_id)) {
 			return [
