@@ -16,7 +16,7 @@ class ViewGame {
 
 	public function getInitialGameData () {
 
-		$json_data = $this->model->game->getGameData();
+		$json_data = $this->model->game->exportModel();
 		return $json_data;
 
 	}

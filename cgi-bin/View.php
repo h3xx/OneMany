@@ -29,6 +29,10 @@ class View {
 				$jsonresponse = $this->propcard->getPropertyCardData($instr['args']);
 				break;
 				;;
+			case 'init':
+				$jsonresponse = $this->game->getInitialGameData();
+				break;
+				;;
 			default:
 				$jsonresponse = [
 					'result'=> false,

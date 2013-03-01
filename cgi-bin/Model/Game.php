@@ -63,6 +63,19 @@ class ModelGame {
 		return $this->board;
 	}
 
+	public function exportModel () {
+		$state = $this->getGameState();
+
+		$board = $this->board->exportModel();
+		$users = $this->model->user->exportModel();
+
+		return [
+			'state'	=> $state,
+			'board'	=> $board,
+			'users'	=> $users,
+		];
+	}
+
 	public function getGameState () {
 		$sth = $this->model->prepare(
 			'select max("game_newstate") from "game_update" '.

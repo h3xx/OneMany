@@ -8,6 +8,38 @@ class ModelUser {
 		$this->game_id = $game_id;
 	}
 
+	public function exportModel () {
+		$sth = $this->model->prepare(
+			'select '.
+				'"c_user_game"."user_id", '.
+				'"user_name", '.
+				'"cash", '.
+				'"on_space" '.
+			'from "c_user_game" '.
+			'left join "user" on ("c_user_game"."user_id" = "user"."user_id") '.
+			'where "game_id" = :gid '.
+			'order by "sequence" asc'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetchAll(PDO::FETCH_ASSOC);
+
+		# set the user with the lowest "sequence" value to being the
+		# one whose turn it is, and the rest to false.
+		$result[0]['turn'] = true;
+
+		for ($i = 1; $i < count($result); ++$i) {
+			$result[$i]['turn'] = false;
+		}
+
+		return $result;
+	}
+
 	public function checkLogin ($user_name, $password) {
 		$sth = $this->model->prepare(
 			# database-side function; returns a boolean
