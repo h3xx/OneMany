@@ -76,6 +76,31 @@ class ModelBoard {
 		return $result;
 	}
 
+	public function getAllVisibleSpaceData () {
+		$sth = $this->model->prepare(
+			'select '.
+				'"c_game_space"."space_id" as "id", '.
+				'"space_group" as "group", '.
+				'"houses", '.
+				'"mortgaged" '.
+			'from "c_game_space" '.
+			'left join "space" on ("space"."space_id" = "c_game_space"."space_id") '.
+			'where "c_game_space"."game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_ASSOC);
+		# XXX : sidestep a PDO bug re: booleans
+		$result['is_mortgaged'] = ($result['is_mortgaged'] && true);
+
+		return $result;
+	}
+
 	public function getSpaceIdsInSameGroup ($space_id) {
 		$sth = $this->model->prepare(
 			'select "space_id" from "space" '.
