@@ -23,7 +23,26 @@ class ModelUser {
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
-		return $result[0];
+		return @$result[0];
+	}
+
+	public function newLogin ($user_name, $email, $password) {
+		$sth = $this->model->prepare(
+			# database-side function; returns a boolean
+			'select new_login(:un, :em, :pw)'
+		);
+
+		$sth->bindParam(':un', $user_name, PDO::PARAM_STR);
+		$sth->bindParam(':em', $email, PDO::PARAM_STR);
+		$sth->bindParam(':pw', $password, PDO::PARAM_STR);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
 	}
 
 	public function resolveUsername ($user_name) {
