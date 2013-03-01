@@ -11,6 +11,7 @@ CREATE TABLE "user"
   reset_expire timestamp without time zone,
   login_hash character(40) NOT NULL, -- Hexadecimal SHA1 hash.
   login_salt character varying(40) NOT NULL,
+  verified boolean NOT NULL DEFAULT false, -- Whether the user has verified their email address.
   CONSTRAINT user_pkey PRIMARY KEY (user_id)
   CONSTRAINT user_user_email_key UNIQUE (user_email)
 )
@@ -22,3 +23,4 @@ COMMENT ON TABLE "user"
 COMMENT ON COLUMN "user".login_hash IS 'Hexadecimal SHA1 hash.';
 COMMENT ON COLUMN "user".user_email IS 'The user''s email address.';
 COMMENT ON COLUMN "user".reset_string IS 'String needed to reset the user''s password via email.';
+COMMENT ON COLUMN "user".verified IS 'Whether the user has verified their email address.';

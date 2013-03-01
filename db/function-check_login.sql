@@ -25,7 +25,8 @@ begin
 		"login_hash"
 		from	"user"
 		where
-			"user_name" = _login_name;
+			"user_name" = _login_name and
+			"verified";
 
 	if hashy_hash is null then
 		return false;
