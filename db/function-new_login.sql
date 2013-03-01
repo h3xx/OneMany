@@ -1,4 +1,4 @@
--- Function: new_login(text, text)
+-- Function: new_login(text, text, text)
 --
 -- Database engine: PostgreSQL 9.2
 -- Dependencies: `pgcrypto' extension
@@ -8,9 +8,9 @@
 -- @author: Dan Church <h3xx@gmx.com>
 -- @license: GPL v3.0
 
--- DROP FUNCTION new_login(text, text);
+-- DROP FUNCTION new_login(text, text, text);
 
-CREATE OR REPLACE FUNCTION new_login(_login_name text, password_plain text)
+CREATE OR REPLACE FUNCTION new_login(_login_name text, _email text, password_plain text)
   RETURNS boolean AS
 $BODY$
 
@@ -20,14 +20,13 @@ declare
 	salty_salt	text;
 
 begin
-	select
-		into logn 
+	perform
 		"user_name"
 		from	"user"
 		where
 			"user_name" = _login_name;
 
-	if logn is not null then
+	if found then
 		-- already exists; can't create
 		return false;
 	end if;
@@ -36,8 +35,8 @@ begin
 	select into salty_salt gen_salt('bf');
 	select into hashy_hash encode(digest(crypt(password_plain, salty_salt), 'sha1'), 'hex');
 
-	insert into "user"("user_name", "login_hash", "login_salt")
-		values(_login_name, hashy_hash, salty_salt);
+	insert into "user"("user_name", "user_email", "login_hash", "login_salt")
+		values(_login_name, _email, hashy_hash, salty_salt);
 
 	return true;
 end;
