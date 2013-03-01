@@ -115,6 +115,36 @@ class ModelGame {
 		return $rolls;
 	}
 
+	public function rotateTurn () {
+		$sth = $this->model->prepare(
+			'select update_turn(:gid)'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		$user_id = @$result[0];
+
+		if (!isset($user_id)) {
+			return false;
+		}
+
+		# XXX : tell update module about it
+		if (!$this->model->update->pushUpdate([
+			'type'	=> 'turn',
+			'id'	=> $user_id,
+		])) {
+			return false;
+		}
+
+		return $user_id;
+	}
+
 	public function setWhoseTurn ($user_id) {
 		$sth = $this->model->prepare(
 			'update "game" '.
@@ -129,6 +159,7 @@ class ModelGame {
 			return false;
 		}
 
+		# XXX : tell update module about it
 		return $this->model->update->pushUpdate([
 			'type'	=> 'turn',
 			'id'	=> $user_id,
