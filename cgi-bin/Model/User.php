@@ -307,6 +307,30 @@ class ModelUser {
 		]);
 	}
 
+	public function setInJail ($user_id, $in_jail) {
+		# caveat : does not put the user's piece in the "in jail" spot; use other function for that
+		$sth = $this->model->prepare(
+			'update "c_user_game" '.
+			'set "in_jail" = :ij '.
+			'where "user_id" = :uid and "game_id" = :gid'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':ij', $in_jail, PDO::PARAM_BOOL);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		# XXX : tell update module about it
+		return $this->model->update->pushUpdate([
+			'type'	=> 'jail',
+			'id'	=> $user_id,
+			'in_jail'=> $in_jail,
+		]);
+	}
+
 	public function addUserCash ($user_id, $cash_delta) {
 		$sth = $this->model->prepare(
 			'update "c_user_game" '.
