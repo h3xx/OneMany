@@ -331,6 +331,29 @@ class ModelUser {
 		]);
 	}
 
+	public function moveToSpace ($user_id, $space_id) {
+		$sth = $this->model->prepare(
+			'update "c_user_game" '.
+			'set "on_space" = :sid '.
+			'where "user_id" = :uid and "game_id" = :gid'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		# XXX : tell update module about it
+		return $this->model->update->pushUpdate([
+			'type'	=> 'move',
+			'id'	=> $user_id,
+			'space'	=> $space_id,
+		]);
+	}
+
 	public function addUserCash ($user_id, $cash_delta) {
 		$sth = $this->model->prepare(
 			'update "c_user_game" '.
