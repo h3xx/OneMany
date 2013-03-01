@@ -5,6 +5,7 @@ require_once('Controller/Chat.php');
 require_once('Controller/Game.php');
 require_once('Controller/Login.php');
 require_once('Controller/Signup.php');
+require_once('Controller/Verify.php');
 
 class Controller {
 	private $model, $user_id;
@@ -30,6 +31,10 @@ class Controller {
 				;;
 			case 'signup':
 				$jsonresponse = $this->signup->processInstruction($instr['args']);
+				break;
+				;;
+			case 'verfiy':
+				$jsonresponse = $this->verfiy->processInstruction($instr['args']);
 				break;
 				;;
 			default:
@@ -72,6 +77,13 @@ class Controller {
 		return $this->signup;
 	}
 
+	private function getVerify () {
+		if (!isset($this->verify)) {
+			$this->verify = new ControllerVerify($this->model);
+		}
+		return $this->verify;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'chat':
@@ -88,6 +100,10 @@ class Controller {
 				;;
 			case 'signup':
 				return $this->getSignup();
+				break;
+				;;
+			case 'verify':
+				return $this->getVerify();
 				break;
 				;;
 		}
