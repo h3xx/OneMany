@@ -45,6 +45,24 @@ class ModelUser {
 		return @$result[0];
 	}
 
+	public function verifyLogin ($user_id, $verify_string) {
+		$sth = $this->model->prepare(
+			# database-side function; returns a boolean
+			'select verify_user(:uid, :vfy)'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':vfy', $verify_string, PDO::PARAM_STR);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
 	public function resolveUsername ($user_name) {
 
 		$sth = $this->model->prepare(
