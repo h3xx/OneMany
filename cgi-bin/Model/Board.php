@@ -76,7 +76,7 @@ class ModelBoard {
 		return $result;
 	}
 
-	public function getAllVisibleSpaceData () {
+	public function exportModel () {
 		$sth = $this->model->prepare(
 			'select '.
 				'"c_game_space"."space_id" as "id", '.
