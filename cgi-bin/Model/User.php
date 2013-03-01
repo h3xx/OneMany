@@ -210,6 +210,25 @@ class ModelUser {
 		return @$result[0];
 	}
 
+	public function isInJail ($user_id) {
+		$sth = $this->model->prepare(
+			'select "in_jail" '.
+			'from "c_user_game" '.
+			'where "game_id" = :gid and "user_id" = :uid'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
 	public function getNumDoubles ($user_id) {
 		$sth = $this->model->prepare(
 			'select "doubles" '.
