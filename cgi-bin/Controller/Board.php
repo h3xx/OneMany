@@ -209,7 +209,7 @@ class ControllerBoard {
 
 		if ($parallel) {
 
-			$sids = $this->model->game->board->getSpaceIdsInGroup($space_id);
+			$sids = $this->model->game->board->getSpaceIdsInSameGroup($space_id);
 			if (!isset($sids) || !is_array($sids)) {
 				return [
 					'result'=> false,
@@ -341,7 +341,7 @@ class ControllerBoard {
 				];
 			}
 
-			$sids = $this->model->game->board->getSpaceIdsInGroup($space_id);
+			$sids = $this->model->game->board->getSpaceIdsInSameGroup($space_id);
 			if (!isset($sids) || !is_array($sids)) {
 				return [
 					'result'=> false,

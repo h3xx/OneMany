@@ -76,7 +76,7 @@ class ModelBoard {
 		return $result;
 	}
 
-	public function getSpaceIdsInGroup ($space_id) {
+	public function getSpaceIdsInSameGroup ($space_id) {
 		$sth = $this->model->prepare(
 			'select "space_id" from "space" '.
 			'where "space_group" in ('.
