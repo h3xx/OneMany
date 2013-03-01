@@ -85,6 +85,8 @@ class ModelBoard {
 			')'
 		);
 
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+
 		if (!$sth->execute()) {
 			return false;
 		}
