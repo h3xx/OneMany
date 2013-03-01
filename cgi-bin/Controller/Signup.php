@@ -1,11 +1,16 @@
 <?php
 
+require_once('../Tools.php');
+
 class ControllerSignup {
 	private $model;
 
 	function __construct ($model) {
 		$this->model = $model;
 	}
+
+	# FIXME : use an actual URL
+	private static $vfy_url = 'http://localhost:801/tricks/signup/usverify.php';
 
 	public function processInstruction ($instruction) {
 		if (!isset($instruction) || !is_array($instruction)) {
@@ -15,11 +20,20 @@ class ControllerSignup {
 			];
 		}
 
-		$user_name = @$instruction[0];
-		$email = @$instruction[1];
-		$password = @$instruction[2];
-		
-		return $this->doSignup($user_name, $email, $password);
+		switch (@$instruction[0]) {
+
+			case 'request':
+				# making a new login
+				$user_name = @$instruction[1];
+				$email = @$instruction[2];
+				$password = @$instruction[3];
+				return $this->doSignup($user_name, $email, $password);
+				break;
+				;;
+			case 'verify':
+				# verifying that login
+				$user_name = 
+		}
 	}
 
 	private function doSignup ($user_name, $email, $password) {
@@ -49,12 +63,45 @@ class ControllerSignup {
 			];
 		}
 
-		if (!$this->model->user->newLogin($user_name, $email, $password)) {
+		$verify_string = $this->model->user->newLogin($user_name, $email, $password);
+
+		if (!isset($verify_string)) {
 			return [
 				'result'=> false,
 				'msg'	=> 'Failed to create new login (may not be unique).',
 			];
 		}
+
+		$user_id = $this->model->user->resolveUsername($user_name);
+
+		$url = self::$vfy_url . '?args='.$user_id.':'.urlencode($verify_string);
+
+		if (Tools::$can_mail) {
+			$subject = 'OneMany - Please Verify Your Email';
+			$headers = [
+				'From: chudanj@dunwoody.edu',
+				'Content-Type: text/html; charset=utf8',
+			];
+			$content = '<a href="'.htmlspecialchars($url).'">Verify your email.</a>';
+			if (!mail($user_email, $subject, $content, implode("\r\n", $headers))) {
+				# TODO : just mark as verified - OR - better messages
+				return [
+					'result'=> true,
+					'msg'	=> 'Failed to send email. '.$url,
+				];
+			}
+			return [
+				'result'=> true,
+				'msg'	=> 'Check email for verification.',
+			];
+		} else {
+			# TODO : better messages
+			return [
+				'result'=> true,
+				'msg'	=> 'Unable to send email. '.$url,
+			];
+		}
+
 
 		return [
 			'result'=> true,

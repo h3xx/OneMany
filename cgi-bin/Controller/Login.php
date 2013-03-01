@@ -1,5 +1,7 @@
 <?php
 
+require_once('../Tools.php');
+
 class ControllerLogin {
 	private $model;
 
@@ -8,7 +10,7 @@ class ControllerLogin {
 	}
 
 	# FIXME : use an actual URL
-	private static $rst_url = 'http://localhost:801/t/passreset/pwreset.php';
+	private static $rst_url = 'http://localhost:801/tricks/passreset/pwreset.php';
 
 	public function processInstruction ($instruction) {
 		$buff = preg_split('/:/', $instruction);
@@ -62,19 +64,20 @@ class ControllerLogin {
 
 		$url = self::$rst_url . '?args='.$user_id.':'.urlencode($rst);
 
-		$subject = 'OneMany Password Reset';
-		$headers = [
-			'From: chudanj@dunwoody.edu',
-			'Content-Type: text/html; charset=utf8',
-		];
-		$content = '<a href="'.htmlspecialchars($url).'">Reset your password</a>';
-
-		#if (!mail($user_email, $subject, $content, implode("\r\n", $headers))) {
-		#	$response['msg'] .= ' mailing failed'; # debugging
-		#	return $response;
-		#}
-
-		$response['msg'] .= ' ' . $url; # debugging
+		if (Tools::$can_mail) {
+			$subject = 'OneMany Password Reset';
+			$headers = [
+				'From: chudanj@dunwoody.edu',
+				'Content-Type: text/html; charset=utf8',
+			];
+			$content = '<a href="'.htmlspecialchars($url).'">Reset your password</a>';
+			if (!mail($user_email, $subject, $content, implode("\r\n", $headers))) {
+				$response['msg'] .= ' mailing failed'; # debugging
+				return $response;
+			}
+		} else {
+			$response['msg'] .= ' ' . $url; # debugging
+		}
 
 		return $response;
 	}
