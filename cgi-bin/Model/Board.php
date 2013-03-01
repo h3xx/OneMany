@@ -82,10 +82,11 @@ class ModelBoard {
 				'"c_game_space"."space_id" as "id", '.
 				'"space_group" as "group", '.
 				'"houses", '.
-				'"mortgaged" '.
+				'"is_mortgaged" '.
 			'from "c_game_space" '.
 			'left join "space" on ("space"."space_id" = "c_game_space"."space_id") '.
-			'where "c_game_space"."game_id" = :gid'
+			'where "c_game_space"."game_id" = :gid '.
+			'order by "c_game_space"."space_id" asc'
 		);
 
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
