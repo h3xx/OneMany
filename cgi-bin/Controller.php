@@ -33,8 +33,8 @@ class Controller {
 				$jsonresponse = $this->signup->processInstruction($instr['args']);
 				break;
 				;;
-			case 'verfiy':
-				$jsonresponse = $this->verfiy->processInstruction($instr['args']);
+			case 'verify':
+				$jsonresponse = $this->verify->processInstruction($instr['args']);
 				break;
 				;;
 			default:
