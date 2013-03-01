@@ -28,7 +28,7 @@ begin
 		return false;
 	end if;
 
-	return false;
+	return true;
 end;
 
 $BODY$
