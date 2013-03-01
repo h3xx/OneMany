@@ -73,6 +73,7 @@ class ControllerGame {
 			if ($roll[0] === $roll[1]) {
 				# doubles - get out of jail
 				$this->model->user->setInJail($this->user_id, false);
+				$this->model->user->resetDoubles($this->user_id);
 			}
 			# TODO : only be able to roll three times to get freed from jail ?
 			return $success;
@@ -99,6 +100,8 @@ class ControllerGame {
 			} else {
 				# no doubles - your turn is over after this
 				# FIXME : implement
+
+				$this->model->user->resetDoubles($this->user_id);
 			}
 		}
 
