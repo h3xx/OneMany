@@ -17,7 +17,9 @@ begin
 
 	update
 		"user"
-		set "verified" = true
+		set
+			"verified" = true,
+			"verify_string" = null
 		where
 			"user_id" = _user_id and
 			"verify_string" = _verify_string;
