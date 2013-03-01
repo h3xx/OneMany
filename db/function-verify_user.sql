@@ -1,4 +1,4 @@
--- Function: verify_user(text)
+-- Function: verify_user(text, text)
 --
 -- Database engine: PostgreSQL 9.2
 --
@@ -7,7 +7,7 @@
 -- @author: Dan Church <h3xx@gmx.com>
 -- @license: GPL v3.0
 
--- DROP FUNCTION verify_user(text);
+-- DROP FUNCTION verify_user(text, text);
 
 CREATE OR REPLACE FUNCTION verify_user(_user_id integer, _verify_string character varying)
   RETURNS boolean AS
