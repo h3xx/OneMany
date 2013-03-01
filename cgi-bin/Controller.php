@@ -4,6 +4,7 @@ require_once('Tools.php');
 require_once('Controller/Chat.php');
 require_once('Controller/Game.php');
 require_once('Controller/Login.php');
+require_once('Controller/Signup.php');
 
 class Controller {
 	private $model, $user_id;
@@ -25,6 +26,10 @@ class Controller {
 				;;
 			case 'login':
 				$jsonresponse = $this->login->processInstruction($instr['args']);
+				break;
+				;;
+			case 'signup':
+				$jsonresponse = $this->signup->processInstruction($instr['args']);
 				break;
 				;;
 			default:
@@ -60,6 +65,13 @@ class Controller {
 		return $this->login;
 	}
 
+	private function getSignup () {
+		if (!isset($this->signup)) {
+			$this->signup = new ControllerSignup($this->model);
+		}
+		return $this->signup;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'chat':
@@ -72,6 +84,10 @@ class Controller {
 				;;
 			case 'login':
 				return $this->getLogin();
+				break;
+				;;
+			case 'signup':
+				return $this->getSignup();
 				break;
 				;;
 		}
