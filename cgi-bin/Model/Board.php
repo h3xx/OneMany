@@ -96,6 +96,23 @@ class ModelBoard {
 		return $ids;
 	}
 
+	public function getSpaceIdsInGroup ($space_group) {
+		$sth = $this->model->prepare(
+			'select "space_id" from "space" '.
+			'where "space_group" = :sg'
+		);
+
+		$sth->bindParam(':sg', $space_group, PDO::PARAM_STR);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$ids = $sth->fetchAll(PDO::FETCH_COLUMN, 0);
+
+		return $ids;
+	}
+
 	public function getGroupHouseCost ($space_id) {
 		$sth = $this->model->prepare(
 			'select sum("housecost") from "space" '.
