@@ -18,6 +18,11 @@ class ControllerSignup {
 		$user_name = @$instruction[0];
 		$email = @$instruction[1];
 		$password = @$instruction[2];
+		
+		return $this->doSignup($user_name, $email, $password);
+	}
+
+	private function doSignup ($user_name, $email, $password) {
 
 		if (!isset($user_name) || !strlen($user_name)) {
 			return [
