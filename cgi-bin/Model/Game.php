@@ -65,12 +65,13 @@ class ModelGame {
 
 	public function exportModel () {
 		$state = $this->getGameState();
-
+		$roll = $this->getLastRoll();
 		$board = $this->board->exportModel();
 		$users = $this->model->user->exportModel();
 
 		return [
 			'state'	=> $state,
+			'roll'	=> $roll,
 			'board'	=> $board,
 			'users'	=> $users,
 		];
@@ -91,6 +92,33 @@ class ModelGame {
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
 		return @$result[0];
+	}
+
+	public function getLastRoll () {
+		$sth = $this->model->prepare(
+			'select "last_roll" from "game" '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		# convert to array
+		$roll = @$result[0];
+
+		if (!isset($roll)) {
+			return $roll;
+		}
+
+		# e.g. '{3,4}' -> [ 3, 4 ]
+		preg_match_all('/\d+/', $roll, $m);
+		# $m is multidimensional array
+		return $m[0];
 	}
 
 	public function getUserOnSpace ($user_id) {
