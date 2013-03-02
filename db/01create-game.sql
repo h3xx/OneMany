@@ -6,7 +6,7 @@ CREATE TABLE game
 (
   game_id serial NOT NULL,
   game_name character varying(1024) NOT NULL,
-  last_roll integer[], -- Last roll performed.
+  last_roll integer[] NOT NULL DEFAULT '{1,1}'::integer[], -- Last roll performed.
   CONSTRAINT game_pkey PRIMARY KEY (game_id)
 )
 WITH (
