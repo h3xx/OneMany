@@ -1,5 +1,3 @@
-* Export entire game model to the View.
-
 * Changing the loaded model via polled updates (in browser).
 
 * Games list and joining.
@@ -15,3 +13,7 @@
 * Moving.
 
 * Action upon landing on space.
+
+* Construct view (in browser) from exported model
+
+* Implement changing view (in browser) via updates
