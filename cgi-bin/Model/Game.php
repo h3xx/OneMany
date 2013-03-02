@@ -4,14 +4,14 @@ require_once('ChanceDeck.php');
 require_once('Board.php');
 
 class ModelGame {
-	private $model, $game_name, $game_id;
+	private $model, $game_id;
 
 	function __construct ($model, $game_id) {
 		$this->model = $model;
 		$this->game_id = $game_id;
 	}
 
-	private function newGame () {
+	/*private function newGame () {
 		
 		$sth = $this->model->prepare(
 			'insert into game ("game_name") values (:name) '.
@@ -40,7 +40,7 @@ class ModelGame {
 		return $res[0];
 
 		#logger("Game: inserted game named `{$this->game_name}' : game_id : {$this->game_id}");
-	}
+	}*/
 
 	private function getChance () {
 		if (!isset($this->chance)) {
