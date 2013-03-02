@@ -75,12 +75,12 @@ function pollGameUpdate () {
 	window.setTimeout(pollGameUpdate, 1000);
 }
 
-function setDice (a, b, r) {
-	if (!r) {
+function setDice (a, b, runAnimation) {
+	if (runAnimation) {
 		$('#dice1').dice({running:1,number:-1});
 		$('#dice2').dice({running:1,number:-1});
 		window.setTimeout(function () {
-			setDice(a,b,true);
+			setDice(a,b,false);
 		}, 500);
 	} else {
 		$('#dice1').dice({running:0,number:a});
@@ -91,7 +91,7 @@ function setDice (a, b, r) {
 function procGameUpdate (update) {
 	upd = jQuery.parseJSON(update);
 	if (upd.type == 'roll') {
-		setDice(upd.val[0],upd.val[1],false);
+		setDice(upd.val[0],upd.val[1],true);
 		$('#currentnumber').append(upd.val + ' ');
 	}
 }
