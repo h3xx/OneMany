@@ -298,10 +298,9 @@ class ModelBoard {
 			if ($result['houses'] === 0) {
 				if ($this->hasMonopoly($result['owner_id'], $space_id)) {
 					$rentfactor = $this->model->rules->getRuleValue('monopoly_rentfactor', 2);
-				} else {
-					$rentfactor = 1;
+					return $result['rent'] * $rentfactor;
 				}
-				return $result['rent'] * $rentfactor;
+				return $result['rent'];
 			} else {
 				# no multiplication for a monopoly
 				return $result['rent' . $result['houses']];
