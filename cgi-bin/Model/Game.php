@@ -114,8 +114,8 @@ class ModelGame {
 		$result = $sth->fetch(PDO::FETCH_ASSOC);
 
 		# decode last_roll
-		if (isset($result['last_roll'])) {
-			$result['last_roll'] = json_decode($result['last_roll'], true);
+		if (isset($result['roll'])) {
+			$result['roll'] = json_decode($result['roll'], true);
 		}
 
 		return $result;
