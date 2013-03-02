@@ -11,8 +11,8 @@ class ModelUser {
 	public function exportModel () {
 		$sth = $this->model->prepare(
 			'select '.
-				'"c_user_game"."user_id", '.
-				'"user_name", '.
+				'"c_user_game"."user_id" as "id", '.
+				'"user_name" as "name", '.
 				'"cash", '.
 				'"on_space" '.
 			'from "c_user_game" '.
