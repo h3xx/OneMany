@@ -280,30 +280,31 @@ class ModelBoard {
 
 		if (is_numeric($result['group'])) {
 			##### Regular property #####
-			# RULE : regular properties get double rent if there is a monopoly
-			if ($this->hasMonopoly($result['owner_id'], $space_id)) {
-				$rentfactor = $this->model->rules->getRuleValue('monopoly_rentfactor', 2);
-			} else {
-				$rentfactor = 1;
-			}
 
-			switch ($result['houses']) {
-				case 0:
-					return $result['rent'] * $rentfactor;
-					break;
-					;;
-				case 1:
-				case 2:
-				case 3:
-				case 4:
-				case 5:
-					return $result['rent' . $result['houses']] * $rentfactor;
-					break;
-					;;
-				default:
-					return null;
-					break;
-					;;
+			# RULE : regular properties get double rent if there is
+			# a monopoly but not if there are houses
+			#
+			# Quoth the rule book:
+			#
+			# It is an advantage to hold all the Title Deed cards
+			# in a color-group (e.g., Boardwalk and Park Place; or
+			# Connecticut, Vermont and Oriental Avenues) because
+			# the owner may then charge double rent for unimproved
+			# properties in that color-group. This rule applies to
+			# unmortgaged properties even if another property in
+			# that color-group is mortgaged.
+			#
+
+			if ($result['houses'] === 0) {
+				if ($this->hasMonopoly($result['owner_id'], $space_id)) {
+					$rentfactor = $this->model->rules->getRuleValue('monopoly_rentfactor', 2);
+				} else {
+					$rentfactor = 1;
+				}
+				return $result['rent'] * $rentfactor;
+			} else {
+				# no multiplication for a monopoly
+				return $result['rent' . $result['houses']];
 			}
 		} else if ($result['group'] === 'RR') {
 			##### Rail roads #####
