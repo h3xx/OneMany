@@ -71,8 +71,8 @@ class ModelGame {
 
 		return [
 			'state'	=> $state,
-			'name'	=> $gameinfos['game_name'],
-			'roll'	=> $gameinfos['last_roll'],
+			'name'	=> $gameinfos['name'],
+			'roll'	=> $gameinfos['roll'],
 			'board'	=> $board,
 			'users'	=> $users,
 		];
@@ -99,8 +99,8 @@ class ModelGame {
 	public function getGameNameAndLastRoll () {
 		$sth = $this->model->prepare(
 			'select '.
-			'"game_name", '.
-			'array_to_json("last_roll") as "last_roll", '.
+			'"game_name" as "name", '.
+			'array_to_json("last_roll") as "roll" '.
 			'from "game" '.
 			'where "game_id" = :gid'
 		);
