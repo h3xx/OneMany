@@ -65,13 +65,14 @@ class ModelGame {
 
 	public function exportModel () {
 		$state = $this->getGameState();
-		$roll = $this->getLastRoll();
+		$gameinfos = $this->getGameNameAndLastRoll();
 		$board = $this->board->exportModel();
 		$users = $this->model->user->exportModel();
 
 		return [
 			'state'	=> $state,
-			'roll'	=> $roll,
+			'name'	=> $gameinfos['game_name'],
+			'roll'	=> $gameinfos['last_roll'],
 			'board'	=> $board,
 			'users'	=> $users,
 		];
@@ -94,7 +95,34 @@ class ModelGame {
 		return @$result[0];
 	}
 
+	# apologies for the horrible name
+	public function getGameNameAndLastRoll () {
+		$sth = $this->model->prepare(
+			'select '.
+			'"game_name", '.
+			'array_to_json("last_roll") as "last_roll", '.
+			'from "game" '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_ASSOC);
+
+		# decode last_roll
+		if (isset($result['last_roll'])) {
+			$result['last_roll'] = json_decode($result['last_roll'], true);
+		}
+
+		return $result;
+	}
+
 	public function getLastRoll () {
+		# deprecated
 		$sth = $this->model->prepare(
 			'select "last_roll" from "game" '.
 			'where "game_id" = :gid'
