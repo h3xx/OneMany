@@ -59,7 +59,7 @@ function pollGameUpdate () {
 		'args': window.gamestate,
 	},
 	function (data) {
-		if (!data && !data.instructions) {
+		if (!data || !data.instructions) {
 			return;
 		}
 
