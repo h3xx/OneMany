@@ -280,10 +280,16 @@ class ModelBoard {
 
 		if (is_numeric($result['group'])) {
 			##### Regular property #####
-			# (assuming it's owned)
+			# RULE : regular properties get double rent if there is a monopoly
+			if ($this->hasMonopoly($result['owner_id'], $space_id)) {
+				$rentfactor = $this->model->rules->getRuleValue('monopoly_rentfactor', 2);
+			} else {
+				$rentfactor = 1;
+			}
+
 			switch ($result['houses']) {
 				case 0:
-					return $result['rent'];
+					return $result['rent'] * $rentfactor;
 					break;
 					;;
 				case 1:
@@ -291,7 +297,7 @@ class ModelBoard {
 				case 3:
 				case 4:
 				case 5:
-					return $result['rent' . $result['houses']];
+					return $result['rent' . $result['houses']] * $rentfactor;
 					break;
 					;;
 				default:
