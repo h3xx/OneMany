@@ -96,9 +96,12 @@ class ModelBoard {
 		}
 
 		$result = $sth->fetchAll(PDO::FETCH_ASSOC);
-		# XXX : sidestep a PDO bug re: booleans
+
+		# XXX : sidestep a PDO bug re: types
 		for ($i = 0; $i < count($result); ++$i) {
 			$result[$i]['is_mortgaged'] = ($result[$i]['is_mortgaged'] && true);
+			$result[$i]['id'] = (int)$result[$i]['id'];
+			$result[$i]['houses'] = (int)$result[$i]['houses'];
 		}
 
 		return $result;

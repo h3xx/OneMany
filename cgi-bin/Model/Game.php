@@ -92,7 +92,7 @@ class ModelGame {
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
-		return @$result[0];
+		return isset($result[0]) ? (int)$result[0] : 0;
 	}
 
 	# apologies for the horrible name

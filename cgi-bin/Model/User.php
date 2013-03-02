@@ -29,12 +29,15 @@ class ModelUser {
 
 		$result = $sth->fetchAll(PDO::FETCH_ASSOC);
 
-		# set the user with the lowest "sequence" value to being the
-		# one whose turn it is, and the rest to false.
-		$result[0]['turn'] = true;
+		for ($i = 0; $i < count($result); ++$i) {
+			# set the user with the lowest "sequence" value to being the
+			# one whose turn it is, and the rest to false.
+			$result[$i]['turn'] = ($i == 0);
 
-		for ($i = 1; $i < count($result); ++$i) {
-			$result[$i]['turn'] = false;
+			# XXX : overcome PDO bug
+			$result[$i]['id'] = (int)$result[$i]['id'];
+			$result[$i]['cash'] = (int)$result[$i]['cash'];
+			$result[$i]['on_space'] = (int)$result[$i]['on_space'];
 		}
 
 		return $result;
