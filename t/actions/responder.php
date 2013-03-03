@@ -7,7 +7,7 @@ require_once('../../cgi-bin/View.php');
 require_once('../../cgi-bin/Model.php');
 
 $uid = 1;
-$gid = 2;
+$gid = 4;
 
 $mdl = new Model($gid);
 $view = new View($mdl, $uid);

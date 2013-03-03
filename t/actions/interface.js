@@ -6,6 +6,7 @@ $(document).ready(function () {
 				$('#dice2'),
 			],
 			chat: $('#chat'),
+			playerInfo: $('#players'),
 		},
 		options: {
 			pollInterval: 1000,
@@ -16,6 +17,11 @@ $(document).ready(function () {
 					'glyphSrc': 'images/dice.png',
 					'glyphSize': 67.667,
 					'juggleTimeout': 10000,
+				},
+			},
+			playerInfo: {
+				playerinfoUiArgs: {
+					turnclass: 'inturn',
 				},
 			},
 		},
@@ -44,14 +50,17 @@ $(document).ready(function () {
 			// set dice
 			self.initDice();
 			if (self.gameData.roll) {
-				self.setDice(self.gameData.roll[0], self.gameData.roll[1], false);
+				self.setDice(false);
 			}
+
+			self.initPlayerInfo();
+			//self.setPlayerInfo({id:2,turn:true});
 
 			// FIXME : hardcore function implementation
 		},
 
 		pollGameUpdate: function () {
-			var self = this;
+			var self = window.iface;
 			$.post(self.options.servelet,
 			{
 				'method': 'ask',
@@ -79,15 +88,21 @@ $(document).ready(function () {
 		},
 
 		procGameUpdate: function (update) {
-			var self = this;
+			var self = this,
 			upd = jQuery.parseJSON(update);
 			switch (upd.type) {
 				case 'roll':
 					self.gameData.roll = upd.val;
-					self.setDice(upd.val[0], upd.val[1], true);
+					self.setDice(true);
 					break;
 				case 'buy':
 					alert('buy is not implemented yet.');
+					break;
+				case 'cash':
+					self._mergeAtId(self.gameData.users, upd.id, {
+						cash: upd.cash,
+					});
+					self.setPlayerInfo({id:upd.id,cash:upd.cash});
 					break;
 				default:
 					alert(upd.type + ' is an unknown update type');
@@ -101,23 +116,49 @@ $(document).ready(function () {
 			}
 		},
 
-		setDice: function (a, b, runAnimation) {
+		setDice: function (runAnimation) {
 			var self = this;
+
 			if (runAnimation) {
 				self.elems.dice[0].dice({running:1,number:-1});
 				self.elems.dice[1].dice({running:1,number:-1});
 				window.setTimeout(function () {
-					self.setDice(a, b, false);
+					self.setDice(false);
 				}, self.options.dice.rollTimeout);
 			} else {
+				var a = self.gameData.roll[0],
+				    b = self.gameData.roll[1];
 				self.elems.dice[0].dice({running:0,number:a});
 				self.elems.dice[1].dice({running:0,number:b});
 			}
 		},
 
+		initPlayerInfo: function () {
+			var self = this;
+			self.elems.playerInfo
+				.playerinfo({
+					data: this.gameData.users,
+				});
+		},
+		setPlayerInfo: function (data) {
+			var self = this;
+			self.elems.playerInfo
+				.playerinfo({
+					data: [data],
+				});
+		},
+
 		init: function () {
 			this.pullInitialGameData();
 			this.scheduleGameUpdatePoll();
+		},
+
+		_mergeAtId: function (list, idVal, newData) {
+			jQuery.map(list, function (elem, idx) {
+				if (elem.id == idVal) {
+					$.extend(elem, newData);
+				}
+			});
 		},
 
 	};
