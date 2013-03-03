@@ -24,6 +24,30 @@ $.widget("ui.actionpanel", {
 		}
 	},
 
+	makePanelContainer: function () {
+		var self = this,
+		pc =
+			$('<div></div>')
+			.css('width', '100%')
+			.addClass('panel');
+
+		return pc;
+	},
+
+	makeRollPanel: function () {
+		var self = this,
+		rp = self.makePanelContainer()
+			.append(
+				// Roll button
+				$('<button>Roll</button>')
+					.button()
+			);
+
+		self.displays.roll = rp;
+
+		return rp;
+	},
+
 	widget: function () {
 		return this.uiActionPanel;
 	},
@@ -32,7 +56,14 @@ $.widget("ui.actionpanel", {
 		var self = this,
 		options = self.options,
 
-		uiActionPanel = (self.uiActionPanel = $('<div></div>'));
+		uiActionPanel = (self.uiActionPanel = $('<div></div>'))
+			.css('width', '100%')
+			.addClass('ui-actionpanel ui-widget-header ui-corner-all'),
+
+		uiRollPanel = (self.uiRollPanel = self.makeRollPanel());
+
+		uiActionPanel
+			.append(uiRollPanel);
 
 		this.element.append(uiActionPanel);
 	},

@@ -1,0 +1,8 @@
+.ui-actionpanel .panel {
+	padding: 4px;
+	display: inline-block;
+}
+/* support: IE7 */
+*+html .ui-actionpanel .panel {
+	display: inline;
+}
