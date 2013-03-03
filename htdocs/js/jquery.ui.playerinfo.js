@@ -77,19 +77,27 @@ $.widget("ui.playerinfo", {
 	},
 
 	_setOption: function (key, value) {
+		var self = this;
 		// _super and _superApply handle keeping the right this-context
 		if (key == 'data') {
 			// expect an array
 			for (var i in value) {
-				var turn = value[i].turn;
+				var turn = value[i].turn,
+				data = self.options.data;
 				if (turn != null && turn) {
-					this.setTurn(value[i].id);
+					self.setTurn(value[i].id);
 				}
-				this.options.data[i] = $.merge(this.options.data[i], value[i]);
+
+				// merge at same id in our data
+				jQuery.map(data, function (elem, idx) {
+					if (elem.id == value[i].id) {
+						$.extend(elem, value[i]);
+					}
+				});
 			}
 		}
-		// -- dangerous -- this._superApply(arguments);
-		this._refresh();
+		// -- dangerous -- self._superApply(arguments);
+		self._refresh();
 	},
 
 });
