@@ -2,9 +2,9 @@
 
 1. Use random function for rolling dice
 
-2. Doubles gains user extra turn
+2. *Doubles gains user extra turn* **[done]**
 
-3. 3 doubles in a row throws user in jail (no GO money)
+3. *3 doubles in a row throws user in jail (no GO money)* **[done]**
 
 4. Implement buying property
 
@@ -16,15 +16,15 @@
 
 6. [A+] Auction property if they said 'no' (must figure out how to do so)
 
-7. Pay regular rent
+7. *Pay regular rent* **[done]**
 
-8. Pay double rent if they own the whole monopoly
+8. *Pay double rent if they own the whole monopoly* **[done]**
 
-9. Pay houses/hotel amount
+9. *Pay houses/hotel amount* **[done]**
 
 10. Store rents/houses/hotel amount info
 
-11. Utility and railroad cost (based on number of props owned by owner of property landed on)
+11. *Utility and railroad cost (based on number of props owned by owner of property landed on)* **[done]**
 
 12. -
 
