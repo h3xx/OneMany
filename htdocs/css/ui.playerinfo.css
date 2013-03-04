@@ -1,0 +1,12 @@
+.ui-playerinfo .panel {
+	padding: 4px;
+	/*display: inline-block;*/
+}
+.ui-playerinfo .subpanel {
+	padding: 4px;
+	/*display: inline-block;*/
+}
+/* support: IE7 *//*
+*+html .ui-actionpanel .panel {
+	display: inline;
+}*/
