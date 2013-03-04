@@ -94,8 +94,10 @@
     /* border: thin solid red; */
 }
 
-.ui-board img.casa {
+.ui-board img.house,
+.ui-board img.hotel {
     width: 17px;
+    height: 17px;
 }
 .ui-board img.token {
     width: 40px;
