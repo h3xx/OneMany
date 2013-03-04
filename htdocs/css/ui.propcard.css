@@ -1,0 +1,63 @@
+.ui-propcard .propcard.sold {
+	background-image: url('images/decal-sold.png');
+}
+
+.ui-propcard .propcard.mortgaged {
+	background-image: url('images/decal-mortgaged.png');
+}
+
+.ui-propcard .propcard.mortgaged .header,
+.ui-propcard .propcard.mortgaged .details {
+	opacity: 0.65;
+}
+
+.ui-propcard .propcard {
+	width: 230px;
+	height: 230px;
+	border: 1px solid black;
+}
+
+.ui-propcard .propcard .header {
+	margin: 10px;
+	text-align: center;
+	padding: 3px;
+	font-weight: bold;
+	border: 1px solid black;
+}
+
+.ui-propcard .propcard .details {
+	font-size: 90%;
+}
+
+.ui-propcard .propcard .details .pricebar,
+.ui-propcard .propcard .details .rentbar,
+.ui-propcard .propcard .details .mortgagebar {
+	margin: 4px 10px;
+	padding: 4px 0px;
+	border-bottom: 1px solid black;
+}
+
+.ui-propcard .propcard .details .pricebar {
+	text-align: center;
+}
+
+.ui-propcard .propcard .details .rentbar {
+	position: relative;
+}
+
+.ui-propcard .propcard .details .rentbar .housecounts {
+	position: absolute;
+	left: 0px;
+	top: 4px;
+}
+.ui-propcard .propcard .details .rentbar .rentlist {
+	text-align: right;
+}
+.ui-propcard .propcard .details .rentbar .conditionalrent {
+	text-align: center;
+	padding-bottom: 10px;
+}
+
+.ui-propcard .propcard .details .mortgagebar {
+	text-align: center;
+}
