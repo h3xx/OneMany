@@ -3,13 +3,13 @@
 $.widget("ui.playerinfo", {
 	options: {
 		data: {},
-		turnclass: 'inturn',
+		turnclass: 'ui-widget-content',
 	},
 	displays: {}, // indexed by 'id1', 'id26', etc for user_id
 
 	playerInfoBuff: function (name, cash, isTurn) {
 		var self = this,
-		csh = $('<span></span>')
+		csh = $('<div></div>')
 			.text('$' + cash),
 		nam = $('<span></span>')
 			.text(name),
@@ -23,11 +23,41 @@ $.widget("ui.playerinfo", {
 			buff.removeClass(self.options.turnclass);
 		}
 
+		buff
+			.addClass('ui-corner-all subpanel');
+		/* can't get it to line up -- to hell with it! */
+		//csh
+			//.css('display', 'inline')
+			//;
+		//nam
+			//.css('position', 'absolute')
+			//.css('position', 'relative')
+			//.css('left', 0)
+			//.css('top', 0)
+			//.css('width', '50%')
+			//;
+
 		return {
 			'main': buff,
 			'name': nam,
 			'cash': csh,
 		};
+	},
+
+	makePanel: function () {
+		var self = this,
+		options = self.options,
+		pan = $('<div></div>')
+			.addClass('panel');
+
+		for (var i in options.data) {
+			var udata = options.data[i];
+			pbuff = self.playerInfoBuff(udata.name, udata.cash, udata.turn);
+			self.displays['id' + udata.id] = pbuff;
+			pan.append(pbuff.main);
+		}
+
+		return pan;
 	},
 
 	setTurn: function (id) {
@@ -51,13 +81,10 @@ $.widget("ui.playerinfo", {
 		var self = this,
 		options = self.options,
 
-		uiPlayerInfo = (self.uiPlayerInfo = $('<div></div>'));
-		for (var i in options.data) {
-			var udata = options.data[i];
-			pbuff = self.playerInfoBuff(udata.name, udata.cash, udata.turn);
-			self.displays['id' + udata.id] = pbuff;
-			uiPlayerInfo.append(pbuff.main);
-		}
+		uiPlayerInfo = (self.uiPlayerInfo = $('<div></div>'))
+			.css('width', '100%')
+			.addClass('ui-playerinfo ui-widget-header ui-corner-all')
+			.append(self.makePanel());
 
 		this.element.append(uiPlayerInfo);
 	},
