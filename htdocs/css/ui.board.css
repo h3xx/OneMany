@@ -1,0 +1,14 @@
+.ui-board {
+	width: 100%;
+	height: 100%;
+}
+.ui-board .ui-board-bg {
+	z-index: -20;
+	width: 100%;
+	height: 100%;
+}
+.ui-board .ui-board-name {
+	transform: rotate(-45deg); 
+	-webkit-transform: rotate(-45deg); 
+	-moz-transform: rotate(-45deg);
+}
