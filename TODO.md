@@ -6,9 +6,9 @@
 
 3. *3 doubles in a row throws user in jail (no GO money)* **[done]**
 
-4. Implement buying property
+4. *Implement buying property* **[done-mostly]**
 
- * If user has enough money, buy un-owned property
+ * *If user has enough money, buy un-owned property* **[done]**
 
  * ASK user to buy any un-owned property they land on
 
@@ -22,7 +22,7 @@
 
 9. *Pay houses/hotel amount* **[done]**
 
-10. Store rents/houses/hotel amount info
+10. *Store rents/houses/hotel amount info* **[done]**
 
 11. *Utility and railroad cost (based on number of props owned by owner of property landed on)* **[done]**
 
@@ -40,7 +40,7 @@
 
  * [A] use get out of jail free card
 
-14. Pay $75 to bank on Luxury tax
+14. *Pay $75 to bank on Luxury tax* **[done-not implemented]**
 
 15. Implement income tax
 
@@ -50,7 +50,7 @@
 
 16. Implement payment for passing GO
 
- * [A] Implement non-payment of GO money in certain circumstances
+ * *[A] Implement non-payment of GO money in certain circumstances* **[done (see entry in `rules` table)]**
 
 17. Implement appropriate bankruptcy procedure (move icon off of board? no more turns?)
 
@@ -68,7 +68,7 @@
 
 24. Implement selling (houses)/mortgaging (props) to pay debts instead of straight bankruptcy
 
-25. Store prop cost/mortgage amounts
+25. *Store prop cost/mortgage amounts* **[done]**
 
 26. Un-mortgage properties at 110%
 
