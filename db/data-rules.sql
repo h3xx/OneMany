@@ -12,4 +12,5 @@ insert  into "rules"("rule_name","rule_default","rule_desc") values
 	('jail_bail',		'50',		'How much a player pays to get out of jail.'),
 	('jail_doubles',	'3',		'How many times in a row the user can roll doubles before being thrown in jail (0 to disable).'),
 	('parallel_improvement','1',		'Whether improvements must be bought in parallel.'),
-	('monopoly_rentfactor',	'2',		'The rent multiplier on regular properties in the event of a monopoly.');
+	('monopoly_rentfactor',	'2',		'The rent multiplier on regular properties in the event of a monopoly.'),
+	('auction_timeout',	'30 seconds',	'How long until auctions expire.');
