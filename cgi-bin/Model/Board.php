@@ -351,6 +351,15 @@ class ModelBoard {
 		return null;
 	}
 
+	public function isOwnable ($space_id) {
+		$info = $this->getSpaceInfo($space_id);
+		if (isset($info) && isset($info['cost']) && $info['cost'] > 0) {
+			return true;
+		}
+
+		return false;
+	}
+
 	public function getSpaceGroup ($space_id) {
 		$sth = $this->model->prepare(
 			'select "space_group" from "space" '.
