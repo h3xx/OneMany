@@ -66,6 +66,7 @@ class ModelGame {
 	public function exportModel () {
 		$state = $this->getGameState();
 		$gameinfos = $this->getGameNameAndLastRoll();
+		$auction = $this->getAuctionInfoNoExpired();
 		$board = $this->board->exportModel();
 		$users = $this->model->user->exportModel();
 
@@ -73,9 +74,61 @@ class ModelGame {
 			'state'	=> $state,
 			'name'	=> $gameinfos['name'],
 			'roll'	=> $gameinfos['roll'],
+			'auction'=> $auction,
 			'board'	=> $board,
 			'users'	=> $users,
 		];
+	}
+
+	public function getAuctionInfo () {
+		# deprecated
+		$sth = $this->model->prepare(
+			'select '.
+			'"auction_user", '.
+			'"auction_space", '.
+			'"auction_bid", '.
+			'"auction_expire" '.
+			'from "game" '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+
+	}
+
+	public function getAuctionInfoNoExpired () {
+		$sth = $this->model->prepare(
+			'select '.
+			'"auction_user", '.
+			'"auction_space", '.
+			'"auction_bid", '.
+			'"auction_expire" '.
+			'from "game" '.
+			'where "game_id" = :gid and '.
+			# make sure it hasn't expired
+			'"auction_expire" > now() + rule_or_default(:ggid,\'auction_timeout\')::interval'
+
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':ggid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return isset($result[0]) ? $result[0] : []; # empty array if no auction
+
 	}
 
 	public function getGameState () {
@@ -291,6 +344,33 @@ class ModelGame {
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
 		return @$result[0];
+	}
+
+	public function setAuctionBid ($space_id, $user_id, $bid) {
+		$sth = $this->model->prepare(
+			'update "game" '.
+			'set '.
+				'"auction_space" = :sid, '.
+				'"auction_user" = :uid, '.
+				'"auction_bid" = :bd '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+		$sth->bindParam(':bd', $bid, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		return $this->model->update->pushUpdate([
+			'type'	=> 'bid',
+			'id'	=> $user_id,
+			'space'	=> $space_id,
+			'bid'	=> $bid,
+		]);
 	}
 
 	function __get ($name) {
