@@ -84,10 +84,10 @@ class ModelGame {
 		# deprecated
 		$sth = $this->model->prepare(
 			'select '.
-			'"auction_user", '.
-			'"auction_space", '.
-			'"auction_bid", '.
-			'"auction_expire" '.
+			'"auction_user" as "auser", '.
+			'"auction_space" as "aspace", '.
+			'"auction_bid" as "abid", '.
+			'"auction_expire" as "aexpire" '.
 			'from "game" '.
 			'where "game_id" = :gid'
 		);
@@ -98,7 +98,7 @@ class ModelGame {
 			return false;
 		}
 
-		$result = $sth->fetch(PDO::FETCH_NUM);
+		$result = $sth->fetch(PDO::FETCH_ASSOC);
 
 		return @$result[0];
 
