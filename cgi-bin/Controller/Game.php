@@ -1,6 +1,7 @@
 <?php
 
 require_once('Board.php');
+require_once('Auction.php');
 
 class ControllerGame {
 	private $model, $user_id;
@@ -17,6 +18,13 @@ class ControllerGame {
 		return $this->board;
 	}
 
+	private function getAuction () {
+		if (!isset($this->auction)) {
+			$this->auction = new ControllerAuction($this->model, $this->user_id);
+		}
+		return $this->auction;
+	}
+
 	public function processGameInstruction ($instruction) {
 		$buff = preg_split('/:/', $instruction);
 
@@ -25,8 +33,16 @@ class ControllerGame {
 				return $this->board->buyPropertyYoureOn();
 				break;
 				;;
+			case 'auction':
+				return $this->auction->startAuction(@$buff[1]);
+				break;
+				;;
+			case 'bid':
+				return $this->auction->addBid(@$buff[1], @$buf[2]);
+				break;
+				;;
 			case 'mortgage':
-				return $this->board->mortgageProperty($buff[1]);
+				return $this->board->mortgageProperty(@$buff[1]);
 				break;
 				;;
 			case 'roll':
@@ -155,6 +171,10 @@ class ControllerGame {
 		switch ($name) {
 			case 'board':
 				return $this->getBoard();
+				break;
+				;;
+			case 'auction':
+				return $this->getAuction();
 				break;
 				;;
 		}
