@@ -38,7 +38,7 @@ class ControllerGame {
 				break;
 				;;
 			case 'bid':
-				return $this->auction->addBid(@$buff[1], @$buf[2]);
+				return $this->auction->addBid(@$buf[1]);
 				break;
 				;;
 			case 'mortgage':

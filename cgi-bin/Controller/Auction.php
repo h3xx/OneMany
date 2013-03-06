@@ -30,20 +30,21 @@ class ControllerAuction {
 		# FIXME : implement
 	}
 
-	public function addBid ($space_id, $bid) {
-		if (!$this->model->game->board->isOwnable($space_id)) {
-			return [
-				'result'=> false,
-				'msg'	=> 'Space is not ownable.',
-			];
-		}
+	public function addBid ($bid) {
 		$ainfo = $this->model->game->getAuctionInfoNoExpired();
-		if (empty($ainfo) || $ainfo['aspace'] !== $space_id) {
+		if (empty($ainfo)) {
 			return [
 				'result'=> false,
 				'msg'	=> 'Space is not up for auction.',
 			];
 		}
+
+		$space_id = $ainfo['aspace'];
+
+		return [
+			'result'=> true,
+			'msg'	=> 'Successfully placed bid.',
+		];
 
 		# FIXME : implement
 
