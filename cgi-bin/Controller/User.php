@@ -30,7 +30,7 @@ class ControllerUser {
 				if (!isset($buff[1])) {
 					return [
 						'result'=> false,
-						'msg'	=> 'No email address specified.',
+						'msg'	=> 'No email address specified. Usage: `request:EMAIL\'',
 					];
 				}
 				return $this->requestResetPassword(@$buff[1]);
