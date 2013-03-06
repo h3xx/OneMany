@@ -102,6 +102,9 @@ $(document).ready(function () {
 				case 'turn':
 					self.updateTurn(upd.id);
 					break;
+				case 'askBuy':
+					self.askToBuy(upd.who, upd.space);
+					break;
 				case 'buy':
 					alert('buy is not implemented yet.');
 					break;
@@ -127,6 +130,13 @@ $(document).ready(function () {
 				self.setActionPanel({selectedPanel:'roll'});
 			} else {
 				self.setActionPanel({selectedPanel:'waiting'});
+			}
+		},
+
+		askToBuy: function (uid, sid) {
+			var self = this;
+			if (self.gameData.my_id == uid) {
+				self.setActionPanel({buy: sid});
 			}
 		},
 
@@ -191,6 +201,18 @@ $(document).ready(function () {
 			self.elems.board
 				.board({
 					data: self.gameData.board,
+				});
+
+			// set user locations
+			var ulocs = [];
+			for (var i in self.gameData.users) {
+				var ud = self.gameData.users[i];
+				ulocs[i] = {id: ud.on_space, user: ud.id};
+			}
+
+			self.elems.board
+				.board({
+					data: ulocs,
 				});
 		},
 		setBoard: function (data) {
