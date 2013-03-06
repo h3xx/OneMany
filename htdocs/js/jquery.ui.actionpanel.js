@@ -4,6 +4,7 @@ $.widget("ui.actionpanel", {
 	options: {
 		servlet: 'responder.php',
 		animateDuration: 200,
+		selectedPanel: 'roll',
 	},
 	displays: {},
 
@@ -124,24 +125,24 @@ $.widget("ui.actionpanel", {
 		this.setBidTime('30');
 		this.setBidAmt('25');
 
+		self._refresh();
 		this.element.append(uiActionPanel);
 	},
 
-	/* FIXME : implement
 	_refresh: function () {
 		var self = this;
+		self.selectDisplay(self.options.selectedPanel);
 	},
-	*/
 
-	/* FIXME : implement
 	_setOption: function (key, value) {
 		var self = this;
 		// _super and _superApply handle keeping the right this-context
 		self._superApply(arguments);
+		if (key == 'selectedPanel') {
+			self.selectDisplay(value);
+		}
 		self._refresh();
 	},
-	*/
-
 });
 
 })(jQuery);
