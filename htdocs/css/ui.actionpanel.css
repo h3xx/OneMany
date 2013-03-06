@@ -21,3 +21,10 @@
 	margin: 10px 0px;
 	text-shadow: 0.1em 0.1em 0.2em gray;
 }
+
+.ui-actionpanel .ui-actionpanel-roll {
+	margin: 10px 0px;
+	font-weight: bold;
+	text-align: center;
+	font-size: 150%;
+}
