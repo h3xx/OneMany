@@ -12,7 +12,8 @@
 <h1>Password Reset Form</h1>
 <form>
 <input id="resetvars" type="hidden" name="resetvars" value="<?= htmlentities(@$_GET['args']) ?>" />
-<input id="newpw" type="text" name="newpw" placeholder="Enter a new password" />
+<input id="newpw" type="password" name="newpw" placeholder="Enter a new password" />
+<input id="newpwv" type="password" name="newpw" placeholder="Verify password" />
 <input id="pwsub" type="submit" name="pwsub" value="Change" />
 </form>
 <div id="progressbar"></div>
