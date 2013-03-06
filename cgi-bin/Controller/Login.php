@@ -10,17 +10,20 @@ class ControllerLogin {
 	}
 
 	# FIXME : use an actual URL
-	private static $rst_url = 'http://localhost:801/tricks/passreset/pwreset.php';
+	private static $rst_url = '/user/pwreset.php';
 
 	public function processInstruction ($instruction) {
 		$buff = preg_split('/:/', $instruction);
 
 		switch (@$buff[0]) {
 			case 'reset':
-				if (isset($buff[2])) {
-					return $this->doResetPassword($buff[1], $buff[2], $buff[3]);
-
+				if (!isset($buff[3])) {
+					return [
+						'result'=> false,
+						'msg'	=> 'Usage: `reset:USER_ID:RESET_STRING:NEW_PASS\'',
+					];
 				}
+				return $this->doResetPassword(@$buff[1], @$buff[2], @$buff[3]);
 				break;
 				;;
 			case 'request':
@@ -30,7 +33,17 @@ class ControllerLogin {
 						'msg'	=> 'No email address specified.',
 					];
 				}
-				return $this->requestResetPassword($buff[1]);
+				return $this->requestResetPassword(@$buff[1]);
+				break;
+				;;
+			case 'login':
+				if (!isset($buff[2])) {
+					return [
+						'result'=> false,
+						'msg'	=> 'Usage: `login:USER:PASS\'',
+					];
+				}
+				return $this->doLogin(@$buff[1], @$buff[2]);
 				break;
 				;;
 		}
@@ -62,7 +75,7 @@ class ControllerLogin {
 			return $response;
 		}
 
-		$url = self::$rst_url . '?args='.$user_id.':'.urlencode($rst);
+		$url = Tools::absUrl(self::$rst_url) . '?args='.$user_id.':'.urlencode($rst);
 
 		if (Tools::$can_mail) {
 			$subject = 'OneMany Password Reset';
@@ -94,6 +107,24 @@ class ControllerLogin {
 		return [
 			'result'=> true,
 			'msg'	=> 'Successfully set new password.',
+		];
+	}
+
+	public function doLogin ($user_name, $password) {
+		$user_id = $this->model->checkLogin($user_name, $password);
+		if (!isset($user_id)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Invalid user/pass.',
+			];
+		}
+
+		# use session variables
+		$_SESSION['user_id'] = $user_id;
+
+		return [
+			'result'=> true,
+			'msg'	=> 'Successfully logged in.',
 		];
 	}
 }
