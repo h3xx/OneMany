@@ -100,7 +100,7 @@ $(document).ready(function () {
 					self.setDice(true);
 					break;
 				case 'turn':
-					self.setPlayerInfo({id:upd.id,turn:true});
+					self.updateTurn(upd.id);
 					break;
 				case 'buy':
 					alert('buy is not implemented yet.');
@@ -114,6 +114,16 @@ $(document).ready(function () {
 				default:
 					alert(upd.type + ' is an unknown update type');
 					break;
+			}
+		},
+
+		updateTurn: function (uid) {
+			var self = this;
+			self.setPlayerInfo({id:uid,turn:true});
+			if (self.gameData.my_id == uid) {
+				self.setActionPanel({selectedPanel:'roll'});
+			} else {
+				self.setActionPanel({selectedPanel:'waiting'});
 			}
 		},
 
@@ -164,9 +174,7 @@ $(document).ready(function () {
 		setActionPanel: function (data) {
 			var self = this;
 			self.elems.actionPanel
-				.actionPanel({
-					data: data,
-				});
+				.actionpanel(data);
 		},
 		initBoard: function () {
 			var self = this;
