@@ -11,7 +11,7 @@ class ControllerBoard {
 	public function buyProperty ($space_id) {
 		# TODO : this is horribly inefficient
 
-		$space_cost = $this->model->board->getBuyFromBankCost($space_id);
+		$space_cost = $this->model->game->board->getBuyFromBankCost($space_id);
 		if (!isset($space_cost) || $space_cost < 0) {
 			return [
 				'result'=> false,
@@ -19,7 +19,7 @@ class ControllerBoard {
 			];
 		}
 
-		$owner = $this->model->board->whoOwnsSpace($space_id);
+		$owner = $this->model->game->board->whoOwnsSpace($space_id);
 		if (isset($owner)) {
 			if ($owner === $this->user_id) {
 				return [
@@ -38,13 +38,13 @@ class ControllerBoard {
 		if ($cash_on_hand < $space_cost) {
 			return [
 				'result'=> false,
-				'msg'	=> 'You do not have enough cash to buy this property.',
+				'msg'	=> 'You do not have enough cash to buy this property. ',
 			];
 		}
 
 		# everything seems fine - the user can buy it
 
-		if (!$this->model->board->setPropertyOwner($space_id, $this->user_id)) {
+		if (!$this->model->game->board->setPropertyOwner($space_id, $this->user_id)) {
 			return [
 				'result'=> false,
 				'msg'	=> 'Failed to set property owner [WTF].',
