@@ -10,12 +10,17 @@ $.widget("ui.playerinfo", {
 	playerInfoBuff: function (name, cash, isTurn) {
 		var self = this,
 		csh = $('<div></div>')
+			.addClass('cash')
 			.text('$' + cash),
-		nam = $('<span></span>')
+		nam = $('<div></div>')
+			.addClass('name')
 			.text(name),
+		msg = $('<div></div>')
+			.addClass('msg'),
 		buff = $('<div></div>')
 			.append(nam)
-			.append(csh);
+			.append(csh)
+			.append(msg);
 
 		if (isTurn) {
 			buff.addClass(self.options.turnclass);
@@ -41,6 +46,7 @@ $.widget("ui.playerinfo", {
 			'main': buff,
 			'name': nam,
 			'cash': csh,
+			'msg': msg,
 		};
 	},
 

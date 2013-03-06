@@ -1,8 +1,13 @@
+.ui-playerinfo {
+	font-family: 'Droid Sans';
+}
+
 .ui-playerinfo .panel {
 	padding: 4px;
 	/*display: inline-block;*/
 }
 .ui-playerinfo .subpanel {
+	position: relative;
 	padding: 4px;
 	/*display: inline-block;*/
 }
@@ -10,3 +15,15 @@
 *+html .ui-actionpanel .panel {
 	display: inline;
 }*/
+
+.ui-playerinfo .name,
+.ui-playerinfo .cash,
+.ui-playerinfo .msg {
+	width: 50%;
+	height: 18px;
+}
+.ui-playerinfo .msg {
+	position: absolute;
+	right: 4px;
+	top: 9px;
+}
