@@ -43,6 +43,7 @@ $.widget("ui.actionpanel", {
 				// Roll button
 				$('<button>Roll</button>')
 					.button()
+					.click(function () {self.rollCallback();})
 			);
 
 		self.displays.roll = rp;
@@ -104,6 +105,25 @@ $.widget("ui.actionpanel", {
 				}
 			});
 
+	},
+
+	rollCallback: function () {
+		var self = this;
+
+		$.post(self.options.servlet,
+			{
+				method: 'tell',
+				func: 'game',
+				args: 'roll',
+			},
+			function (data) {
+				if (data) {
+					if (!data.result) {
+						// TODO : handle failure
+						alert(data.msg);
+					}
+				}
+			});
 	},
 
 	widget: function () {
