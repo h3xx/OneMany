@@ -2,5 +2,34 @@
 	position: absolute;
 	right: 10px;
 	top: 10px;
-	width: 250px;
+	width: 350px;
+}
+
+#board {
+	width: 900px;
+	height: 900px;
+}
+
+#dice #dice1,
+#dice #dice2 {
+	border: 1px solid black;
+}
+
+#dice #dice1 {
+	position: absolute;
+	right: 370px;
+	top: 10px;
+}
+
+#dice #dice2 {
+	position: absolute;
+	right: 450px;
+	top: 10px;
+}
+
+#propcard {
+	z-index: 10;
+	position: absolute;
+	top: 150px;
+	right: 270px;
 }

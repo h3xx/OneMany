@@ -7,6 +7,8 @@ $(document).ready(function () {
 			],
 			chat: $('#chat'),
 			playerInfo: $('#players'),
+			actionPanel: $('#actions'),
+			board: $('#board'),
 		},
 		options: {
 			pollInterval: 1000,
@@ -54,6 +56,8 @@ $(document).ready(function () {
 			}
 
 			self.initPlayerInfo();
+			self.initActionPanel();
+			self.initBoard();
 			//self.setPlayerInfo({id:2,turn:true});
 
 			// FIXME : hardcore function implementation
@@ -145,6 +149,34 @@ $(document).ready(function () {
 			self.elems.playerInfo
 				.playerinfo({
 					data: [data],
+				});
+		},
+		initActionPanel: function () {
+			var self = this;
+			self.elems.actionPanel
+				.actionpanel({
+					data: self.gameData,
+				});
+		},
+		setActionPanel: function (data) {
+			var self = this;
+			self.elems.actionPanel
+				.actionPanel({
+					data: data,
+				});
+		},
+		initBoard: function () {
+			var self = this;
+			self.elems.board
+				.board({
+					data: self.gameData,
+				});
+		},
+		setBoard: function (data) {
+			var self = this;
+			self.elems.board
+				.board({
+					data: data,
 				});
 		},
 
