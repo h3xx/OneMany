@@ -1,4 +1,7 @@
 @charset 'utf-8';
+
+@import url('http://fonts.googleapis.com/css?family=Fjalla+One');
+
 @font-face {
 	font-family: 'DejaVu Serif';
 	src: url('../fonts/DejaVuSerif.eot'); /* here you go, IE */
