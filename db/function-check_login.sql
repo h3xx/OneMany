@@ -5,50 +5,41 @@
 --
 -- Check a hashed login entirely on the database side.
 --
+-- Returns the integer user_id, or null if the login is invalid.
+--
 -- @author: Dan Church <h3xx@gmx.com>
 -- @license: GPL v3.0
 
 -- DROP FUNCTION check_login(text, text);
 
 CREATE OR REPLACE FUNCTION check_login(_login_name text, password_plain text)
-  RETURNS boolean AS
+  RETURNS integer AS
 $BODY$
 
 declare
+	_user_id	integer;
 	hashy_hash	text;
 	salty_salt	text;
 
 begin
 
 	select
-		into hashy_hash 
-		"login_hash"
+		into _user_id, hashy_hash, salty_salt
+		"user_id", "login_hash", "login_salt"
 		from	"user"
 		where
 			"user_name" = _login_name and
 			"verified";
 
-	if hashy_hash is null then
-		return false;
+	if not found then
+		return null;
 	end if;
-
-	select
-		into salty_salt 
-		"login_salt"
-		from	"user"
-		where
-			"user_name" = _login_name;
-
-	-- (must necessarily exist)
-	--if salty_salt is null then
-	--	return false;
-	--end if;
 
 	if encode(digest(crypt(password_plain, salty_salt), 'sha1'), 'hex') = hashy_hash then
-		return true;
+		return _user_id;
 	end if;
 
-	return false;
+	return null;
 end;
 
 $BODY$
