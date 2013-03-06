@@ -9,7 +9,21 @@ class ControllerAuction {
 	}
 
 	public function startAuction ($space_id) {
-		# FIXME : check turn
+		if (!$this->model->rules->getRuleValue('auctions')) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Auctions are not enabled for this game.',
+			];
+		}
+
+		$whose_turn = $this->model->game->whoseTurn();
+		if ($whose_turn !== $this->user_id) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Not your turn.',
+			];
+		}
+
 		if (!isset($space_id)) {
 			$space_id = $this->model->game->getUserOnSpace($this->user_id);
 			if (!is_numeric($space_id)) {
@@ -31,6 +45,13 @@ class ControllerAuction {
 	}
 
 	public function addBid ($bid) {
+		if (!$this->model->rules->getRuleValue('auctions')) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Auctions are not enabled for this game.',
+			];
+		}
+
 		$ainfo = $this->model->game->getAuctionInfoNoExpired();
 		if (empty($ainfo)) {
 			return [
