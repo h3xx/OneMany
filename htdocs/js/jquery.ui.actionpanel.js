@@ -46,6 +46,7 @@ $.widget("ui.actionpanel", {
 			);
 
 		self.displays.roll = rp;
+		rp.hide();
 
 		return rp;
 	},
@@ -63,6 +64,7 @@ $.widget("ui.actionpanel", {
 		self.displays.auction = ap;
 		ap.data('time', timedisp);
 		ap.data('bid', biddisp);
+		ap.hide();
 
 		return ap;
 	},
