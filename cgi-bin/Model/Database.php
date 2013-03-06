@@ -75,7 +75,7 @@ class Database {
 
 	private function getIni () {
 		if (!isset($this->ini)) {
-			$this->ini = '../../config.ini';
+			$this->ini = dirname(__FILE__) . '/../../config.ini';
 		}
 		return $this->ini;
 	}
