@@ -80,7 +80,7 @@ class ControllerGame {
 		if (!is_array($roll)) {
 			return [
 				'result'=> false,
-				'msg'	=> 'Failed to roll dice.',
+				'msg'	=> 'Failed to roll dice. [WTF]',
 			];
 		}
 
@@ -92,7 +92,7 @@ class ControllerGame {
 				$this->model->user->resetDoubles($this->user_id);
 			}
 			# TODO : only be able to roll three times to get freed from jail ?
-			return $success;
+			return $this->turnIsOver($success);
 		} else {
 			if ($roll[0] === $roll[1]) {
 				# doubles
@@ -100,7 +100,7 @@ class ControllerGame {
 				if (!is_numeric($num_doubles)) {
 					return [
 						'result'=> false,
-						'msg'	=> 'Failed to set the number of doubles.',
+						'msg'	=> 'Failed to set the number of doubles. [WTF]',
 					];
 				}
 				$jail_doubles = $this->model->rules->getRuleValue('jail_doubles', 3);
