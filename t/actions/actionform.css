@@ -30,6 +30,13 @@
 #propcard {
 	z-index: 10;
 	position: absolute;
-	top: 150px;
-	right: 270px;
+	top: 90px;
+	right: 370px;
+}
+
+#players {
+	position: absolute;
+	top: 120px;
+	right: 10px;
+	width: 350px;
 }
