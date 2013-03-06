@@ -2,6 +2,7 @@
 <html>
 <head>
 <title>Action Form</title>
+<link rel="stylesheet" href="css/fonts.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/jquery-ui-1.10.1.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/ui.playerinfo.css" type="text/css" media="screen" />
 <link rel="stylesheet" href="css/ui.actionpanel.css" type="text/css" media="screen" />
