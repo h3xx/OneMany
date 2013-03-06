@@ -19,6 +19,7 @@ class ViewPropertyCard {
 	# text color overrides for different groups
 	private static $tcolor_overrides = [
 		'1'	=> '#ffffff',
+		'8'	=> '#ffffff',
 	];
 
 	private static $regcolor = '#000000'; # text color for regular properties
