@@ -9,8 +9,10 @@ $.widget("ui.board", {
 		hotelImage: 'images/hotel.svg',
 		home: '#propcard', // FIXME
 	},
+	userlocs: {},
 	displays: {}, // indexed by 'id1', 'id26', etc for space_id
 	elems: {},
+
 	widget: function () {
 		return this.uiBoard;
 	},
@@ -45,11 +47,11 @@ $.widget("ui.board", {
 				.addClass('propVert propMain')
 				// outer edge
 				.append(
-					disp.pieces =
 					$('<div></div>').addClass('iconsVert')
 				)
 				// spacing
 				.append(
+					disp.pieces =
 					$('<div></div>').addClass('vert')
 				)
 				// houses space
@@ -86,11 +88,11 @@ $.widget("ui.board", {
 				.addClass('propHorz propMain')
 				// outer edge
 				.append(
-					disp1.pieces =
 					$('<div></div>').addClass('iconsHorz')
 				)
 				// spacing
 				.append(
+					disp1.pieces =
 					$('<div></div>').addClass('horz')
 				)
 				// houses space
@@ -118,11 +120,11 @@ $.widget("ui.board", {
 				)
 				// spacing
 				.append(
+					disp3.pieces =
 					$('<div></div>').addClass('horz')
 				)
 				// outer edge
 				.append(
-					disp3.pieces =
 					$('<div></div>').addClass('iconsHorz')
 				)
 				.data('id', (11+x))
@@ -160,11 +162,11 @@ $.widget("ui.board", {
 				)
 				// spacing
 				.append(
+					disp.pieces =
 					$('<div></div>').addClass('vert')
 				)
 				// houses space
 				.append(
-					disp.pieces =
 					$('<div></div>').addClass('iconsVert')
 				)
 				.data('id', (29-x))
@@ -242,6 +244,28 @@ $.widget("ui.board", {
 		elem.data('houses', numHouses);
 	},
 
+	setUserLocation: function (user_id, space_id) {
+		var self = this,
+		oldloc = self.userlocs['id' + user_id],
+		disp = self.displays['id' + space_id],
+		piece_id = 'user'+user_id;
+
+		//alert('move player ' + user_id + ' to ' + space_id);
+
+		if (oldloc != null) {
+			$('#'+piece_id).remove();
+		}
+
+		self.userlocs['id' + user_id] = space_id;
+
+		disp.pieces.append(
+			$('<span></span>')
+			.attr('id', piece_id)
+			.addClass('token')
+			.text('poop'+user_id)
+		);
+	},
+
 	_create: function () {
 		var self = this,
 		options = self.options,
@@ -283,9 +307,14 @@ $.widget("ui.board", {
 		var self = this;
 		// _super and _superApply handle keeping the right this-context
 		if (key == 'data') {
+			var data = self.options.data;
 			// expect an array
 			for (var i in value) {
-
+				if (value[i].user) {
+					self.setUserLocation(value[i].user, value[i].id);
+					// we don't need to be storing that shit in our array
+					delete value[i].user;
+				}
 				// merge at same id in our data
 				jQuery.map(data, function (elem, idx) {
 					if (elem.id == value[i].id) {
