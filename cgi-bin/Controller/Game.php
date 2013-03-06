@@ -34,6 +34,7 @@ class ControllerGame {
 				break;
 				;;
 			case 'auction':
+				# note: buff[1] doesn't have to be set
 				return $this->auction->startAuction(@$buff[1]);
 				break;
 				;;
@@ -122,20 +123,57 @@ class ControllerGame {
 
 		$new_loc = ($this->model->game->getUserOnSpace($this->user_id) + $roll[0] + $roll[1]) % 40; # XXX : assuming the size of the board is 40
 
-		return $this->landOnSpace($new_loc);
+		return $this->landOnSpace($new_loc, $roll[0] + $roll[1]);
 
 		# FIXME : check turn, move piece, etc.
 		#return $success;
 	}
 
-	public function landOnSpace ($space_id) {
+	public function landOnSpace ($space_id, $dice_total) {
 		if (!$this->model->user->moveToSpace($this->user_id, $space_id)) {
 			return [
 				'result'=> false,
 				'msg'	=> 'Something went horribly wrong moving your piece.',
 			];
 		}
-		# FIXME
+
+		$owner = $this->model->game->board->whoOwnsSpace($space_id);
+		if ($owner === $this->user_id) {
+			return $this->turnIsOver([
+				'result'=> true,
+				'msg'	=> 'You own that space, nothing to do.',
+			]);
+		} else if (isset($owner)) {
+			$rent = $this->model->game->board->rentForSpace($space_id, $dice_total);
+			if ($rent === 0) {
+				return $this->turnIsOver([
+					'result'=> true,
+					'msg'	=> 'No rent.',
+				]);
+			}
+			$this->model->user->addUserCash($owner, $rent);
+			$this->model->user->addUserCash($this->user_id, -$rent);
+
+			# turn is over
+			return $this->turnIsOver([
+				'result'=> true,
+				'msg'	=> 'Paid rent of $' . $rent . ' to user #' . $owner,
+			]);
+		} else if ($this->model->game->board->isOwnable($space_id)) {
+			$this->model->game->askBuy($this->user_id, $space_id);
+			# no owner, is buyable
+			return [
+				'result'=> true,
+				'msg'	=> 'We need to know if you want to buy this.',
+			];
+		}
+
+		
+		return [
+			'result'=> false,
+			'msg'	=> 'Unhandled space.',
+		];
+		# FIXME - handle, chance, commchest, go2jail, go
 	}
 
 	private function throwUserInJail ($success_return) {
