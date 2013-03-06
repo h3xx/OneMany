@@ -112,6 +112,7 @@ class ControllerGame {
 
 				# you rolled doubles, but you're not going to
 				# jail for it - still your turn after this
+				$this->model->game->giveExtraTurn($this->user_id);
 				# FIXME : implement
 			} else {
 				# no doubles - your turn is over after this
