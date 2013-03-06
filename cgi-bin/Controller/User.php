@@ -89,7 +89,7 @@ class ControllerUser {
 				return $response;
 			}
 		} else {
-			$response['msg'] .= ' ' . $url; # debugging
+			$response['msg'] .= ' Unable to send email. Go here to reset your password: ' . $url; # debugging
 		}
 
 		return $response;
