@@ -1,1 +1,3 @@
 DirectoryIndex login.php
+RewriteEngine On
+RewriteRule ^(responder\.php)$ ../../htdocs/$1
