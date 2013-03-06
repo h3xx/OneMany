@@ -111,7 +111,7 @@ class ControllerUser {
 	}
 
 	public function doLogin ($user_name, $password) {
-		$user_id = $this->model->checkLogin($user_name, $password);
+		$user_id = $this->model->user->checkLogin($user_name, $password);
 		if (!isset($user_id)) {
 			return [
 				'result'=> false,
