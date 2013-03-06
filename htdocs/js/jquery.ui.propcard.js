@@ -23,7 +23,7 @@ $.widget("ui.propcard", {
 
 		if (data.is_mortgaged) {
 			card.addClass('mortgaged');
-		} else if (data.owner) {
+		} else if (data.owner != null) {
 			card.addClass('sold');
 		}
 
@@ -45,7 +45,10 @@ $.widget("ui.propcard", {
 			.addClass('rentbar'),
 
 		mbar = $('<div></div>')
-			.addClass('mortgagebar');
+			.addClass('mortgagebar'),
+
+		obar = $('<div></div>')
+			.addClass('ownerbar');
 
 		//$(hdr).text('data:' + data);
 		if (data.type == 'regular') {
@@ -127,7 +130,11 @@ $.widget("ui.propcard", {
 			);
 		}
 
-		det.append(pbar, rbar, mbar);
+		if (data.owner != null) {
+			obar.text('Owner: ' + data.oname);
+		}
+
+		det.append(pbar, rbar, mbar, obar);
 		card.append(hdr, det);
 
 		return card;

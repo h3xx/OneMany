@@ -1,3 +1,7 @@
+.ui-propcard {
+	font-family: 'DejaVu Serif';
+}
+
 .ui-propcard .propcard.sold {
 	background-image: url('../images/decal-sold.png');
 }
@@ -13,7 +17,7 @@
 
 .ui-propcard .propcard {
 	width: 230px;
-	height: 230px;
+	height: 240px;
 	border: 1px solid black;
 	background-color: white;
 }
@@ -59,6 +63,11 @@
 	padding-bottom: 10px;
 }
 
-.ui-propcard .propcard .details .mortgagebar {
+.ui-propcard .propcard .details .mortgagebar,
+.ui-propcard .propcard .details .ownerbar {
 	text-align: center;
+}
+
+.ui-propcard .propcard .details .ownerbar {
+	font-weight: bold;
 }
