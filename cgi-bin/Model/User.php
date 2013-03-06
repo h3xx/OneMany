@@ -45,7 +45,8 @@ class ModelUser {
 
 	public function checkLogin ($user_name, $password) {
 		$sth = $this->model->prepare(
-			# database-side function; returns a boolean
+			# database-side function; returns an integer, or null
+			# in the event of an invalid login
 			'select check_login(:un, :pw)'
 		);
 
