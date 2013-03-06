@@ -1,2 +1,2 @@
 RewriteEngine On
-RewriteRule ^(js|css|images)/(.*)$ ../../htdocs/$1/$2
+RewriteRule ^(js|css|images|fonts)/(.*)$ ../../htdocs/$1/$2
