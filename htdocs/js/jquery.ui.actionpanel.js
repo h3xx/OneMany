@@ -14,7 +14,7 @@ $.widget("ui.actionpanel", {
 
 		// hide all other displays, then unhide the found one
 		for (var id in self.displays) {
-			var disp = self.displays[i];
+			var disp = self.displays[id];
 			if (id == dispId) {
 				showdisp = disp;
 			} else {
