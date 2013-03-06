@@ -279,18 +279,12 @@ $.widget("ui.board", {
 		self._refresh();
 	},
 
-	/* FIXME : implement
 	_setOption: function (key, value) {
 		var self = this;
 		// _super and _superApply handle keeping the right this-context
 		if (key == 'data') {
 			// expect an array
 			for (var i in value) {
-				var turn = value[i].turn,
-				data = self.options.data;
-				if (turn != null && turn) {
-					self.setTurn(value[i].id);
-				}
 
 				// merge at same id in our data
 				jQuery.map(data, function (elem, idx) {
@@ -303,7 +297,6 @@ $.widget("ui.board", {
 		// -- dangerous -- self._superApply(arguments);
 		self._refresh();
 	},
-	*/
 });
 
 })(jQuery);
