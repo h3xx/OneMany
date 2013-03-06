@@ -18,20 +18,37 @@ declare
 
 begin
 
-	-- increment the turn
+	-- if the user has an extra turn coming, then use that up and keep the
+	-- sequence the same, otherwise, rotate the players
+
+	-- check for an extra turn
 	update "c_user_game"
-		set "sequence" = (
-			select max("sequence") + 1
-			from "c_user_game"
-			where "game_id" = _game_id
-		)
-		where "user_id" = (
+		set "extra_turn" = false
+		where "extra_turn" and
+		"user_id" = (
 			select "user_id"
 			from "c_user_game"
 			where "game_id" = 4
 			order by "sequence"
 			limit 1
-	);
+		);
+
+	if not found then
+		-- increment the turn
+		update "c_user_game"
+			set "sequence" = (
+				select max("sequence") + 1
+				from "c_user_game"
+				where "game_id" = _game_id
+			)
+			where "user_id" = (
+				select "user_id"
+				from "c_user_game"
+				where "game_id" = 4
+				order by "sequence"
+				limit 1
+			);
+	end if;
 
 	-- figure out whose turn it is now 
 	select
