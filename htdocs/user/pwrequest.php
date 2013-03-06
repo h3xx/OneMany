@@ -2,11 +2,11 @@
 <html>
 <head>
 <title>Password Reset Request Form</title>
-<link rel="stylesheet" href="css/jquery-ui-1.10.1.css" type="text/css" media="screen" />
-<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui-1.10.1.min.js"></script>
+<link rel="stylesheet" href="../css/jquery-ui-1.10.1.css" type="text/css" media="screen" />
+<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/jquery-ui-1.10.1.min.js"></script>
 <script type="text/javascript" src="pwrequest.js"></script>
-<link rel="stylesheet" type="text/css" href="pwform.css" />
+<link rel="stylesheet" type="text/css" href="userform.css" />
 </head>
 <body>
 <h1>Password Reset Request Form</h1>

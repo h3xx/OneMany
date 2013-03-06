@@ -2,11 +2,11 @@
 <html>
 <head>
 <title>User Sign-Up Form</title>
-<link rel="stylesheet" href="css/jquery-ui-1.10.1.css" type="text/css" media="screen" />
-<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
-<script type="text/javascript" src="js/jquery-ui-1.10.1.min.js"></script>
-<script type="text/javascript" src="usrequest.js"></script>
-<link rel="stylesheet" type="text/css" href="usform.css" />
+<link rel="stylesheet" href="../css/jquery-ui-1.10.1.css" type="text/css" media="screen" />
+<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="../js/jquery-ui-1.10.1.min.js"></script>
+<script type="text/javascript" src="signup.js"></script>
+<link rel="stylesheet" type="text/css" href="userform.css" />
 </head>
 <body>
 <h1>User Sign-Up Form</h1>
