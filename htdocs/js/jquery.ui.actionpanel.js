@@ -72,6 +72,53 @@ $.widget("ui.actionpanel", {
 		return ap;
 	},
 
+	makeBuyPanel: function () {
+		var self = this,
+		buy_yes =
+			$('<button>YES</button>')
+			.addClass('ui-actionpanel-buyyes')
+			.button()
+			.click(function () {self.buyCallback(true);}),
+		buy_no =
+			$('<button>NO</button>')
+			.addClass('ui-actionpanel-buyno')
+			.button()
+			.click(function () {self.buyCallback(false);}),
+		msgadd =
+			$('<div></div>'),
+		msgdisp =
+			$('<div></div>')
+			.text('Would you like to buy this property?'),
+		bp = self.makePanelContainer()
+			.addClass('ui-actionpanel-buy')
+			.append(
+				msgdisp,
+				msgadd,
+				buy_yes,
+				buy_no
+			);
+
+		self.displays.buy = bp;
+		bp.data('msg', msgdisp);
+		bp.data('msgadd', msgadd);
+		bp.data('yes', buy_yes);
+		bp.data('no', buy_no);
+		bp.hide();
+
+		return bp;
+	},
+
+	makeInfoPanel: function () {
+		var self = this,
+		ip = self.makePanelContainer()
+			.addClass('ui-actionpanel-info');
+
+		self.displays.info = ip;
+		ip.hide();
+
+		return ip;
+	},
+
 	makeWaitingPanel: function () {
 		var self = this,
 		wp = self.makePanelContainer()
@@ -86,16 +133,28 @@ $.widget("ui.actionpanel", {
 		return wp;
 	},
 
+	setBuyQuestion: function (what) {
+		var self = this,
+		bp = self.displays.buy;
+		bp.data('msgadd').text(what);
+	},
+
+	setInfo: function (what) {
+		var self = this,
+		ip = self.displays.info;
+		ip.text(what);
+	},
+
 	setBidTime: function (time) {
 		var self = this,
-		ap = this.displays.auction,
+		ap = self.displays.auction,
 		timedisp = ap.data('time');
 		timedisp.text('Time left: ' + time);
 	},
 
 	setBidAmt: function (bid) {
 		var self = this,
-		ap = this.displays.auction,
+		ap = self.displays.auction,
 		biddisp = ap.data('bid');
 
 		biddisp.text('Bid: $' + bid)
@@ -136,10 +195,30 @@ $.widget("ui.actionpanel", {
 				if (data) {
 					if (!data.result) {
 						// TODO : handle failure
+						alert('rollCallback: ' +data.msg);
+					}
+				}
+			});
+	},
+
+	buyCallback: function (really) {
+		var self = this;
+
+		$.post(self.options.servlet,
+			{
+				method: 'tell',
+				func: 'game',
+				args: (really ? 'buy' : 'auction'),
+			},
+			function (data) {
+				if (data) {
+					if (!data.result) {
+						// TODO : handle failure
 						alert(data.msg);
 					}
 				}
 			});
+
 	},
 
 	widget: function () {
@@ -154,11 +233,13 @@ $.widget("ui.actionpanel", {
 			.addClass('ui-actionpanel ui-widget-header ui-corner-all'),
 
 		uiRollPanel = (self.uiRollPanel = self.makeRollPanel()),
+		uiBuyPanel = (self.uiBuyPanel = self.makeBuyPanel());
 		uiAuctionPanel = (self.uiAuctionPanel = self.makeAuctionPanel());
 		uiWaitingPanel = (self.uiWaitingPanel = self.makeWaitingPanel());
+		uiInfoPanel = (self.uiInfoPanel = self.makeInfoPanel());
 
 		uiActionPanel
-			.append(uiRollPanel, uiAuctionPanel, uiWaitingPanel);
+			.append(uiRollPanel, uiBuyPanel, uiAuctionPanel, uiInfoPanel, uiWaitingPanel);
 
 		self._refresh();
 		this.element.append(uiActionPanel);
@@ -173,10 +254,19 @@ $.widget("ui.actionpanel", {
 		var self = this;
 		// _super and _superApply handle keeping the right this-context
 		self._superApply(arguments);
-		if (key == 'selectedPanel') {
-			self.selectDisplay(value);
+		switch (key) {
+			case 'selectedPanel':
+				self.selectDisplay(value);
+				break;
+			case 'info':
+				self.setInfo(value);
+				self.selectDisplay('info');
+				break;
+			case 'buy':
+				self.setBuyQuestion(value);
+				self.selectDisplay('buy');
+				break;
 		}
-		self._refresh();
 	},
 });
 

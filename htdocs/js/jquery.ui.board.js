@@ -184,7 +184,7 @@ $.widget("ui.board", {
 			$('<td></td>')
 				.addClass('propCrnr propMain')
 				.append(
-					(self.displays['id19'] = {}).pieces =
+					(self.displays['id20'] = {}).pieces =
 					$('<div></div>').addClass('iconsCorner')
 				)
 		);
