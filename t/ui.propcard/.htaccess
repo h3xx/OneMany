@@ -1,2 +1,3 @@
 RewriteEngine On
 RewriteRule ^(js|css|images|fonts)/(.*)$ ../../htdocs/$1/$2
+RewriteRule ^(responder\.php)$ ../../htdocs/$1
