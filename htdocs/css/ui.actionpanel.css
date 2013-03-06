@@ -6,3 +6,12 @@
 *+html .ui-actionpanel .panel {
 	display: inline;
 }
+
+.ui-actionpanel .ui-actionpanel-waiting {
+	font-family: 'Fjalla One';
+	font-weight: bold;
+	text-align: center;
+	font-size: 200%;
+	margin: 10px 0px;
+	text-shadow: 0.1em 0.1em 0.2em gray;
+}

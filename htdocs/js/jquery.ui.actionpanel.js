@@ -4,7 +4,7 @@ $.widget("ui.actionpanel", {
 	options: {
 		servlet: 'responder.php',
 		animateDuration: 200,
-		selectedPanel: 'roll',
+		selectedPanel: 'waiting',
 	},
 	displays: {},
 
@@ -70,6 +70,20 @@ $.widget("ui.actionpanel", {
 		ap.hide();
 
 		return ap;
+	},
+
+	makeWaitingPanel: function () {
+		var self = this,
+		wp = self.makePanelContainer()
+			.addClass('ui-actionpanel-waiting')
+			.append(
+				$('<div>Please wait for your turn...</div>')
+			);
+
+		self.displays.waiting = wp;
+		wp.hide();
+
+		return wp;
 	},
 
 	setBidTime: function (time) {
@@ -142,9 +156,10 @@ $.widget("ui.actionpanel", {
 
 		uiRollPanel = (self.uiRollPanel = self.makeRollPanel()),
 		uiAuctionPanel = (self.uiAuctionPanel = self.makeAuctionPanel());
+		uiWaitingPanel = (self.uiWaitingPanel = self.makeWaitingPanel());
 
 		uiActionPanel
-			.append(uiRollPanel, uiAuctionPanel);
+			.append(uiRollPanel, uiAuctionPanel, uiWaitingPanel);
 
 		this.setBidTime('30');
 		this.setBidAmt('25');
