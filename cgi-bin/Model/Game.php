@@ -306,6 +306,20 @@ class ModelGame {
 		return $user_id;
 	}
 
+	public function giveExtraTurn ($user_id) {
+		$sth = $this->model->prepare(
+			'update "c_user_game" '.
+			'set "extra_turn" = true '.
+			'where "game_id" = :gid '.
+			'and "user_id" = :uid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+
+		return $sth->execute();
+	}
+
 	public function setWhoseTurn ($user_id) {
 		# deprecated
 		$sth = $this->model->prepare(
