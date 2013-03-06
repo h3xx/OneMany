@@ -39,6 +39,7 @@ $.widget("ui.actionpanel", {
 	makeRollPanel: function () {
 		var self = this,
 		rp = self.makePanelContainer()
+			.addClass('ui-actionpanel-roll')
 			.append(
 				// Roll button
 				$('<button>Roll</button>')
@@ -50,6 +51,25 @@ $.widget("ui.actionpanel", {
 		rp.hide();
 
 		return rp;
+	},
+
+	makeAuctionPanel: function () {
+		var self = this,
+		biddisp = $('<button></button>'),
+		timedisp = $('<div></div>'),
+		ap = self.makePanelContainer()
+			.addClass('ui-actionpanel-auction')
+			.append(
+				timedisp,
+				biddisp
+			);
+
+		self.displays.auction = ap;
+		ap.data('time', timedisp);
+		ap.data('bid', biddisp);
+		ap.hide();
+
+		return ap;
 	},
 
 	makeAuctionPanel: function () {
