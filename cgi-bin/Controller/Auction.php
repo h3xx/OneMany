@@ -41,6 +41,10 @@ class ControllerAuction {
 			];
 		}
 
+		return [
+			'result'=> false,
+			'msg'	=> 'FIXME: auctions.',
+		];
 		# FIXME : implement
 	}
 
