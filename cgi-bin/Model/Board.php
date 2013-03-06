@@ -33,8 +33,6 @@ class ModelBoard {
 		}
 
 		$result = $sth->fetch(PDO::FETCH_ASSOC);
-		# XXX : sidestep a PDO bug re: booleans
-		$result['is_mortgaged'] = ($result['is_mortgaged'] && true);
 
 		return $result;
 	}
@@ -300,7 +298,7 @@ class ModelBoard {
 			# that color-group is mortgaged.
 			#
 
-			if ($result['houses'] === 0) {
+			if ($result['houses'] == 0) {
 				if ($this->hasMonopoly($result['owner_id'], $space_id)) {
 					$rentfactor = $this->model->rules->getRuleValue('monopoly_rentfactor', 2);
 					return $result['rent'] * $rentfactor;
