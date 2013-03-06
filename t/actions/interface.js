@@ -99,6 +99,9 @@ $(document).ready(function () {
 					self.gameData.roll = upd.val;
 					self.setDice(true);
 					break;
+				case 'turn':
+					self.setPlayerInfo({id:upd.id,turn:true});
+					break;
 				case 'buy':
 					alert('buy is not implemented yet.');
 					break;
