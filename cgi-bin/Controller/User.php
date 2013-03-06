@@ -2,7 +2,7 @@
 
 #require_once('../Tools.php');
 
-class ControllerLogin {
+class ControllerUser {
 	private $model;
 
 	function __construct ($model) {

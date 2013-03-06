@@ -3,7 +3,7 @@
 require_once('Tools.php');
 require_once('Controller/Chat.php');
 require_once('Controller/Game.php');
-require_once('Controller/Login.php');
+require_once('Controller/User.php');
 require_once('Controller/Signup.php');
 require_once('Controller/Verify.php');
 
@@ -26,7 +26,7 @@ class Controller {
 				break;
 				;;
 			case 'login':
-				$jsonresponse = $this->login->processInstruction($instr['args']);
+				$jsonresponse = $this->user->processInstruction($instr['args']);
 				break;
 				;;
 			case 'signup':
@@ -63,11 +63,11 @@ class Controller {
 		return $this->game;
 	}
 
-	private function getLogin () {
-		if (!isset($this->login)) {
-			$this->login = new ControllerLogin($this->model);
+	private function getUser () {
+		if (!isset($this->user)) {
+			$this->user = new ControllerUser($this->model);
 		}
-		return $this->login;
+		return $this->user;
 	}
 
 	private function getSignup () {
@@ -94,8 +94,8 @@ class Controller {
 				return $this->getGame();
 				break;
 				;;
-			case 'login':
-				return $this->getLogin();
+			case 'user':
+				return $this->getUser();
 				break;
 				;;
 			case 'signup':
