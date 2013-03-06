@@ -55,10 +55,12 @@ class ModelBoard {
 				'"housecost",'.
 				'"mortgage",'.
 				'"owner_id" as "owner",'.
+				'"user"."user_name" as "oname",'.
 				'"houses",'.
 				'"is_mortgaged" '.
 			'from "space" '.
 			'left join "c_game_space" on ("space"."space_id" = "c_game_space"."space_id") '.
+			'left join "user" on ("owner_id" = "user"."user_id") '.
 			'where "c_game_space"."space_id" = :sid and "c_game_space"."game_id" = :gid'
 		);
 
