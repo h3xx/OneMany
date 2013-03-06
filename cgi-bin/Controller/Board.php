@@ -381,14 +381,4 @@ class ControllerBoard {
 		return $res;
 	}
 
-	public function landOnSpace ($space_id) {
-		$grp = $this->model->game->board->getSpaceGroup($space_id);
-
-		switch ($grp) {
-			
-		}
-
-		# FIXME
-	}
-
 }

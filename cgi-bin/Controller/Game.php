@@ -93,37 +93,49 @@ class ControllerGame {
 			}
 			# TODO : only be able to roll three times to get freed from jail ?
 			return $this->turnIsOver($success);
-		} else {
-			if ($roll[0] === $roll[1]) {
-				# doubles
-				$num_doubles = $this->model->user->incrementDoubles($this->user_id);
-				if (!is_numeric($num_doubles)) {
-					return [
-						'result'=> false,
-						'msg'	=> 'Failed to set the number of doubles. [WTF]',
-					];
-				}
-				$jail_doubles = $this->model->rules->getRuleValue('jail_doubles', 3);
-
-				if ($jail_doubles !== 0 && $num_doubles >= $jail_doubles) {
-					# doubles-induced jail
-					return $this->throwUserInJail($success);
-				}
-
-				# you rolled doubles, but you're not going to
-				# jail for it - still your turn after this
-				$this->model->game->giveExtraTurn($this->user_id);
-				# FIXME : implement
-			} else {
-				# no doubles - your turn is over after this
-				# FIXME : implement
-
-				$this->model->user->resetDoubles($this->user_id);
-			}
 		}
 
+		# not in jail
+		if ($roll[0] === $roll[1]) {
+			# doubles
+			$num_doubles = $this->model->user->incrementDoubles($this->user_id);
+			if (!is_numeric($num_doubles)) {
+				return [
+					'result'=> false,
+					'msg'	=> 'Failed to set the number of doubles. [WTF]',
+				];
+			}
+			$jail_doubles = $this->model->rules->getRuleValue('jail_doubles', 3);
+
+			if ($jail_doubles !== 0 && $num_doubles >= $jail_doubles) {
+				# doubles-induced jail
+				return $this->throwUserInJail($success);
+			}
+
+			# you rolled doubles, but you're not going to
+			# jail for it - still your turn after this
+			$this->model->game->giveExtraTurn($this->user_id);
+		} else {
+			# no doubles - your turn is over after this
+			$this->model->user->resetDoubles($this->user_id);
+		}
+
+		$new_loc = ($this->model->game->getUserOnSpace($this->user_id) + $roll[0] + $roll[1]) % 40; # XXX : assuming the size of the board is 40
+
+		return $this->landOnSpace($new_loc);
+
 		# FIXME : check turn, move piece, etc.
-		return $success;
+		#return $success;
+	}
+
+	public function landOnSpace ($space_id) {
+		if (!$this->model->user->moveToSpace($this->user_id, $space_id)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Something went horribly wrong moving your piece.',
+			];
+		}
+		# FIXME
 	}
 
 	private function throwUserInJail ($success_return) {
