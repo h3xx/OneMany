@@ -11,7 +11,7 @@
 <body>
 <h1>Password Reset Request Form</h1>
 <form>
-<input id="email" type="text" name="email" placeholder="Enter your email address" />
+<input id="email" type="text" name="email" placeholder="Enter your email address" value="<?= htmlentities(@$_GET['email']) ?>" />
 <input id="emsub" type="submit" name="emsub" value="Submit" />
 </form>
 <div id="progressbar"></div>
