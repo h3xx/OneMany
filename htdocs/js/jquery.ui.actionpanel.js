@@ -72,24 +72,6 @@ $.widget("ui.actionpanel", {
 		return ap;
 	},
 
-	makeAuctionPanel: function () {
-		var self = this,
-		biddisp = $('<button></button>'),
-		timedisp = $('<div></div>'),
-		ap = self.makePanelContainer()
-			.append(
-				timedisp,
-				biddisp
-			);
-
-		self.displays.auction = ap;
-		ap.data('time', timedisp);
-		ap.data('bid', biddisp);
-		ap.hide();
-
-		return ap;
-	},
-
 	setBidTime: function (time) {
 		var self = this,
 		ap = this.displays.auction,
