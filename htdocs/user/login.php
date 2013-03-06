@@ -15,6 +15,7 @@
 <input id="pw" type="password" name="pw" placeholder="Password" />
 <input id="login" type="submit" name="login" value="Login" />
 </form>
+<div id="gotoreset"><a href="pwrequest.php" id="resetlink">Request a password reset</a></div>
 <div id="progressbar"></div>
 <div id="result"></div>
 </body>

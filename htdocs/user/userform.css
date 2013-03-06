@@ -5,3 +5,11 @@
 #progressbar .ui-progressbar-value {
 	background-color: #ccc;
 }
+
+#gotoreset {
+	font-size: 75%;
+}
+
+a:link, a:visited {
+	color: red;
+}
