@@ -7,6 +7,7 @@ $.widget("ui.board", {
 		nameImage: 'images/name.svg',
 		houseImage: 'images/house.svg',
 		hotelImage: 'images/hotel.svg',
+		home: '#propcard', // FIXME
 	},
 	displays: {}, // indexed by 'id1', 'id26', etc for space_id
 	elems: {},
@@ -55,7 +56,13 @@ $.widget("ui.board", {
 				.append(
 					disp.houses =
 					$('<div></div>').addClass('iconsVert')
-				);
+				)
+				.data('id', (x+1))
+				// propcard popout
+				.click(function () {
+					$(self.options.home)
+						.propcard({id:$(this).data('id')})
+				});
 
 			row1.append(cell);
 		}
@@ -90,12 +97,18 @@ $.widget("ui.board", {
 				.append(
 					disp1.houses =
 					$('<div></div>').addClass('iconsHorz')
-				),
+				)
+				.data('id', (39-x))
+				// propcard popout
+				.click(function () {
+					$(self.options.home)
+						.propcard({id:$(this).data('id')})
+				}),
 
 			cell2 = $('<td></td>')
 				.attr('colspan', '9'),
 
-			disp3 = (self.displays['id' + (10+x)] = {}),
+			disp3 = (self.displays['id' + (11+x)] = {}),
 			cell3 = $('<td></td>')
 				.addClass('propHorz propMain')
 				// houses space
@@ -111,7 +124,13 @@ $.widget("ui.board", {
 				.append(
 					disp3.pieces =
 					$('<div></div>').addClass('iconsHorz')
-				);
+				)
+				.data('id', (11+x))
+				// propcard popout
+				.click(function () {
+					$(self.options.home)
+						.propcard({id:$(this).data('id')})
+				});
 
 			pbody.append(rowx.append(cell1, cell2, cell3));
 		}
@@ -147,7 +166,13 @@ $.widget("ui.board", {
 				.append(
 					disp.pieces =
 					$('<div></div>').addClass('iconsVert')
-				);
+				)
+				.data('id', (29-x))
+				// propcard popout
+				.click(function () {
+					$(self.options.home)
+						.propcard({id:$(this).data('id')})
+				});
 
 			row10.append(cell);
 		}
