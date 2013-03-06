@@ -278,7 +278,7 @@ class ModelGame {
 
 	public function rotateTurn () {
 		$sth = $this->model->prepare(
-			'select update_turn(:gid)'
+			'select rotate_turn(:gid)'
 		);
 
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
@@ -384,6 +384,14 @@ class ModelGame {
 			'id'	=> $user_id,
 			'space'	=> $space_id,
 			'bid'	=> $bid,
+		]);
+	}
+
+	public function askBuy ($user_id, $space_id) {
+		return $this->model->update->pushUpdate([
+			'type'	=> 'askBuy',
+			'who'	=> $user_id,
+			'space'	=> $space_id,
 		]);
 	}
 
