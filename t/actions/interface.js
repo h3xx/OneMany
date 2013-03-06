@@ -105,6 +105,9 @@ $(document).ready(function () {
 				case 'buy':
 					alert('buy is not implemented yet.');
 					break;
+				case 'move':
+					self.moveUser(upd.id, upd.space);
+					break;
 				case 'cash':
 					self._mergeAtId(self.gameData.users, upd.id, {
 						cash: upd.cash,
@@ -125,6 +128,12 @@ $(document).ready(function () {
 			} else {
 				self.setActionPanel({selectedPanel:'waiting'});
 			}
+		},
+
+		moveUser: function (uid, sid) {
+			var self = this;
+			self.setPlayerInfo({id:uid,on_space:sid});
+			self.setBoard({id:sid,user:uid});
 		},
 
 		initDice: function () {
@@ -154,7 +163,7 @@ $(document).ready(function () {
 			var self = this;
 			self.elems.playerInfo
 				.playerinfo({
-					data: this.gameData.users,
+					data: self.gameData.users,
 				});
 		},
 		setPlayerInfo: function (data) {
@@ -165,10 +174,11 @@ $(document).ready(function () {
 				});
 		},
 		initActionPanel: function () {
-			var self = this;
+			var self = this,
+			sp = (self._playerInfo(self.gameData.my_id).turn ? 'roll' : 'waiting');
 			self.elems.actionPanel
 				.actionpanel({
-					data: self.gameData,
+					selectedPanel: sp,
 				});
 		},
 		setActionPanel: function (data) {
@@ -180,20 +190,31 @@ $(document).ready(function () {
 			var self = this;
 			self.elems.board
 				.board({
-					data: self.gameData,
+					data: self.gameData.board,
 				});
 		},
 		setBoard: function (data) {
 			var self = this;
 			self.elems.board
 				.board({
-					data: data,
+					data: [data]
 				});
 		},
 
 		init: function () {
 			this.pullInitialGameData();
 			this.scheduleGameUpdatePoll();
+		},
+
+		_playerInfo: function (user_id) {
+			var self = this,
+			z = $.grep(self.gameData.users, function (elem, idx) {
+				return elem.id == user_id;
+			});
+			if (z) {
+				return z[0];
+			}
+			return [];
 		},
 
 		_mergeAtId: function (list, idVal, newData) {
