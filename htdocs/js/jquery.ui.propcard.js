@@ -8,19 +8,15 @@ $.widget("ui.propcard", {
 		shown: true,
 		load: true,
 	},
-	displays: {},
 
 	widget: function () {
 		return this.uiPropcard;
 	},
 
-	doLoad: function () {
-		var self = this,
-		options = self.options;
-
-	},
-
 	makeCard: function (data) {
+		if (!data || data.cost < 0) {
+			return;
+		}
 		var self = this,
 		card = $('<div></div>')
 			.addClass('propcard');
@@ -149,10 +145,20 @@ $.widget("ui.propcard", {
 			function (data) {
 				if (data) {
 					self.options.data = data;
-					self.widget().append(self.makeCard(data));
+					self.draw();
 				}
 			}
 		);
+	},
+
+	draw: function () {
+		var self = this;
+		if (self.options.data != null) {
+			$('.propcard').remove();
+			self.widget()
+				.append(self.makeCard(self.options.data))
+				.show();
+		}
 	},
 
 	_create: function () {
@@ -160,7 +166,8 @@ $.widget("ui.propcard", {
 
 		uiPropcard = (self.uiPropcard = $('<div></div>')
 			.addClass('ui-propcard')
-		);
+		)
+			.click(function () {self.widget().hide();});
 
 		this.element.append(uiPropcard);
 		self._refresh();
@@ -169,12 +176,9 @@ $.widget("ui.propcard", {
 	_refresh: function () {
 		var self = this;
 
-		if (self.options.data == null) {
-			if (self.options.load) {
-				self.retrieve();
-			}
+		if (self.options.load && self.options.id != null) {
+			self.retrieve();
 		}
-
 	},
 
 
@@ -182,17 +186,22 @@ $.widget("ui.propcard", {
 	_refresh: function () {
 		var self = this;
 	},
-	*/
 
-	/* FIXME : implement
-	_setOption: function (key, value) {
+	_setOptions: function () {
 		var self = this;
-		// _super and _superApply handle keeping the right this-context
 		self._superApply(arguments);
 		self._refresh();
 	},
 	*/
 
+	_setOption: function (key, value) {
+		var self = this;
+		// _super and _superApply handle keeping the right this-context
+		self._superApply(arguments);
+		if (key == 'id') {
+			self._refresh();
+		}
+	},
 });
 
 })(jQuery);
