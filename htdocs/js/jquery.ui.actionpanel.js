@@ -30,7 +30,6 @@ $.widget("ui.actionpanel", {
 		var self = this,
 		pc =
 			$('<div></div>')
-			.css('width', '100%')
 			.addClass('panel');
 
 		return pc;
@@ -151,7 +150,6 @@ $.widget("ui.actionpanel", {
 		options = self.options,
 
 		uiActionPanel = (self.uiActionPanel = $('<div></div>'))
-			.css('width', '100%')
 			.addClass('ui-actionpanel ui-widget-header ui-corner-all'),
 
 		uiRollPanel = (self.uiRollPanel = self.makeRollPanel()),

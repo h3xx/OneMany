@@ -1,6 +1,12 @@
+.ui-actionpanel {
+	height: 100px;
+	width: 100%;
+}
+
 .ui-actionpanel .panel {
-	padding: 4px;
+	/*padding: 4px;*/
 	display: inline-block;
+	width: 100%;
 }
 /* support: IE7 */
 *+html .ui-actionpanel .panel {
