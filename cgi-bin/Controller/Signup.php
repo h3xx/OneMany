@@ -10,7 +10,7 @@ class ControllerSignup {
 	}
 
 	# FIXME : use an actual URL
-	private static $vfy_url = 'http://localhost:801/tricks/signup/usverify.php';
+	private static $vfy_url = '/user/verify.php';
 
 	public function processInstruction ($instruction) {
 		if (!isset($instruction) || !is_array($instruction)) {
@@ -65,7 +65,7 @@ class ControllerSignup {
 
 		$user_id = $this->model->user->resolveUsername($user_name);
 
-		$url = self::$vfy_url . '?args='.$user_id.':'.urlencode($verify_string);
+		$url = Tools::absUrl(self::$vfy_url) . '?args='.$user_id.':'.urlencode($verify_string);
 
 		if (Tools::$can_mail) {
 			$subject = 'OneMany - Please Verify Your Email';
@@ -89,7 +89,7 @@ class ControllerSignup {
 			# TODO : better messages
 			return [
 				'result'=> true,
-				'msg'	=> 'Unable to send email. '.$url,
+				'msg'	=> 'Unable to send email. Go here to verify your account: '.$url,
 			];
 		}
 
