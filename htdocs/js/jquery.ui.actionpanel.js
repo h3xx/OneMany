@@ -5,6 +5,7 @@ $.widget("ui.actionpanel", {
 		servlet: 'responder.php',
 		animateDuration: 200,
 		selectedPanel: 'waiting',
+		data: null,
 	},
 	displays: {},
 
@@ -158,9 +159,6 @@ $.widget("ui.actionpanel", {
 
 		uiActionPanel
 			.append(uiRollPanel, uiAuctionPanel, uiWaitingPanel);
-
-		this.setBidTime('30');
-		this.setBidAmt('25');
 
 		self._refresh();
 		this.element.append(uiActionPanel);
