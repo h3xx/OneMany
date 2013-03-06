@@ -2,6 +2,7 @@
 
 $.widget("ui.actionpanel", {
 	options: {
+		servlet: 'responder.php',
 		animateDuration: 200,
 	},
 	displays: {},
@@ -48,6 +49,60 @@ $.widget("ui.actionpanel", {
 		return rp;
 	},
 
+	makeAuctionPanel: function () {
+		var self = this,
+		biddisp = $('<button></button>'),
+		timedisp = $('<div></div>'),
+		ap = self.makePanelContainer()
+			.append(
+				timedisp,
+				biddisp
+			);
+
+		self.displays.auction = ap;
+		ap.data('time', timedisp);
+		ap.data('bid', biddisp);
+
+		return ap;
+	},
+
+	setBidTime: function (time) {
+		var self = this,
+		ap = this.displays.auction,
+		timedisp = ap.data('time');
+		timedisp.text('Time left: ' + time);
+	},
+
+	setBidAmt: function (bid) {
+		var self = this,
+		ap = this.displays.auction,
+		biddisp = ap.data('bid');
+
+		biddisp.text('Bid: $' + bid)
+			.button()
+			.click(function () {self.bidCallback(bid);});
+	},
+
+	bidCallback: function (bidAmt) {
+		var self = this;
+
+		$.post(self.options.servlet,
+			{
+				method: 'tell',
+				func: 'game',
+				args: 'bid:' + bidAmt,
+			},
+			function (data) {
+				if (data) {
+					if (!data.result) {
+						// TODO : handle failure
+						alert(data.msg);
+					}
+				}
+			});
+
+	},
+
 	widget: function () {
 		return this.uiActionPanel;
 	},
@@ -60,10 +115,14 @@ $.widget("ui.actionpanel", {
 			.css('width', '100%')
 			.addClass('ui-actionpanel ui-widget-header ui-corner-all'),
 
-		uiRollPanel = (self.uiRollPanel = self.makeRollPanel());
+		uiRollPanel = (self.uiRollPanel = self.makeRollPanel()),
+		uiAuctionPanel = (self.uiAuctionPanel = self.makeAuctionPanel());
 
 		uiActionPanel
-			.append(uiRollPanel);
+			.append(uiRollPanel, uiAuctionPanel);
+
+		this.setBidTime('30');
+		this.setBidAmt('25');
 
 		this.element.append(uiActionPanel);
 	},
