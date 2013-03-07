@@ -295,6 +295,10 @@ class ControllerBoard {
 	}
 
 	public function buyHouses ($space_id, $houses_to_buy) {
+		if (!isset($houses_to_buy)) {
+			$houses_to_buy = 1;
+		}
+
 		if (!is_numeric($houses_to_buy) || $houses_to_buy < 0) {
 			return [
 				'result'=> false,

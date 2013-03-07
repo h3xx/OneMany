@@ -37,6 +37,11 @@ class ControllerGame {
 				return $this->board->sellProperty(@$buff[1]);
 				break;
 				;;
+			case 'buyHouse':
+				# note: buff[2] defaults to 1
+				return $this->board->buyHouses(@$buff[1], @$buff[2]);
+				break;
+				;;
 			case 'auction':
 				# note: buff[1] doesn't have to be set
 				return $this->auction->startAuction(@$buff[1]);
