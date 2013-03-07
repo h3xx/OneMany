@@ -142,7 +142,7 @@ class ControllerGame {
 		$new_loc = ($this->model->game->getUserOnSpace($this->user_id) + $roll[0] + $roll[1]);
 		if ($new_loc > 39) {
 			# passed GO
-			$this->model->user->addUserCash($this->user_id, $this->model->rules->getRuleValue('go_salary', 200));
+			$this->addGoMoney();
 			$new_loc = $new_loc % 40;
 		}
 
@@ -155,10 +155,19 @@ class ControllerGame {
 		return $result;
 	}
 
-	public function landOnSpace ($space_id, $dice) {
+	public function addGoMoney () {
+		return $this->model->user->addUserCash($this->user_id, $this->model->rules->getRuleValue('go_salary', 200));
+	}
+
+	public function landOnSpace ($space_id, $dice, $prevmsg='') {
 		$dice_total = array_sum($dice);
 		$sinfo = $this->model->game->board->getSpaceAndOwnershipInfo($space_id);
-		$landed_msg = 'Landed on ' . $sinfo['name'] . '.';
+		if (!empty($prevmsg)) {
+			$landed_msg = $prevmsg;
+		} else {
+			$user_name = $this->model->user->resolveUserId($this->user_id);
+			$landed_msg = $user_name . ' landed on ' . $sinfo['name'] . '.';
+		}
 
 		if (!$this->model->user->moveToSpace($this->user_id, $space_id)) {
 			return [
@@ -229,25 +238,83 @@ class ControllerGame {
 					$this->model->user->addUserCash($this->user_id, -$tax[0]);
 					return $this->turnIsOver([
 						'result'=> true,
-						'msg'	=> $landed_msg . ' Paid ['.$tax[1].'] tax of $' . $tax,
+						'msg'	=> $landed_msg . ' Paid ['.$tax[1].'] tax of $' . $tax[0],
 					]);
 					break;
 				case 'C':
 					# Chance
 					# FIXME
-					$card = $this->model->game->commchest->drawCard($this->user_id);
+					$card = $this->model->game->chance->drawCard($this->user_id);
+					$landed_msg = $landed_msg . ' - '.$card['text'];
+					if (is_numeric($card['action'])) {
+						# paid
+						$this->model->user->addUserCash($this->user_id, $card['action']);
+					} else {
+						switch ($card['action']) {
+							case 'G0':
+								# to to GO
+								$this->addGoMoney();
+								return $this->landOnSpace(0, $dice, $landed_msg);
+								break;
+							case 'G17':
+								# go to Illinois Ave
+								if ($space_id >= 17) {
+									$this->addGoMoney();
+								}
+								return $this->landOnSpace(17, $dice, $landed_msg);
+								break;
+							case 'G11':
+								# go to St. Charles Place
+								if ($space_id >= 11) {
+									$this->addGoMoney();
+								}
+								return $this->landOnSpace(11, $dice, $landed_msg);
+								break;
+							case 'G5':
+								# go to Reading Railroad
+								if ($space_id >= 5) {
+									$this->addGoMoney();
+								}
+								return $this->landOnSpace(5, $dice, $landed_msg);
+								break;
+							case 'G39':
+								# go to Reading Railroad
+								if ($space_id >= 39) {
+									$this->addGoMoney();
+								}
+								return $this->landOnSpace(39, $dice, $landed_msg);
+								break;
+							case 'G3':
+								# go back three spaces
+								$sp = $space_id - 3;
+								if ($sp < 0) {
+									$sp += 40;
+								}
+								return $this->landOnSpace($sp, $dice, $landed_msg);
+								break;
+
+							case 'PA50':
+								# collect $50 from all players
+								# FIXME
+								break;
+						}
+					}
 					return $this->turnIsOver([
 						'result'=> true,
-						'msg'	=> $landed_msg . ' - '.$card['msg'],
+						'msg'	=> $landed_msg,
 					]);
 					break;
 				case 'CC':
 					# Community Chest
 					# FIXME
 					$card = $this->model->game->commchest->drawCard($this->user_id);
+					if (is_numeric($card['action'])) {
+						# paid
+						$this->model->user->addUserCash($this->user_id, $card['action']);
+					}
 					return $this->turnIsOver([
 						'result'=> true,
-						'msg'	=> $landed_msg . ' - '.$card['msg'],
+						'msg'	=> $landed_msg . ' - '.$card['text'],
 					]);
 					break;
 				case 'G2':
