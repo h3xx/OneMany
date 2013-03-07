@@ -30,7 +30,11 @@ class ControllerGame {
 
 		switch ($buff[0]) {
 			case 'buy':
-				return $this->board->buyPropertyYoureOn();
+				$result = $this->board->buyPropertyYoureOn();
+				if ($result['result']) {
+					return $this->turnIsOver($result);
+				}
+				return $result;
 				break;
 				;;
 			case 'sell':
