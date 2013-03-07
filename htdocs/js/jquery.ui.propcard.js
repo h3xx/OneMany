@@ -9,6 +9,7 @@ $.widget("ui.propcard", {
 		load: true,
 		closeCallback: null,
 		ownedCallback: null,
+		persistNoCallbacks: false,
 		myId: null,
 	},
 
@@ -156,7 +157,10 @@ $.widget("ui.propcard", {
 				if (data) {
 					self.options.data = data;
 					self.draw();
-					if (self.options.ownedCallback && self.options.myId == data.owner) {
+					if (!self.options.persistNoCallbacks &&
+						self.options.ownedCallback &&
+						self.options.myId == data.owner) {
+
 						self.options.ownedCallback();
 					}
 				}
@@ -167,8 +171,8 @@ $.widget("ui.propcard", {
 	draw: function () {
 		var self = this;
 		if (self.options.data != null) {
-			$('.propcard').remove();
 			self.widget()
+				.empty('.propcard')
 				.append(self.makeCard(self.options.data))
 				.show();
 		}
@@ -181,9 +185,11 @@ $.widget("ui.propcard", {
 			.addClass('ui-propcard')
 		)
 			.click(function () {
-				self.widget().hide();
-				if (self.options.closeCallback) {
-					self.options.closeCallback(self.options.id);
+				if (!self.options.persistNoCallbacks) {
+					self.widget().hide();
+					if (self.options.closeCallback) {
+						self.options.closeCallback(self.options.id);
+					}
 				}
 			});
 
