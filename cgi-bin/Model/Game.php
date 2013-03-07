@@ -397,6 +397,30 @@ class ModelGame {
 		]);
 	}
 
+	public function setGojf ($user_id, $has_gojf) {
+		$sth = $this->model->prepare(
+			'update "c_user_game" '.
+			'set '.
+				'"has_gojf" = :hg, '.
+			'where "game_id" = :gid '.
+			'and "user_id" = :uid'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':hg', $has_gojf, PDO::PARAM_BOOL);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		return $this->model->update->pushUpdate([
+			'type'	=> 'gojf',
+			'id'	=> $user_id,
+			'val'	=> $has_gojf,
+		]);
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'chance':
