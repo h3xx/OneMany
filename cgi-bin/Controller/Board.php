@@ -318,6 +318,14 @@ class ControllerBoard {
 			];
 		}
 
+		$group_name = $this->model->game->board->getSpaceGroup($space_id);
+		if (!is_numeric($group_name)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'You cannot put a house on that type of property.',
+			];
+		}
+
 		# retrieve rule
 		$parallel = $this->model->rules->getRuleValue('parallel_improvement');
 
