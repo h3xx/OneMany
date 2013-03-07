@@ -168,8 +168,12 @@ $(document).ready(function () {
 				id:sid,
 				closeCallback:self.spaceClose,
 				myId: self.gameData.my_id,
-				ownedCallback: function () {
-					self.setActionPanel({selectedPanel:'prop',propId:sid});
+				ownedCallback: function (isOwned) {
+					if (isOwned) {
+						self.setActionPanel({selectedPanel:'prop',propId:sid});
+					} else {
+						self.setActionPanel({idle:true});
+					}
 				},
 				persistNoCallbacks: false,
 			});

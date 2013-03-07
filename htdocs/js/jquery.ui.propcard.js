@@ -158,10 +158,9 @@ $.widget("ui.propcard", {
 					self.options.data = data;
 					self.draw();
 					if (!self.options.persistNoCallbacks &&
-						self.options.ownedCallback &&
-						self.options.myId == data.owner) {
+						self.options.ownedCallback) {
+						self.options.ownedCallback(self.options.myId == data.owner);
 
-						self.options.ownedCallback();
 					}
 				}
 			}
