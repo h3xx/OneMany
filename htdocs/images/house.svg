@@ -7,12 +7,12 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="269.99976"
-   height="270.10864"
+   width="274.93875"
+   height="275.09622"
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="orange-house-outline.svg">
+   sodipodi:docname="house.svg">
   <defs
      id="defs13" />
   <sodipodi:namedview
@@ -24,17 +24,21 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="640"
-     inkscape:window-height="480"
+     inkscape:window-width="1600"
+     inkscape:window-height="838"
      id="namedview11"
      showgrid="false"
-     inkscape:zoom="0.87372251"
-     inkscape:cx="134.99988"
-     inkscape:cy="135.05432"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="0"
-     inkscape:current-layer="layer1" />
+     inkscape:zoom="1.747445"
+     inkscape:cx="169.88213"
+     inkscape:cy="182.15793"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata3524">image/svg+xmlhome iconhome icon blue house property outline symbol<rdf:RDF>
   <cc:Work
@@ -52,12 +56,11 @@
        externalResourcesRequired="false"
        id="layer1">
       <path
-         stroke-miterlimit="4"
-         d="M 15,135.66318 134.83656,15.5 254.99977,135.33658 214.9998,135.39102 215.1631,255.3909 55.163251,255.60861 54.99994,135.60873 z"
+         style="font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;baseline-shift:baseline;color:#000000;fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:5;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Sans;-inkscape-font-specification:Sans"
+         d="m 137.06281,2.502213 c -3.8513,0.063443 -7.65506,1.6788958 -10.375,4.40625 L 6.8440555,127.06471 c -4.1609353,4.17301 -5.4911436,10.91822 -3.226023,16.35849 2.2651207,5.44028 7.9892945,9.24832 13.8822735,9.23526 l 25,-0.0312 0.125,105 c 0.0086,3.92689 1.633412,7.82608 4.415924,10.59702 2.782513,2.77094 6.688439,4.37953 10.615326,4.37173 l 160.000004,-0.1875 c 3.92689,-0.009 7.82609,-1.63342 10.59704,-4.41594 2.77094,-2.78252 4.37952,-6.68847 4.37171,-10.61536 l -0.125,-105 25,-0.0312 c 5.88993,-0.0115 11.59559,-3.83908 13.84018,-9.28455 2.2446,-5.44547 0.89337,-12.18187 -3.27768,-16.34045 L 147.90656,6.877213 c -2.83556,-2.8266334 -6.84054,-4.4424758 -10.84375,-4.375 z"
          id="path2418"
          inkscape:connector-curvature="0"
-         style="fill:#008000;fill-rule:evenodd;stroke:#008000;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4"
-         sodipodi:nodetypes="cccccccc" />
+         sodipodi:nodetypes="cccscccsccscccsccc" />
     </g>
   </g>
 </svg>
