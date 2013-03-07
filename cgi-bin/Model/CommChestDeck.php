@@ -1,10 +1,10 @@
 <?php
 
-class ModelChanceDeck {
+class ModelCommchestDeck {
 	private $model, $deck, $game_id;
 
-	private static $table_name = 'chance',
-		       $deck_table_name = 'c_game_chance';
+	private static $table_name = 'commchest',
+		       $deck_table_name = 'c_game_commchest';
 
 	function __construct ($model, $game_id) {
 		$this->model = $model;

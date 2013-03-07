@@ -1,6 +1,7 @@
 <?php
 
 require_once('ChanceDeck.php');
+require_once('CommChestDeck.php');
 require_once('Board.php');
 
 class ModelGame {
@@ -51,7 +52,7 @@ class ModelGame {
 
 	private function getCommChest () {
 		if (!isset($this->commchest)) {
-			#$this->commchest = new ModelCommChestDeck($this->model, $this->game_id);
+			$this->commchest = new ModelCommChestDeck($this->model, $this->game_id);
 		}
 		return $this->commchest;
 	}
