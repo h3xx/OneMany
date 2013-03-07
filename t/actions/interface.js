@@ -110,7 +110,7 @@ $(document).ready(function () {
 					self.setActionPanel({
 						info:
 							self._playerInfo(upd.owner).name +
-							' Bought ' +
+							' bought ' +
 							self._spaceInfo(upd.space).name
 						});
 					self.elems.propcard.propcard({shown:false});
@@ -149,7 +149,7 @@ $(document).ready(function () {
 			if (self.gameData.my_id == uid) {
 				self.setActionPanel({buy: self.gameData.board[sid].name});
 			} else {
-				self.setActionPanel({info: 'Asking user #' + uid + ' if they want to buy ' + self.gameData.board[sid].name});
+				self.setActionPanel({info: 'Asking ' + self._playerInfo(uid).name + ' if they want to buy ' + self.gameData.board[sid].name});
 			}
 			pc.propcard({
 				id:sid,
