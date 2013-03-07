@@ -65,6 +65,15 @@ class ControllerBoard {
 	}
 
 	public function sellProperty ($space_id) {
+		# check whether it's their turn
+		$whose_turn = $this->model->game->whoseTurn();
+		if ($whose_turn !== $this->user_id) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Not your turn.',
+			];
+		}
+
 		return [
 			'result'=> true,
 			'msg'	=> 'FIXME: implement selling property.',
@@ -72,6 +81,15 @@ class ControllerBoard {
 	}
 
 	public function buyPropertyYoureOn () {
+		# check whether it's their turn
+		$whose_turn = $this->model->game->whoseTurn();
+		if ($whose_turn !== $this->user_id) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Not your turn.',
+			];
+		}
+
 		$space_id = $this->model->game->getUserOnSpace($this->user_id);
 
 		if (!is_numeric($space_id)) {
@@ -85,6 +103,15 @@ class ControllerBoard {
 	}
 
 	public function mortgageProperty ($space_id) {
+		# check whether it's their turn
+		$whose_turn = $this->model->game->whoseTurn();
+		if ($whose_turn !== $this->user_id) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Not your turn.',
+			];
+		}
+
 		$owner_id = $this->model->game->whoOwnsSpace($space_id);
 		if (!isset($owner_id) || $owner_id !== $this->user_id) {
 			return [
@@ -184,6 +211,15 @@ class ControllerBoard {
 	}
 
 	public function sellHouses ($space_id, $houses_to_sell) {
+		# check whether it's their turn
+		$whose_turn = $this->model->game->whoseTurn();
+		if ($whose_turn !== $this->user_id) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Not your turn.',
+			];
+		}
+
 		if (!isset($houses_to_sell)) {
 			$houses_to_sell = 1;
 		}
@@ -299,6 +335,15 @@ class ControllerBoard {
 	}
 
 	public function buyHouses ($space_id, $houses_to_buy) {
+		# check whether it's their turn
+		$whose_turn = $this->model->game->whoseTurn();
+		if ($whose_turn !== $this->user_id) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Not your turn.',
+			];
+		}
+
 		if (!isset($houses_to_buy)) {
 			$houses_to_buy = 1;
 		}
