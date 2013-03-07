@@ -1,0 +1,16 @@
+#progressbar {
+	width: 250px;
+}
+
+.header {
+	font-weight: bold;
+}
+.cell, .row {
+	float: left;
+}
+.row {
+	clear: left;
+}
+.cell {
+	width: 100px;
+}
