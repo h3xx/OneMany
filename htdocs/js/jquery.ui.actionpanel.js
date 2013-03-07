@@ -5,6 +5,8 @@ $.widget("ui.actionpanel", {
 		servlet: 'responder.php',
 		animateDuration: 200,
 		selectedPanel: 'waiting',
+		idlePanel: 'waiting',
+		idle: false,
 		data: null,
 		propId: null,
 	},
@@ -226,6 +228,10 @@ $.widget("ui.actionpanel", {
 					if (!data.result) {
 						// TODO : handle failure
 						alert('sellPropCallback: ' +data.msg);
+					} else {
+						self.setIdle(true);
+						// FIXME : clear violation of top-down
+						$('#propcard').propcard({shown:false});
 					}
 				}
 			});
@@ -333,6 +339,15 @@ $.widget("ui.actionpanel", {
 		this.element.append(uiActionPanel);
 	},
 
+	setIdle: function (isIdle) {
+		var self = this;
+		if (isIdle) {
+			self.selectDisplay(self.options.idlePanel);
+		} else {
+			self.selectDisplay(self.options.selectedPanel);
+		}
+	},
+
 	_refresh: function () {
 		var self = this;
 		self.selectDisplay(self.options.selectedPanel);
@@ -341,10 +356,12 @@ $.widget("ui.actionpanel", {
 	_setOption: function (key, value) {
 		var self = this;
 		// _super and _superApply handle keeping the right this-context
-		self._superApply(arguments);
 		switch (key) {
 			case 'selectedPanel':
 				self.selectDisplay(value);
+				break;
+			case 'idle':
+				self.setIdle(value);
 				break;
 			case 'info':
 				self.setInfo(value);
@@ -355,6 +372,7 @@ $.widget("ui.actionpanel", {
 				self.selectDisplay('buy');
 				break;
 		}
+		self._superApply(arguments);
 	},
 });
 

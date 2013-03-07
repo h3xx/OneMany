@@ -178,6 +178,11 @@ $.widget("ui.propcard", {
 		}
 	},
 
+	hide: function () {
+	      var self = this;
+	      self.widget().hide();
+	},
+
 	_create: function () {
 		var self = this,
 
@@ -186,7 +191,7 @@ $.widget("ui.propcard", {
 		)
 			.click(function () {
 				if (!self.options.persistNoCallbacks) {
-					self.widget().hide();
+					self.hide();
 					if (self.options.closeCallback) {
 						self.options.closeCallback(self.options.id);
 					}
@@ -222,8 +227,17 @@ $.widget("ui.propcard", {
 		var self = this;
 		// _super and _superApply handle keeping the right this-context
 		self._superApply(arguments);
-		if (key == 'id') {
-			self._refresh();
+		switch (key) {
+			case 'id':
+				self._refresh();
+				break;
+			case 'shown':
+				if (!value) {
+					self.hide();
+				} else {
+					self._refresh();
+				}
+				break;
 		}
 	},
 });

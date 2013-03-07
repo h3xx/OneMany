@@ -138,10 +138,17 @@ $(document).ready(function () {
 		},
 
 		askToBuy: function (uid, sid) {
-			var self = this;
+			var self = this,
+			pc = self.elems.propcard;
 			if (self.gameData.my_id == uid) {
-				self.setActionPanel({buy: sid});
+				alert(self.gameData.board[sid].name);
+				self.setActionPanel({buy: self.gameData.board[sid].name});
 			}
+			pc.propcard({
+				id:sid,
+				myId: self.gameData.my_id,
+				persistNoCallbacks: true,
+			});
 		},
 
 		moveUser: function (uid, sid) {
@@ -160,6 +167,7 @@ $(document).ready(function () {
 				ownedCallback: function () {
 					self.setActionPanel({selectedPanel:'prop',propId:sid});
 				},
+				persistNoCallbacks: false,
 			});
 		},
 
@@ -207,10 +215,13 @@ $(document).ready(function () {
 		},
 		initActionPanel: function () {
 			var self = this,
-			sp = (self._playerInfo(self.gameData.my_id).turn ? 'roll' : 'waiting');
+			myturn = self._playerInfo(self.gameData.my_id).turn,
+			sp = (myturn ? 'roll' : 'waiting');
 			self.elems.actionPanel
 				.actionpanel({
 					selectedPanel: sp,
+					idlePanel: sp,
+					idle: myturn,
 				});
 		},
 		setActionPanel: function (data) {
