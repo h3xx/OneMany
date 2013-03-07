@@ -226,21 +226,14 @@ $.widget("ui.board", {
 
 		if (alreadyHouses == numHouses) return; // don't gotta do shit
 
+		// clear the house container
+		elem.empty('img');
+
 		if (numHouses == 5) {
-			elem.remove('img');
-			//elem.append($('<img>').attr('src', self.options.hotelImage).addClass('hotel'));
 			elem.append(self.elems.hotel);
 		} else {
-			var i = 0;
-			if (numHouses > alreadyHouses) {
-				i = alreadyHouses;
-			} else {
-				elem.remove('img');
-			}
-			for (; i < numHouses; ++i) {
-
-				//elem.append($('<img>').attr('src', self.options.houseImage).addClass('house'));
-				elem.append(self.elems.house);
+			for (var i = 0; i < numHouses; ++i) {
+				elem.append(self.elems.house.clone());
 			}
 		}
 

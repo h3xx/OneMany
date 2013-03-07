@@ -112,6 +112,9 @@ $(document).ready(function () {
 				case 'move':
 					self.moveUser(upd.id, upd.space);
 					break;
+				case 'improve':
+					self.setBoard({id:upd.space,houses:upd.houses});
+					break;
 				case 'cash':
 					self._mergeAtId(self.gameData.users, upd.id, {
 						cash: upd.cash,

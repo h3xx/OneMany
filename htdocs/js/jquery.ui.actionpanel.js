@@ -63,6 +63,18 @@ $.widget("ui.actionpanel", {
 				$('<button>Sell Property</button>')
 					.button()
 					.click(function () {self.sellPropCallback(self.options.propId);})
+			)
+			.append(
+				// Buy house button
+				$('<button>Buy 1 House</button>')
+					.button()
+					.click(function () {self.buyHouseCallback(self.options.propId);})
+			)
+			.append(
+				// Buy house button
+				$('<button>Sell 1 House</button>')
+					.button()
+					.click(function () {self.sellHouseCallback(self.options.propId);})
 			);
 
 		self.displays.prop = pp;
@@ -214,6 +226,44 @@ $.widget("ui.actionpanel", {
 					if (!data.result) {
 						// TODO : handle failure
 						alert('sellPropCallback: ' +data.msg);
+					}
+				}
+			});
+	},
+
+	buyHouseCallback: function (sid) {
+		var self = this;
+
+		$.post(self.options.servlet,
+			{
+				method: 'tell',
+				func: 'game',
+				args: 'buyHouse:' + sid,
+			},
+			function (data) {
+				if (data) {
+					if (!data.result) {
+						// TODO : handle failure
+						alert('buyHouseCallback: ' +data.msg);
+					}
+				}
+			});
+	},
+
+	sellHouseCallback: function (sid) {
+		var self = this;
+
+		$.post(self.options.servlet,
+			{
+				method: 'tell',
+				func: 'game',
+				args: 'sellHouse:' + sid,
+			},
+			function (data) {
+				if (data) {
+					if (!data.result) {
+						// TODO : handle failure
+						alert('sellHouseCallback: ' +data.msg);
 					}
 				}
 			});
