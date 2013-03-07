@@ -113,6 +113,7 @@ $(document).ready(function () {
 							' Bought ' +
 							self._spaceInfo(upd.space).name
 						});
+					self.elems.propcard.propcard({shown:false});
 					break;
 				case 'move':
 					self.moveUser(upd.id, upd.space);
@@ -147,6 +148,8 @@ $(document).ready(function () {
 			pc = self.elems.propcard;
 			if (self.gameData.my_id == uid) {
 				self.setActionPanel({buy: self.gameData.board[sid].name});
+			} else {
+				self.setActionPanel({info: 'Asking user #' + uid + ' if they want to buy ' + self.gameData.board[sid].name});
 			}
 			pc.propcard({
 				id:sid,
