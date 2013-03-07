@@ -139,7 +139,12 @@ class ControllerGame {
 			$this->model->user->resetDoubles($this->user_id);
 		}
 
-		$new_loc = ($this->model->game->getUserOnSpace($this->user_id) + $roll[0] + $roll[1]) % 40; # XXX : assuming the size of the board is 40
+		$new_loc = ($this->model->game->getUserOnSpace($this->user_id) + $roll[0] + $roll[1]);
+		if ($new_loc > 39) {
+			# passed GO
+			$this->model->user->addUserCash($this->user_id, $this->model->rules->getRuleValue('go_salary', 200));
+			$new_loc = $new_loc % 40;
+		}
 
 		return $this->landOnSpace($new_loc, $roll[0] + $roll[1]);
 
@@ -148,7 +153,8 @@ class ControllerGame {
 	}
 
 	public function landOnSpace ($space_id, $dice_total) {
-		$landed_msg = 'Landed on ' . $this->model->game->board->getSpaceName($space_id) . '.';
+		$sinfo = $this->model->game->board->getSpaceAndOwnershipInfo($space_id);
+		$landed_msg = 'Landed on ' . $sinfo['name'] . '.';
 
 		if (!$this->model->user->moveToSpace($this->user_id, $space_id)) {
 			return [
@@ -157,7 +163,7 @@ class ControllerGame {
 			];
 		}
 
-		$owner = $this->model->game->board->whoOwnsSpace($space_id);
+		$owner = $sinfo['owner'];
 		if ($owner === $this->user_id) {
 			return $this->turnIsOver([
 				'result'=> true,
@@ -177,15 +183,18 @@ class ControllerGame {
 			# turn is over
 			return $this->turnIsOver([
 				'result'=> true,
-				'msg'	=> $landed_msg . ' Paid rent of $' . $rent . ' to ' . $this->model->user->resolveUserId($owner),
+				'msg'	=> $landed_msg . ' Paid rent of $' . $rent . ' to ' . $sinfo['oname'],
 			]);
-		} else if ($this->model->game->board->isOwnable($space_id)) {
+		#} else if ($this->model->game->board->isOwnable($space_id)) {
+		} else if ($sinfo['cost'] > 0) { # ownable
 			$this->model->game->askBuy($this->user_id, $space_id);
 			# no owner, is buyable
 			return [
 				'result'=> true,
 				'msg'	=> $landed_msg . ' It\' unowned. We need to know if you want to buy this.',
 			];
+		} else {
+			# other type of space
 		}
 
 		return [
