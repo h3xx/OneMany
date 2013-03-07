@@ -195,7 +195,7 @@ class ControllerBoard {
 			];
 		}
 
-		$owner_id = $this->model->game->whoOwnsSpace($space_id);
+		$owner_id = $this->model->game->board->whoOwnsSpace($space_id);
 		if (!isset($owner_id) || $owner_id !== $this->user_id) {
 			return [
 				'result'=> false,
