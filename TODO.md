@@ -10,9 +10,9 @@
 
  * *If user has enough money, buy un-owned property* **[done]**
 
- * ASK user to buy any un-owned property they land on
+ * *ASK user to buy any un-owned property they land on* **[done]**
 
-5. Do the actual buying if they said 'yes' (end turn)
+5. *Do the actual buying if they said 'yes' (end turn)* **[done]**
 
 6. [A+] Auction property if they said 'no' (must figure out how to do so)
 
@@ -28,9 +28,9 @@
 
 12. -
 
- * [B] Action based on card (DB to be given to you for this purpose)
+ * *[B] Action based on card (DB to be given to you for this purpose)* **[done]**
 
- * [C] +/- $75 for landing on card
+ * *[C] +/- $75 for landing on card* **[done]**
 
 13. Implement jailing
 
@@ -40,15 +40,15 @@
 
  * [A] use get out of jail free card
 
-14. *Pay $75 to bank on Luxury tax* **[done-not implemented]**
+14. *Pay $75 to bank on Luxury tax* **[done]**
 
 15. Implement income tax
 
- * Pay $200 on Income Tax
+ * *Pay $200 on Income Tax* **[done]**
 
  * Ask user to pay $200 or 10% of total worth (DO NOT SHOW THEM THIS 10%, but CALCULATE IT WHEN THEY DECIDE)
 
-16. Implement payment for passing GO
+16. *Implement payment for passing GO* **[done]**
 
  * *[A] Implement non-payment of GO money in certain circumstances* **[done (see entry in `rules` table)]**
 
