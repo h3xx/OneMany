@@ -195,13 +195,92 @@ class ControllerGame {
 			];
 		} else {
 			# other type of space
+			switch ($sinfo['group']) {
+				#case 'U':
+				#	// Utility -- shouldn't be handled here
+				#case 'RR':
+				#	// Railroad -- shouldn't be handled here
+				case 'LT':
+					# luxury tax
+					$tax = $this->model->rules->getRuleValue('luxurytax', 75);
+					$this->model->user->addUserCash($this->user_id, -$tax);
+					return $this->turnIsOver([
+						'result'=> true,
+						'msg'	=> $landed_msg . ' Paid tax of $' . $tax,
+					]);
+					break;
+				case 'IT':
+					# income tax
+					$tax_f = $this->model->rules->getRuleValue('incometax_flat', 200);
+					$tax_p = (
+						$this->model->user->getUserCasH($this->user_id) *
+						$this->model->rules->getRuleValue('incometax_perc', 10) / 100
+					);
+
+					# choose lowest tax
+					$tax = (
+						($tax_f < $tax_p) ? [$tax_f, 'flat'] : [$tax_p, 'percentage']
+					);
+
+					$this->model->user->addUserCash($this->user_id, -$tax[0]);
+					return $this->turnIsOver([
+						'result'=> true,
+						'msg'	=> $landed_msg . ' Paid ['.$tax[1].'] tax of $' . $tax,
+					]);
+					break;
+				case 'C':
+					# Chance
+					# FIXME
+					return $this->turnIsOver([
+						'result'=> true,
+						'msg'	=> $landed_msg,
+					]);
+					break;
+				case 'CC':
+					# Community Chest
+					# FIXME
+					return $this->turnIsOver([
+						'result'=> true,
+						'msg'	=> $landed_msg,
+					]);
+					break;
+				case 'G2':
+					# Go to jail!
+					# FIXME
+					return $this->turnIsOver([
+						'result'=> true,
+						'msg'	=> $landed_msg,
+					]);
+					break;
+				case 'FP':
+					# FIXME
+					return $this->turnIsOver([
+						'result'=> true,
+						'msg'	=> $landed_msg,
+					]);
+					break;
+				# zero-action spaces
+				case 'JV':
+					# just visiting jail
+				case 'GO':
+					# GO
+					return $this->turnIsOver([
+						'result'=> true,
+						'msg'	=> $landed_msg,
+					]);
+					break;
+				#default:
+				#	return [
+				#		'result'=> false,
+				#		'msg'	=> $landed_msg . ' Unhandled space.',
+				#	];
+			}
 		}
 
 		return [
 			'result'=> false,
 			'msg'	=> $landed_msg . ' Unhandled space.',
 		];
-		# FIXME - handle, chance, commchest, go2jail, go
 	}
 
 	private function throwUserInJail ($success_return) {
