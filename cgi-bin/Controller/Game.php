@@ -146,13 +146,17 @@ class ControllerGame {
 			$new_loc = $new_loc % 40;
 		}
 
-		return $this->landOnSpace($new_loc, $roll[0] + $roll[1]);
+		$result = $this->landOnSpace($new_loc, $roll);
 
-		# FIXME : check turn, move piece, etc.
-		#return $success;
+		if ($roll[0] == $roll[1]) {
+			$result['msg'] .= ' You rolled doubles. Go again.';
+		}
+
+		return $result;
 	}
 
-	public function landOnSpace ($space_id, $dice_total) {
+	public function landOnSpace ($space_id, $dice) {
+		$dice_total = array_sum($dice);
 		$sinfo = $this->model->game->board->getSpaceAndOwnershipInfo($space_id);
 		$landed_msg = 'Landed on ' . $sinfo['name'] . '.';
 
@@ -191,7 +195,7 @@ class ControllerGame {
 			# no owner, is buyable
 			return [
 				'result'=> true,
-				'msg'	=> $landed_msg . ' It\' unowned. We need to know if you want to buy this.',
+				'msg'	=> $landed_msg . ' It\'s unowned. We need to know if you want to buy this.',
 			];
 		} else {
 			# other type of space
@@ -231,17 +235,19 @@ class ControllerGame {
 				case 'C':
 					# Chance
 					# FIXME
+					$card = $this->model->game->commchest->drawCard($this->user_id);
 					return $this->turnIsOver([
 						'result'=> true,
-						'msg'	=> $landed_msg,
+						'msg'	=> $landed_msg . ' - '.$card['msg'],
 					]);
 					break;
 				case 'CC':
 					# Community Chest
 					# FIXME
+					$card = $this->model->game->commchest->drawCard($this->user_id);
 					return $this->turnIsOver([
 						'result'=> true,
-						'msg'	=> $landed_msg,
+						'msg'	=> $landed_msg . ' - '.$card['msg'],
 					]);
 					break;
 				case 'G2':
