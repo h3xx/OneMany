@@ -59,4 +59,23 @@ class ModelUpdate {
 		return true;
 	}
 
+	public function exportModel () {
+		$sth = $this->model->prepare(
+			'select "game_change" '.
+			'from "game_update" '.
+			'where "game_id" = :gid '.
+			'order by "game_newstate" desc '.
+			'limit 1'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
 }

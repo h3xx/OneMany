@@ -69,6 +69,7 @@ class ModelGame {
 		$auction = $this->getAuctionInfoNoExpired();
 		$board = $this->board->exportModel();
 		$users = $this->model->user->exportModel();
+		$last_update = $this->model->update->exportModel();
 
 		return [
 			'state'	=> $state,
@@ -77,6 +78,7 @@ class ModelGame {
 			'auction'=> $auction,
 			'board'	=> $board,
 			'users'	=> $users,
+			'update'=> $last_update,
 		];
 	}
 
