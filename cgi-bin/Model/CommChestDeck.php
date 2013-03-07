@@ -22,7 +22,7 @@ class ModelCommchestDeck {
 		#  LOL LOL
 	}
 
-	private function drawCard ($user_id) {
+	public function drawCard ($user_id) {
 		$sth = $this->model->prepare(
 			'select '.
 			'"RECORDID" as "id", '.
