@@ -242,7 +242,7 @@ class ControllerBoard {
 				'msg'	=> 'Success.',
 			];
 		} else {
-			$res = $this->_sellHousesNonParallel($sid, $houses_to_sell);
+			$res = $this->_sellHousesNonParallel($space_id, $houses_to_sell);
 			if (!$res['result']) {
 				return $res;
 			}
