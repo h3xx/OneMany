@@ -51,7 +51,7 @@ class ControllerBoard {
 			];
 		}
 
-		if (!$this->model->user->setUserCash($this->user_id, $cash_on_hand - $space_cost)) {
+		if (!$this->model->user->addUserCash($this->user_id, -$space_cost)) {
 			return [
 				'result'=> false,
 				'msg'	=> 'Failed to set user cash [WTF].',
@@ -71,6 +71,49 @@ class ControllerBoard {
 			return [
 				'result'=> false,
 				'msg'	=> 'Not your turn.',
+			];
+		}
+
+		$owner = $this->model->game->board->whoOwnsSpace($space_id);
+		if (!isset($owner) || $owner !== $this->user_id) {
+			return [
+				'result'=> false,
+				'msg'	=> 'You do not own this property.',
+			];
+		}
+
+		$space_cost = $this->model->game->board->getBuyFromBankCost($space_id);
+		if (!isset($space_cost) || $space_cost < 0) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Property is not sellable.',
+			];
+		}
+
+		$houses = $this->model->game->board->housesOnSpace($space_id);
+		if ($houses > 0) {
+			$housecost = $this->model->game->board->getHouseCost($space_id);
+			$space_cost += $housecost * $houses;
+
+			if (!$this->model->game->board->setNumHouses($space_id, 0)) {
+				return [
+					'result'=> false,
+					'msg'	=> 'Failed to set the number of houses [WTF].',
+				];
+			}
+		}
+
+		if (!$this->model->game->board->setPropertyOwner($space_id, null)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Failed to unset property owner [WTF].',
+			];
+		}
+
+		if (!$this->model->user->addUserCash($this->user_id, $space_cost)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Failed to set user cash [WTF].',
 			];
 		}
 

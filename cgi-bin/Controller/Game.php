@@ -148,6 +148,8 @@ class ControllerGame {
 	}
 
 	public function landOnSpace ($space_id, $dice_total) {
+		$landed_msg = 'Landed on ' . $this->model->game->board->getSpaceName($space_id) . '.';
+
 		if (!$this->model->user->moveToSpace($this->user_id, $space_id)) {
 			return [
 				'result'=> false,
@@ -159,14 +161,14 @@ class ControllerGame {
 		if ($owner === $this->user_id) {
 			return $this->turnIsOver([
 				'result'=> true,
-				'msg'	=> 'You own that space, nothing to do.',
+				'msg'	=> $landed_msg . ' You own that space, nothing to do.',
 			]);
 		} else if (isset($owner)) {
 			$rent = $this->model->game->board->rentForSpace($space_id, $dice_total);
 			if ($rent === 0) {
 				return $this->turnIsOver([
 					'result'=> true,
-					'msg'	=> 'No rent.',
+					'msg'	=> $landed_msg . ' No rent.',
 				]);
 			}
 			$this->model->user->addUserCash($owner, $rent);
@@ -175,21 +177,20 @@ class ControllerGame {
 			# turn is over
 			return $this->turnIsOver([
 				'result'=> true,
-				'msg'	=> 'Paid rent of $' . $rent . ' to user #' . $owner,
+				'msg'	=> $landed_msg . ' Paid rent of $' . $rent . ' to ' . $this->model->user->resolveUserId($owner),
 			]);
 		} else if ($this->model->game->board->isOwnable($space_id)) {
 			$this->model->game->askBuy($this->user_id, $space_id);
 			# no owner, is buyable
 			return [
 				'result'=> true,
-				'msg'	=> 'We need to know if you want to buy this.',
+				'msg'	=> $landed_msg . ' It\' unowned. We need to know if you want to buy this.',
 			];
 		}
 
-		
 		return [
 			'result'=> false,
-			'msg'	=> 'Unhandled space.',
+			'msg'	=> $landed_msg . ' Unhandled space.',
 		];
 		# FIXME - handle, chance, commchest, go2jail, go
 	}

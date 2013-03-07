@@ -378,6 +378,23 @@ class ModelBoard {
 		return @$result[0];
 	}
 
+	public function getSpaceName ($space_id) {
+		$sth = $this->model->prepare(
+			'select "space_name" from "space" '.
+			'where "space_id" = :sid'
+		);
+
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+	}
+
 	public function hasMonopoly ($user_id, $space_id) {
 		$sth = $this->model->prepare(
 			'select has_monopoly(:gid, :uid, :sid)'
