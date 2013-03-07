@@ -82,6 +82,7 @@ class ModelBoard {
 				'"c_game_space"."space_id" as "id", '.
 				'"space_group" as "group", '.
 				'"houses", '.
+				'"space_name" as "name", '.
 				'"is_mortgaged" '.
 			'from "c_game_space" '.
 			'left join "space" on ("space"."space_id" = "c_game_space"."space_id") '.
