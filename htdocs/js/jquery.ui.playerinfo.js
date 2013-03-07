@@ -66,6 +66,16 @@ $.widget("ui.playerinfo", {
 		return pan;
 	},
 
+	getCash: function (id) {
+		var self = this,
+		disp = self.displays['id' + id];
+
+		if (disp && disp.cash) {
+			return disp.cash.data('cash');
+		}
+		return null;
+	},
+
 	setTurn: function (id) {
 		var self = this,
 		tc = self.options.turnclass;
@@ -77,6 +87,42 @@ $.widget("ui.playerinfo", {
 				self.displays[i].main.removeClass(tc);
 			}
 		}
+	},
+
+	setName: function (id, name) {
+		var self = this,
+		disp = self.displays['id' + id];
+
+		disp.name.text(name);
+	},
+
+	setCash: function (id, cash) {
+		var self = this,
+		disp = self.displays['id' + id],
+		ocash = self.getCash(id);
+
+		if (ocash) {
+			var cashmsg =
+				$('<span></span>')
+				.addClass(
+					(ocash > cash) ? 'negative' : 'positive'
+				)
+				.text(
+					(ocash > cash) ? ('-$' + (ocash - cash)) : ('+$' + (cash - ocash))
+				);
+			self.setMsg(id, cashmsg);
+		}
+		disp.cash.text('$' + cash);
+		disp.cash.data('cash', cash);
+	},
+
+	setMsg: function (id, msg) {
+		var self = this,
+		disp = self.displays['id' + id];
+
+		disp.msg
+			.empty()
+			.append($(msg));
 	},
 
 	widget: function () {
@@ -116,9 +162,20 @@ $.widget("ui.playerinfo", {
 			// expect an array
 			for (var i in value) {
 				var turn = value[i].turn,
+				name = value[i].name,
+				cash = value[i].cash,
 				data = self.options.data;
+
 				if (turn != null && turn) {
 					self.setTurn(value[i].id);
+				}
+
+				if (name) {
+					self.setName(value[i].id, name);
+				}
+
+				if (cash) {
+					self.setCash(value[i].id, cash);
 				}
 
 				// merge at same id in our data
@@ -130,7 +187,7 @@ $.widget("ui.playerinfo", {
 			}
 		}
 		// -- dangerous -- self._superApply(arguments);
-		self._refresh();
+		//self._refresh();
 	},
 
 });

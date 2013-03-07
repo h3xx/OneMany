@@ -27,3 +27,9 @@
 	right: 4px;
 	top: 9px;
 }
+.ui-playerinfo .msg .positive {
+	color: green;
+}
+.ui-playerinfo .msg .negative {
+	color: red;
+}

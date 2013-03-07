@@ -142,8 +142,16 @@ $.widget("ui.actionpanel", {
 
 	makeInfoPanel: function () {
 		var self = this,
+		ok = $('<button>OK</button>')
+			.button()
+			.click(function () {
+				self.setIdle(true);
+			}),
+		disp = $('<div></div>'),
 		ip = self.makePanelContainer()
-			.addClass('ui-actionpanel-info');
+			.addClass('ui-actionpanel-info')
+			.append(disp, ok)
+			.data('disp', disp);
 
 		self.displays.info = ip;
 		ip.hide();
@@ -171,10 +179,18 @@ $.widget("ui.actionpanel", {
 		bp.data('msgadd').text(what);
 	},
 
+	showInfo: function (what) {
+		var self = this;
+		self.setInfo(what);
+		self.options.selectedPanel = 'info';
+		self.options.idle = false;
+		self.setIdle(false);
+	},
+
 	setInfo: function (what) {
 		var self = this,
 		ip = self.displays.info;
-		ip.text(what);
+		ip.data('disp').text(what);
 	},
 
 	setBidTime: function (time) {
@@ -221,7 +237,7 @@ $.widget("ui.actionpanel", {
 			{
 				method: 'tell',
 				func: 'game',
-				args: 'sell:' + sid,
+				args: 'sell: ' + sid,
 			},
 			function (data) {
 				if (data) {
@@ -232,7 +248,9 @@ $.widget("ui.actionpanel", {
 						self.setIdle(true);
 						// FIXME : clear violation of top-down
 						$('#propcard').propcard({shown:false});
+						self.setIdle(true);
 					}
+
 				}
 			});
 	},
@@ -290,10 +308,11 @@ $.widget("ui.actionpanel", {
 						// TODO : handle failure
 						alert('rollCallback: ' +data.msg);
 					} else {
-						self.setInfo(data.msg);
-						self.options.idlePanel = 'info';
-						self.setIdle(true);
+						self.showInfo(data.msg);
+						//self.setIdle(false);
 					}
+				} else {
+					alert('rollCallback: ' +data);
 				}
 			});
 	},
@@ -313,6 +332,7 @@ $.widget("ui.actionpanel", {
 						// TODO : handle failure
 						alert(data.msg);
 					} else {
+						self.options.idle = true;
 						self.setIdle(true);
 						// FIXME : clear violation of top-down
 						$('#propcard').propcard({shown:false});
@@ -366,18 +386,23 @@ $.widget("ui.actionpanel", {
 		// _super and _superApply handle keeping the right this-context
 		switch (key) {
 			case 'selectedPanel':
+				self.options.selectedPanel = value;
 				self.selectDisplay(value);
+				break;
+			case 'idlePanel':
+				self.options.idlePanel = value;
+				self.setIdle(self.options.idle);
 				break;
 			case 'idle':
 				self.setIdle(value);
 				break;
 			case 'info':
-				self.setInfo(value);
-				self.selectDisplay('info');
+				self.showInfo(value);
 				break;
 			case 'buy':
 				self.setBuyQuestion(value);
-				self.selectDisplay('buy');
+				self.options.selectedPanel = 'buy';
+				self.setIdle(false);
 				break;
 		}
 		self._superApply(arguments);

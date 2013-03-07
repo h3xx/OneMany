@@ -109,12 +109,14 @@ $(document).ready(function () {
 					self.askToBuy(upd.who, upd.space);
 					break;
 				case 'buy':
-					self.setActionPanel({
-						info:
-							self._playerInfo(upd.owner).name +
-							' bought ' +
-							self._spaceInfo(upd.space).name
-						});
+					if (upd.owner && !self.isMe(upd.owner)) {
+						self.setActionPanel({
+							info:
+								self._playerInfo(upd.owner).name +
+								' bought ' +
+								self._spaceInfo(upd.space).name
+							});
+					}
 					self.elems.propcard.propcard({shown:false});
 					break;
 				case 'move':
@@ -135,11 +137,23 @@ $(document).ready(function () {
 			}
 		},
 
+		isMyTurn: function () {
+			var self = this;
+
+			return self._playerInfo(self.gameData.my_id).turn;
+		},
+
+		isMe: function (uid) {
+			var self = this;
+
+			return uid == self.gameData.my_id;
+		},
+
 		updateTurn: function (uid) {
 			var self = this;
 			self.setPlayerInfo({id:uid,turn:true});
-			if (self.gameData.my_id == uid) {
-				self.setActionPanel({selectedPanel:'roll',idlePanel:'roll',idle:false});
+			if (self.isMe(uid)) {
+				self.setActionPanel({idlePanel:'roll'});
 			} else {
 				self.setActionPanel({idlePanel:'waiting'});
 			}
@@ -148,7 +162,7 @@ $(document).ready(function () {
 		askToBuy: function (uid, sid) {
 			var self = this,
 			pc = self.elems.propcard;
-			if (self.gameData.my_id == uid) {
+			if (self.isMe(uid)) {
 				self.setActionPanel({buy: self.gameData.board[sid].name});
 			} else {
 				self.setActionPanel({info: 'Asking ' + self._playerInfo(uid).name + ' if they want to buy ' + self.gameData.board[sid].name});
@@ -175,7 +189,7 @@ $(document).ready(function () {
 				myId: self.gameData.my_id,
 				ownedCallback: function (isOwned) {
 					if (isOwned) {
-						self.setActionPanel({selectedPanel:'prop',propId:sid});
+						self.setActionPanel({selectedPanel:'prop',propId:sid,idle:false});
 					} else {
 						self.setActionPanel({idle:true});
 					}
@@ -228,13 +242,13 @@ $(document).ready(function () {
 		},
 		initActionPanel: function () {
 			var self = this,
-			myturn = self._playerInfo(self.gameData.my_id).turn,
+			myturn = self.isMyTurn(),
 			sp = (myturn ? 'roll' : 'waiting');
 			self.elems.actionPanel
 				.actionpanel({
 					selectedPanel: sp,
 					idlePanel: sp,
-					idle: myturn,
+					idle: true,
 				});
 		},
 		setActionPanel: function (data) {
