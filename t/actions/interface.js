@@ -137,7 +137,7 @@ $(document).ready(function () {
 			var self = this;
 			self.setPlayerInfo({id:uid,turn:true});
 			if (self.gameData.my_id == uid) {
-				self.setActionPanel({selectedPanel:'roll',idle:false});
+				self.setActionPanel({selectedPanel:'roll',idlePanel:'roll',idle:false});
 			} else {
 				self.setActionPanel({idlePanel:'waiting'});
 			}
