@@ -7,7 +7,7 @@ $.widget("ui.board", {
 		nameImage: 'images/name.svg',
 		houseImage: 'images/house.svg',
 		hotelImage: 'images/hotel.svg',
-		home: '#propcard', // FIXME
+		spaceClickCallback: null,
 	},
 	userlocs: {},
 	displays: {}, // indexed by 'id1', 'id26', etc for space_id
@@ -62,8 +62,9 @@ $.widget("ui.board", {
 				.data('id', (x+1))
 				// propcard popout
 				.click(function () {
-					$(self.options.home)
-						.propcard({id:$(this).data('id')})
+					if (self.options.spaceClickCallback) {
+						self.options.spaceClickCallback($(this).data('id'));
+					}
 				});
 
 			row1.append(cell);
@@ -103,8 +104,9 @@ $.widget("ui.board", {
 				.data('id', (39-x))
 				// propcard popout
 				.click(function () {
-					$(self.options.home)
-						.propcard({id:$(this).data('id')})
+					if (self.options.spaceClickCallback) {
+						self.options.spaceClickCallback($(this).data('id'));
+					}
 				}),
 
 			cell2 = $('<td></td>')
@@ -130,8 +132,9 @@ $.widget("ui.board", {
 				.data('id', (11+x))
 				// propcard popout
 				.click(function () {
-					$(self.options.home)
-						.propcard({id:$(this).data('id')})
+					if (self.options.spaceClickCallback) {
+						self.options.spaceClickCallback($(this).data('id'));
+					}
 				});
 
 			pbody.append(rowx.append(cell1, cell2, cell3));
@@ -172,8 +175,9 @@ $.widget("ui.board", {
 				.data('id', (29-x))
 				// propcard popout
 				.click(function () {
-					$(self.options.home)
-						.propcard({id:$(this).data('id')})
+					if (self.options.spaceClickCallback) {
+						self.options.spaceClickCallback($(this).data('id'));
+					}
 				});
 
 			row10.append(cell);

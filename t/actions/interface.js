@@ -9,6 +9,7 @@ $(document).ready(function () {
 			playerInfo: $('#players'),
 			actionPanel: $('#actions'),
 			board: $('#board'),
+			propcard: $('#propcard'),
 		},
 		options: {
 			pollInterval: 1000,
@@ -146,6 +147,21 @@ $(document).ready(function () {
 			self.setBoard({id:sid,user:uid});
 		},
 
+		spaceClick: function (sid) {
+			var self = window.iface,
+			pc = self.elems.propcard;
+			pc.propcard({
+				id:sid,
+				closeCallback:self.spaceClose,
+			});
+			self.setActionPanel({selectedPanel:'prop'});
+		},
+
+		spaceClose: function (sid) {
+			var self = window.iface;
+			self.setActionPanel({selectedPanel:'roll'});
+		},
+
 		initDice: function () {
 			for (var i in this.elems.dice) {
 				this.elems.dice[i].dice(this.options.dice.diceUiArgs);
@@ -201,6 +217,7 @@ $(document).ready(function () {
 			self.elems.board
 				.board({
 					data: self.gameData.board,
+					spaceClickCallback: self.spaceClick,
 				});
 
 			// set user locations

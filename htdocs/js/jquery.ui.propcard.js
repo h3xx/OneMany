@@ -7,6 +7,7 @@ $.widget("ui.propcard", {
 		data: null,
 		shown: true,
 		load: true,
+		closeCallback: null,
 	},
 
 	widget: function () {
@@ -174,7 +175,12 @@ $.widget("ui.propcard", {
 		uiPropcard = (self.uiPropcard = $('<div></div>')
 			.addClass('ui-propcard')
 		)
-			.click(function () {self.widget().hide();});
+			.click(function () {
+				self.widget().hide();
+				if (self.options.closeCallback) {
+					self.options.closeCallback(self.options.id);
+				}
+			});
 
 		this.element.append(uiPropcard);
 		self._refresh();
