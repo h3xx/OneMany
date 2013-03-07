@@ -153,8 +153,11 @@ $(document).ready(function () {
 			pc.propcard({
 				id:sid,
 				closeCallback:self.spaceClose,
+				myId: self.gameData.my_id,
+				ownedCallback: function () {
+					self.setActionPanel({selectedPanel:'prop',propId:sid});
+				},
 			});
-			self.setActionPanel({selectedPanel:'prop'});
 		},
 
 		spaceClose: function (sid) {

@@ -6,6 +6,7 @@ $.widget("ui.actionpanel", {
 		animateDuration: 200,
 		selectedPanel: 'waiting',
 		data: null,
+		propId: null,
 	},
 	displays: {},
 
@@ -51,6 +52,23 @@ $.widget("ui.actionpanel", {
 		rp.hide();
 
 		return rp;
+	},
+
+	makePropPanel: function () {
+		var self = this,
+		pp = self.makePanelContainer()
+			.addClass('ui-actionpanel-prop')
+			.append(
+				// Sell button
+				$('<button>Sell Property</button>')
+					.button()
+					.click(function () {self.sellPropCallback(self.options.propId);})
+			);
+
+		self.displays.prop = pp;
+		pp.hide();
+
+		return pp;
 	},
 
 	makeAuctionPanel: function () {
@@ -182,6 +200,25 @@ $.widget("ui.actionpanel", {
 
 	},
 
+	sellPropCallback: function (sid) {
+		var self = this;
+
+		$.post(self.options.servlet,
+			{
+				method: 'tell',
+				func: 'game',
+				args: 'sell:' + sid,
+			},
+			function (data) {
+				if (data) {
+					if (!data.result) {
+						// TODO : handle failure
+						alert('sellPropCallback: ' +data.msg);
+					}
+				}
+			});
+	},
+
 	rollCallback: function () {
 		var self = this;
 
@@ -234,12 +271,13 @@ $.widget("ui.actionpanel", {
 
 		uiRollPanel = (self.uiRollPanel = self.makeRollPanel()),
 		uiBuyPanel = (self.uiBuyPanel = self.makeBuyPanel());
+		uiPropPanel = (self.uiPropPanel = self.makePropPanel());
 		uiAuctionPanel = (self.uiAuctionPanel = self.makeAuctionPanel());
 		uiWaitingPanel = (self.uiWaitingPanel = self.makeWaitingPanel());
 		uiInfoPanel = (self.uiInfoPanel = self.makeInfoPanel());
 
 		uiActionPanel
-			.append(uiRollPanel, uiBuyPanel, uiAuctionPanel, uiInfoPanel, uiWaitingPanel);
+			.append(uiRollPanel, uiBuyPanel, uiPropPanel, uiAuctionPanel, uiInfoPanel, uiWaitingPanel);
 
 		self._refresh();
 		this.element.append(uiActionPanel);

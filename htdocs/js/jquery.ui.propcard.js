@@ -8,6 +8,8 @@ $.widget("ui.propcard", {
 		shown: true,
 		load: true,
 		closeCallback: null,
+		ownedCallback: null,
+		myId: null,
 	},
 
 	widget: function () {
@@ -154,6 +156,9 @@ $.widget("ui.propcard", {
 				if (data) {
 					self.options.data = data;
 					self.draw();
+					if (self.options.ownedCallback && self.options.myId == data.owner) {
+						self.options.ownedCallback();
+					}
 				}
 			}
 		);
