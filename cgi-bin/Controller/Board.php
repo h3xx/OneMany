@@ -64,6 +64,13 @@ class ControllerBoard {
 		];
 	}
 
+	public function sellProperty ($space_id) {
+		return [
+			'result'=> false,
+			'msg'	=> 'Successfully bought property.',
+		];
+	}
+
 	public function buyPropertyYoureOn () {
 		$space_id = $this->model->game->getUserOnSpace($this->user_id);
 
