@@ -43,6 +43,29 @@ class ModelGame {
 		#logger("Game: inserted game named `{$this->game_name}' : game_id : {$this->game_id}");
 	}*/
 
+	public function getGamesList () {
+		$sth = $this->model->prepare(
+			'select '.
+				'"game"."game_id" as "id", '.
+				'"game"."game_name" as "name", '.
+				'"foo"."sz" '.
+			'from game '.
+			'left join ( '.
+				'select "game_id", count(*) as sz from c_user_game group by "game_id" '.
+			') as "foo" '.
+			'on ("game"."game_id" = "foo"."game_id") '.
+			'order by "game"."game_id" desc'
+		);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$res = $sth->fetchAll(PDO::FETCH_ASSOC);
+
+		return $res;
+	}
+
 	private function getChance () {
 		if (!isset($this->chance)) {
 			$this->chance = new ModelChanceDeck($this->model, $this->game_id);

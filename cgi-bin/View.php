@@ -2,6 +2,7 @@
 
 require_once('Tools.php');
 require_once('View/Chat.php');
+require_once('View/List.php');
 require_once('View/Board.php');
 require_once('View/Game.php');
 require_once('View/PropertyCard.php');
@@ -31,6 +32,10 @@ class View {
 				;;
 			case 'init':
 				$jsonresponse = $this->game->getInitialGameData();
+				break;
+				;;
+			case 'listGames':
+				$jsonresponse = $this->list->listGames();
 				break;
 				;;
 			default:
@@ -66,6 +71,13 @@ class View {
 		return $this->propcard;
 	}
 
+	private function getList () {
+		if (!isset($this->list)) {
+			$this->list = new ViewList($this->model, $this->user_id);
+		}
+		return $this->list;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'chat':
@@ -78,6 +90,10 @@ class View {
 				;;
 			case 'propcard':
 				return $this->getPropCard();
+				break;
+				;;
+			case 'list':
+				return $this->getList();
 				break;
 				;;
 		}
