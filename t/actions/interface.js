@@ -44,6 +44,8 @@ $(document).ready(function () {
 					}
 					self.gameData = data;
 					self.setInitialInterface();
+					// replay the last update
+					self.procGameUpdate(data.update);
 				});
 		},
 
