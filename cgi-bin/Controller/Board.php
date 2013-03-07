@@ -184,6 +184,10 @@ class ControllerBoard {
 	}
 
 	public function sellHouses ($space_id, $houses_to_sell) {
+		if (!isset($houses_to_sell)) {
+			$houses_to_sell = 1;
+		}
+
 		if (!is_numeric($houses_to_sell) || $houses_to_sell < 0) {
 			return [
 				'result'=> false,
@@ -374,7 +378,7 @@ class ControllerBoard {
 				'msg'	=> 'Success.',
 			];
 		} else {
-			$res = $this->_buyHousesNonParallel($sid, $houses_to_buy);
+			$res = $this->_buyHousesNonParallel($space_id, $houses_to_buy);
 			if (!$res['result']) {
 				return $res;
 			}
