@@ -1,5 +1,7 @@
 $(document).ready(function () {
-	var glist = $('#games'),
+	var glist =
+		$('#games')
+		.addClass('ui-widget'),
 	pbar = $("#progressbar")
 		.progressbar({
 			value: false,
@@ -7,6 +9,41 @@ $(document).ready(function () {
 		.hide();
 
 	pbar.show(500);
+
+	var allFields = $([]).add($('gamename'));
+
+	$('#dialog-form')
+		.dialog({
+			autoOpen: false,
+			height: 300,
+			width: 350,
+			modal: true,
+			buttons: {
+				'Create Game': function () {
+					var self = $(this),
+					gn = $('#gamename').val();
+					if (!gn) {
+						$('#gamename').addClass('ui-state-error');
+						return;
+					}
+					self.dialog('close');
+				},
+				'Cancel': function () {
+					$(this).dialog('close');
+				},
+			},
+			close: function () {
+				allFields.val('').removeClass('ui-state-error');
+
+			}
+		});
+
+	$('#create-game')
+		.text('Create Game')
+		.button()
+		.click(function() {
+			$('#dialog-form').dialog('open');
+		});
 
 	$.post('responder.php', {
 		'method': 'ask',
@@ -17,7 +54,7 @@ $(document).ready(function () {
 			glist.empty();
 			glist.append(
 				$('<div></div>')
-				.addClass('row header')
+				.addClass('row ui-widget-header')
 				.append(
 					$('<div></div>')
 					.addClass('cell')
@@ -29,7 +66,10 @@ $(document).ready(function () {
 
 					$('<div></div>')
 					.addClass('cell')
-					.text('Players')
+					.text('Players'),
+
+					$('<div></div>')
+					.addClass('cell')
 				)
 			);
 			for (var i in data) {
@@ -37,7 +77,7 @@ $(document).ready(function () {
 
 				glist.append(
 					$('<div></div>')
-					.addClass('row')
+					.addClass('row ui-widget-content')
 					.append(
 						$('<div></div>')
 						.addClass('cell')
