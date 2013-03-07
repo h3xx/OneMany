@@ -66,8 +66,8 @@ class ControllerBoard {
 
 	public function sellProperty ($space_id) {
 		return [
-			'result'=> false,
-			'msg'	=> 'Successfully bought property.',
+			'result'=> true,
+			'msg'	=> 'FIXME: implement selling property.',
 		];
 	}
 
