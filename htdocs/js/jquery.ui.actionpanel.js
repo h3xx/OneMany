@@ -289,6 +289,10 @@ $.widget("ui.actionpanel", {
 					if (!data.result) {
 						// TODO : handle failure
 						alert('rollCallback: ' +data.msg);
+					} else {
+						self.setInfo(data.msg);
+						self.options.idlePanel = 'info';
+						self.setIdle(true);
 					}
 				}
 			});
@@ -308,6 +312,10 @@ $.widget("ui.actionpanel", {
 					if (!data.result) {
 						// TODO : handle failure
 						alert(data.msg);
+					} else {
+						self.setIdle(true);
+						// FIXME : clear violation of top-down
+						$('#propcard').propcard({shown:false});
 					}
 				}
 			});

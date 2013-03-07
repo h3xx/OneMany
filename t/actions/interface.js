@@ -12,7 +12,7 @@ $(document).ready(function () {
 			propcard: $('#propcard'),
 		},
 		options: {
-			pollInterval: 1000,
+			pollInterval: 2000,
 			servelet: 'responder.php',
 			dice: {
 				rollTimeout: 500,
@@ -107,7 +107,12 @@ $(document).ready(function () {
 					self.askToBuy(upd.who, upd.space);
 					break;
 				case 'buy':
-					alert('buy is not implemented yet.');
+					self.setActionPanel({
+						info:
+							self._playerInfo(upd.owner).name +
+							' Bought ' +
+							self._spaceInfo(upd.space).name
+						});
 					break;
 				case 'move':
 					self.moveUser(upd.id, upd.space);
@@ -131,9 +136,9 @@ $(document).ready(function () {
 			var self = this;
 			self.setPlayerInfo({id:uid,turn:true});
 			if (self.gameData.my_id == uid) {
-				self.setActionPanel({selectedPanel:'roll'});
+				self.setActionPanel({selectedPanel:'roll',idle:false});
 			} else {
-				self.setActionPanel({selectedPanel:'waiting'});
+				self.setActionPanel({idlePanel:'waiting'});
 			}
 		},
 
@@ -141,7 +146,6 @@ $(document).ready(function () {
 			var self = this,
 			pc = self.elems.propcard;
 			if (self.gameData.my_id == uid) {
-				alert(self.gameData.board[sid].name);
 				self.setActionPanel({buy: self.gameData.board[sid].name});
 			}
 			pc.propcard({
@@ -173,7 +177,7 @@ $(document).ready(function () {
 
 		spaceClose: function (sid) {
 			var self = window.iface;
-			self.setActionPanel({selectedPanel:'roll'});
+			self.setActionPanel({idle:true});
 		},
 
 		initDice: function () {
@@ -266,6 +270,17 @@ $(document).ready(function () {
 			var self = this,
 			z = $.grep(self.gameData.users, function (elem, idx) {
 				return elem.id == user_id;
+			});
+			if (z) {
+				return z[0];
+			}
+			return [];
+		},
+
+		_spaceInfo: function (space_id) {
+			var self = this,
+			z = $.grep(self.gameData.board, function (elem, idx) {
+				return elem.id == space_id;
 			});
 			if (z) {
 				return z[0];
