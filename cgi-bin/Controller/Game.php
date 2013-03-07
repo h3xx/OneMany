@@ -213,7 +213,7 @@ class ControllerGame {
 					# income tax
 					$tax_f = $this->model->rules->getRuleValue('incometax_flat', 200);
 					$tax_p = (
-						$this->model->user->getUserCasH($this->user_id) *
+						$this->model->user->getUserCash($this->user_id) *
 						$this->model->rules->getRuleValue('incometax_perc', 10) / 100
 					);
 
