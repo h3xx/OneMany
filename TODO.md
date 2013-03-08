@@ -14,7 +14,7 @@
 
 5. *Do the actual buying if they said 'yes' (end turn)* **[done]**
 
-6. [A+] Auction property if they said 'no' (must figure out how to do so)
+6. *[A+] Auction property if they said 'no' (must figure out how to do so)* **[almost done]**
 
 7. *Pay regular rent* **[done]**
 
@@ -34,11 +34,11 @@
 
 13. Implement jailing
 
- * Rolling doubles frees you, move that many, NO EXTRA TURN
+ * *Rolling doubles frees you, move that many, NO EXTRA TURN* **[done]**
 
- * Pay $50 before roll to exit
+ * *Pay $50 before roll to exit* **[almost done]**
 
- * [A] use get out of jail free card
+ * *[A] use get out of jail free card* **[almost done]**
 
 14. *Pay $75 to bank on Luxury tax* **[done]**
 
@@ -46,7 +46,7 @@
 
  * *Pay $200 on Income Tax* **[done]**
 
- * Ask user to pay $200 or 10% of total worth (DO NOT SHOW THEM THIS 10%, but CALCULATE IT WHEN THEY DECIDE)
+ * *Ask user to pay $200 or 10% of total worth (DO NOT SHOW THEM THIS 10%, but CALCULATE IT WHEN THEY DECIDE)* **[almost done]**
 
 16. *Implement payment for passing GO* **[done]**
 
@@ -56,17 +56,17 @@
 
 18. Implement checking to see if someone has won (last person standing)
 
-19. Implement ability for user to quit
+19. *Implement ability for user to quit* **[done]**
 
-20. [A+] Implement trading
+20. *[A+] Implement trading* **[almost done]**
 
-21. Implement logging in system to allow user to only play when it's their turn
+21. *Implement logging in system to allow user to only play when it's their turn* **[done]**
 
-22. Implement logging in system addition to allow multiple SEPARATE GAMES and CHOICE OF GAME TO LOOK AT
+22. *Implement logging in system addition to allow multiple SEPARATE GAMES and CHOICE OF GAME TO LOOK AT* **[done]**
 
-23. Buy houses/hotels before roll
+23. *Buy houses/hotels before roll* **[done]**
 
-24. Implement selling (houses)/mortgaging (props) to pay debts instead of straight bankruptcy
+24. *Implement selling (houses)/mortgaging (props) to pay debts instead of straight bankruptcy* **[done]**
 
 25. *Store prop cost/mortgage amounts* **[done]**
 
@@ -74,7 +74,7 @@
 
 27. Transferring property to correct entity on player bankruptcy
 
-28. Mortgage transferring fee (see above)
+28. *Mortgage transferring fee (see above)* **[done - by design]**
 
 29. -
 
@@ -94,6 +94,8 @@
 ## Just for fun
 
 ***These are not requirements for any level, but are good additions.  These are basically the ‘house rules’ ***
+
+# HOUSE RULES ARE DONE
 
 Use a configuration file to set these options site-wide.
 
