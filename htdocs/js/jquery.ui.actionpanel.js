@@ -460,11 +460,7 @@ $.widget("ui.actionpanel", {
 			case 'buy':
 				self.setBuyQuestion(value);
 				self.options.selectedPanel = 'buy';
-				self.setIdle(false);
-				break;
-			case 'jail':
-				self.setBuyQuestion(value);
-				self.options.selectedPanel = 'buy';
+				self.options.idle = false;
 				self.setIdle(false);
 				break;
 		}
