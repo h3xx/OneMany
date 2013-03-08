@@ -7,6 +7,7 @@ CREATE TABLE c_user_game
   user_id integer NOT NULL,
   game_id integer NOT NULL,
   on_space integer NOT NULL DEFAULT 0,
+  in_jail boolean NOT NULL DEFAULT false, -- Whether the user is in jail.
   cash integer NOT NULL,
   has_gojf boolean NOT NULL DEFAULT false,
   doubles integer NOT NULL DEFAULT 0, -- How many times in a row the user has rolled doubles.
@@ -31,3 +32,4 @@ COMMENT ON COLUMN c_user_game.has_gojf IS 'Whether the user has a Get out of Jai
 COMMENT ON COLUMN c_user_game.doubles IS 'How many times in a row the user has rolled doubles.';
 COMMENT ON COLUMN c_user_game.sequence IS 'What order the players take turns.';
 COMMENT ON COLUMN c_user_game.extra_turn IS 'Whether the user can go again after the current turn has completed.';
+COMMENT ON COLUMN c_user_game.in_jail IS 'Whether the user is in jail.';
