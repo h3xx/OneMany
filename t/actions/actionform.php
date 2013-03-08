@@ -33,6 +33,7 @@
 	<div id="propcard"></div>
 </div>
 
+<div id="dialog"></div>
 <div id="debug"></div>
 </body>
 </html>

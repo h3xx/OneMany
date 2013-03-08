@@ -12,6 +12,7 @@ $(document).ready(function () {
 			actionPanel: $('#actions'),
 			board: $('#board'),
 			propcard: $('#propcard'),
+			dialog: $('#dialog'),
 		},
 		options: {
 			pollInterval: 2000,
@@ -43,8 +44,20 @@ $(document).ready(function () {
 					'func': 'init',
 				},
 				function (data) {
-					if (!data) {
-						// TODO : alert?
+					if (!data || !data.board) {
+						// uh-oh, we may not be logged in
+
+						self.elems.dialog
+							.attr('title', 'Not logged in.')
+							.empty()
+							.append(
+								$('<div></div>')
+								.text(data.msg)
+							)
+							.dialog({
+								modal: true,
+							})
+							.show();
 						return;
 					}
 					self.gameData = data;
@@ -62,6 +75,8 @@ $(document).ready(function () {
 			if (self.gameData.roll) {
 				self.setDice(false);
 			}
+
+			self.elems.dialog.hide();
 
 			self.initPlayerInfo();
 			self.initActionPanel();
