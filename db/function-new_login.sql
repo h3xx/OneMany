@@ -25,7 +25,8 @@ begin
 		"user_id"
 		from	"user"
 		where
-			"user_name" = _login_name;
+			"user_name" = _login_name or
+			"user_email" = _email;
 
 	if found then
 		-- already exists; can't create
