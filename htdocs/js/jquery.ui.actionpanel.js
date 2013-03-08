@@ -7,6 +7,7 @@ $.widget("ui.actionpanel", {
 		selectedPanel: 'waiting',
 		idlePanel: 'waiting',
 		idle: false,
+		hasGojf: false,
 		data: null,
 		propId: null,
 	},
@@ -48,10 +49,30 @@ $.widget("ui.actionpanel", {
 				$('<button>Roll</button>')
 					.button()
 					.click(function () {self.rollCallback();})
-			);
+			)
+			.hide();
 
 		self.displays.roll = rp;
-		rp.hide();
+
+		return rp;
+	},
+
+	makeJailPanel: function () {
+		var self = this,
+		jp = self.makePanelContainer()
+			.addClass('ui-actionpanel-jail')
+			.append(
+				// Roll button
+				$('<button>Roll</button>')
+					.button()
+					.click(function () {self.rollCallback();})
+				$('<button>Use GOJF card</button>')
+					.button()
+					.click(function () {self.gojfCallback();})
+			)
+			.hide();
+
+		self.displays.jail = jp;
 
 		return rp;
 	},
@@ -77,10 +98,10 @@ $.widget("ui.actionpanel", {
 				$('<button>Sell 1 House</button>')
 					.button()
 					.click(function () {self.sellHouseCallback(self.options.propId);})
-			);
+			)
+			.hide();
 
 		self.displays.prop = pp;
-		pp.hide();
 
 		return pp;
 	},
@@ -94,12 +115,12 @@ $.widget("ui.actionpanel", {
 			.append(
 				timedisp,
 				biddisp
-			);
+			)
+			.data('time', timedisp)
+			.data('bid', biddisp)
+			.hide();
 
 		self.displays.auction = ap;
-		ap.data('time', timedisp);
-		ap.data('bid', biddisp);
-		ap.hide();
 
 		return ap;
 	},
@@ -111,16 +132,20 @@ $.widget("ui.actionpanel", {
 			.addClass('ui-actionpanel-buyyes')
 			.button()
 			.click(function () {self.buyCallback(true);}),
+
 		buy_no =
 			$('<button>NO</button>')
 			.addClass('ui-actionpanel-buyno')
 			.button()
 			.click(function () {self.buyCallback(false);}),
+
 		msgadd =
 			$('<div></div>'),
+
 		msgdisp =
 			$('<div></div>')
 			.text('Would you like to buy this property?'),
+
 		bp = self.makePanelContainer()
 			.addClass('ui-actionpanel-buy')
 			.append(
@@ -128,14 +153,14 @@ $.widget("ui.actionpanel", {
 				msgadd,
 				buy_yes,
 				buy_no
-			);
+			)
+			.data('msg', msgdisp)
+			.data('msgadd', msgadd)
+			.data('yes', buy_yes)
+			.data('no', buy_no)
+			.hide();
 
 		self.displays.buy = bp;
-		bp.data('msg', msgdisp);
-		bp.data('msgadd', msgadd);
-		bp.data('yes', buy_yes);
-		bp.data('no', buy_no);
-		bp.hide();
 
 		return bp;
 	},
@@ -151,10 +176,10 @@ $.widget("ui.actionpanel", {
 		ip = self.makePanelContainer()
 			.addClass('ui-actionpanel-info')
 			.append(disp, ok)
-			.data('disp', disp);
+			.data('disp', disp)
+			.hide();
 
 		self.displays.info = ip;
-		ip.hide();
 
 		return ip;
 	},
@@ -165,10 +190,10 @@ $.widget("ui.actionpanel", {
 			.addClass('ui-actionpanel-waiting')
 			.append(
 				$('<div>Please wait for your turn...</div>')
-			);
+			)
+			.hide();
 
 		self.displays.waiting = wp;
-		wp.hide();
 
 		return wp;
 	},
@@ -293,6 +318,30 @@ $.widget("ui.actionpanel", {
 			});
 	},
 
+	gojfCallback: function () {
+		var self = this;
+
+		$.post(self.options.servlet,
+			{
+				method: 'tell',
+				func: 'game',
+				args: 'useGojf',
+			},
+			function (data) {
+				if (data) {
+					if (!data.result) {
+						// TODO : handle failure
+						alert('gojfCallback: ' +data.msg);
+					} else {
+						self.showInfo(data.msg);
+						//self.setIdle(false);
+					}
+				} else {
+					alert('gojfCallback: ' +data);
+				}
+			});
+	},
+
 	rollCallback: function () {
 		var self = this;
 
@@ -358,10 +407,19 @@ $.widget("ui.actionpanel", {
 		uiPropPanel = (self.uiPropPanel = self.makePropPanel());
 		uiAuctionPanel = (self.uiAuctionPanel = self.makeAuctionPanel());
 		uiWaitingPanel = (self.uiWaitingPanel = self.makeWaitingPanel());
+		uiJailPanel = (self.uiJailPanel = self.makeJailPanel());
 		uiInfoPanel = (self.uiInfoPanel = self.makeInfoPanel());
 
 		uiActionPanel
-			.append(uiRollPanel, uiBuyPanel, uiPropPanel, uiAuctionPanel, uiInfoPanel, uiWaitingPanel);
+			.append(
+				uiRollPanel,
+				uiBuyPanel,
+				uiPropPanel,
+				uiAuctionPanel,
+				uiInfoPanel,
+				uiJailPanel,
+				uiWaitingPanel
+			);
 
 		self._refresh();
 		this.element.append(uiActionPanel);
@@ -400,6 +458,11 @@ $.widget("ui.actionpanel", {
 				self.showInfo(value);
 				break;
 			case 'buy':
+				self.setBuyQuestion(value);
+				self.options.selectedPanel = 'buy';
+				self.setIdle(false);
+				break;
+			case 'jail':
 				self.setBuyQuestion(value);
 				self.options.selectedPanel = 'buy';
 				self.setIdle(false);
