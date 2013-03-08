@@ -1,52 +1,78 @@
 $(document).ready(function () {
-	var frmelems = [
-		$('#pwsub'),
-		$('#newpw'),
-		$('#newpwv'),
-	];
+	var
+	pwsub = $('#pwsub'),
+	newpw =	$('#newpw'),
+	newpwv = $('#newpwv'),
+	resetvars = $('#resetvars'),
+	result = $('#result'),
 
-	if (!$('#resetvars').val()) {
-		for (var i in frmelems) {
-			frmelems[i].attr('disabled', 'disabled');
-		}
-		$('#result').text('No data for password reset (did you click the link in your email?)');
-	}
+	frmelems = $([]).add(pwsub).add(newpw).add(newpwv),
+	passelems = $([]).add(newpw).add(newpwv),
 
-	$("#progressbar")
+	pbar = $("#progressbar")
 		.progressbar({
 			value: false,
 		})
 		.hide();
 
-	$('#pwsub')
+	if (!resetvars.val()) {
+		frmelems.attr('disabled', 'disabled');
+		$('#result').text('No data for password reset (did you click the link in your email?)');
+	}
+
+	frmelems
+		.change(function (e) {
+			var self = $(this);
+			if (!self.val()) {
+				self.addClass('ui-state-error');
+			} else {
+				self.removeClass('ui-state-error');
+			}
+		});
+
+	passelems
+		.change(function (e) {
+			if (newpw.val() && newpwv.val()) {
+				if (newpw.val() != newpwv.val()) {
+					passelems
+						//.removeClass('ui-state-highlight')
+						.addClass('ui-state-error');
+				} else {
+					passelems
+						//.addClass('ui-state-highlight')
+						.removeClass('ui-state-error');
+				}
+			}
+		});
+
+	pwsub
 		.button()
 		.click(function(e) {
 			e.preventDefault();
-			if ($('#newpw').val() != $('#newpwv').val()) {
-				$('#result').text('Passwords do not match.');
+			if (newpw.val() != newpwv.val()) {
+				result.text('Passwords do not match.');
+				passelems.addClass('ui-state-error');
 				return;
 			}
 
-			var pwvars = 'reset:' + $('#resetvars').val() + ':' + $('#newpw').val();
+			var pwvars = 'reset:' + resetvars.val() + ':' + newpw.val();
 
-			for (var i in frmelems) {
-				frmelems[i].attr('disabled', 'disabled');
-			}
-			$('#progressbar').show(500);
+			frmelems.attr('disabled', 'disabled')
+				.removeClass('ui-state-error');
+
+			pbar.show(500);
 
 			$.post('responder.php', {
 				'method': 'tell',
 				'func': 'user',
 				'args': pwvars,
 			}, function (data) {
-				$('#progressbar').hide(500);
-				$('#newpw').val(null);
-				$('#newpwv').val(null);
-				$('#result').text(data.msg);
+				pbar.hide(500);
+				newpw.val(null);
+				newpwv.val(null);
+				result.text(data.msg);
 				if (!data.result) {
-					for (var i in frmelems) {
-						frmelems[i].removeAttr('disabled');
-					}
+					frmelems.removeAttr('disabled');
 				}
 			});
 		});

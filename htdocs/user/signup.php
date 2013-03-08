@@ -19,6 +19,7 @@
 </div>
 <div>
 <input id="pass" type="password" name="pass" placeholder="Password" />
+<input id="passv" type="password" name="passv" placeholder="Verify password" />
 </div>
 <input id="usub" type="submit" name="usub" value="Submit" />
 </form>

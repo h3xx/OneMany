@@ -6,7 +6,9 @@
 	background-color: #ccc;
 }
 
-#gotoreset {
+#gotoreset,
+#gotologin,
+#gotosignup {
 	font-size: 75%;
 }
 

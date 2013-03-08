@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<?php session_start(); ?><!DOCTYPE html>
 <html>
 <head>
 <title>Login Form</title>
@@ -11,11 +11,13 @@
 <body>
 <h1>Login Form</h1>
 <form>
-<input id="logname" type="text" name="logname" placeholder="Username" />
+<div id="loggedinas"></div>
+<input id="logname" type="text" name="logname" placeholder="Username" value="<?= htmlentities(@$_SESSION['user_name']); ?>" />
 <input id="pw" type="password" name="pw" placeholder="Password" />
 <input id="login" type="submit" name="login" value="Login" />
 </form>
-<div id="gotoreset"><a href="pwrequest.php" id="resetlink">Request a password reset</a></div>
+<span id="gotoreset"><a href="pwrequest.php" id="resetlink">Reset your password</a></span> &middot;
+<span id="gotosignup"><a href="signup.php" id="signuplink">Sign up</a></span>
 <div id="progressbar"></div>
 <div id="result"></div>
 </body>
