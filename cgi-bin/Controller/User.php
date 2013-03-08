@@ -46,6 +46,10 @@ class ControllerUser {
 				return $this->doLogin(@$buff[1], @$buff[2]);
 				break;
 				;;
+			case 'logout':
+				return $this->doLogout();
+				break;
+				;;
 		}
 
 		return [
@@ -125,6 +129,25 @@ class ControllerUser {
 		return [
 			'result'=> true,
 			'msg'	=> 'Successfully logged in.',
+		];
+	}
+
+	public function doLogout () {
+		# use session variables
+
+		# (who really gives a shit?)
+		#if (!isset($_SESSION['user_id'])) {
+		#	return [
+		#		'result'=> false,
+		#		'msg'	=> 'You are not logged in.',
+		#	];
+		#}
+
+		$_SESSION['user_id'] = null;
+
+		return [
+			'result'=> true,
+			'msg'	=> 'Successfully logged out.',
 		];
 	}
 }
