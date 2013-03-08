@@ -114,7 +114,7 @@ $(document).ready(function () {
 					self.setDice(true);
 					break;
 				case 'jail':
-					alert('Jailing not implemented yet.');
+					self.jailUser(upd.id, upd.in_jail);
 					break;
 				case 'turn':
 					self.updateTurn(upd.id);
@@ -213,6 +213,22 @@ $(document).ready(function () {
 			var self = this;
 			self.setPlayerInfo({id:uid,on_space:sid});
 			self.setBoard({id:sid,user:uid});
+		},
+
+		jailUser: function (uid, injail) {
+			var self = this,
+			uinfo = self._playerInfo(uid);
+
+			// update our data
+			uinfo.jail = injail;
+
+			// user thrown in jail is already notified
+			if (!self.isMe(uid)) {
+				var msg = uinfo.name +
+					(injail ? ' got thrown in jail!' : ' got let out of jail!');
+
+				self.setActionPanel({info: msg});
+			}
 		},
 
 		spaceClick: function (sid) {
