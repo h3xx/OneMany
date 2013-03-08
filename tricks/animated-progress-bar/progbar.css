@@ -3,7 +3,7 @@
 	background-image: none;
 }
 
-#pbar .ui-progressbar-value {
+.ui-progressbar-value {
 	/* coloring */
 	background-color: #8a0505;
 	border-color: #0f0101;
@@ -21,9 +21,6 @@
 	background-image: url('progress-tile.png');
 	background-clip: border-box;
 
-}
-
-.ui-progressbar-value {
 	/* styling */
 	-webkit-border-radius: 4px;
 	-moz-border-radius: 4px;
@@ -42,6 +39,7 @@
 	margin: 0 !important;
 }
 
+/*
 @-moz-keyframes cycle {
 	0% { background-position: 0 0; }
 	100% { background-position: 40px 0; }
@@ -83,4 +81,4 @@
 	0% { background-position: 0 0; }
 	100% { background-position: -40px 0; }
 }
-
+*/
