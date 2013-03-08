@@ -43,6 +43,10 @@ $(document).ready(function () {
 			}, function (data) {
 				pbar.hide(500);
 				$('#result').text(data.msg);
+				if (data.result) {
+					// hide now-inaccurate data
+					lia.hide();
+				}
 			});
 		});
 });
