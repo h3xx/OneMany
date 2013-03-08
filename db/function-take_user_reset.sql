@@ -5,6 +5,8 @@
 --
 -- Reset a password.
 --
+-- Has the side effect of verifying the account.
+--
 -- @author: Dan Church <h3xx@gmx.com>
 -- @license: GPL v3.0
 
@@ -43,7 +45,8 @@ begin
 		"login_hash" = _hash,
 		"login_salt" = _salt,
 		"reset_string" = null,
-		"reset_expire" = null
+		"reset_expire" = null,
+		"verified" = true
 
 		where
 		"user_id" = _user_id;

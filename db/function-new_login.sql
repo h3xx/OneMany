@@ -16,8 +16,8 @@ $BODY$
 
 declare
 	logn		text;
-	hashy_hash	text;
-	salty_salt	text;
+	_hash		text;
+	_salt	text;
 	_vfy_str	character varying;
 
 begin
@@ -34,14 +34,14 @@ begin
 	end if;
 
 	-- blowfish salt = 128 bits = 16 characters
-	select into salty_salt gen_salt('bf');
-	select into hashy_hash encode(digest(crypt(password_plain, salty_salt), 'sha1'), 'hex');
+	select into _salt gen_salt('bf');
+	select into _hash encode(digest(crypt(password_plain, _salt), 'sha1'), 'hex');
 
 	insert
 		into "user"
 		into _vfy_str
 		("user_name", "user_email", "login_hash", "login_salt")
-		values(_login_name, _email, hashy_hash, salty_salt)
+		values(_login_name, _email, _hash, _salt)
 		returning "verify_string";
 
 	return _vfy_str;

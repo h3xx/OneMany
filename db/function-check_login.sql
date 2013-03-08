@@ -18,13 +18,13 @@ $BODY$
 
 declare
 	_user_id	integer;
-	hashy_hash	text;
-	salty_salt	text;
+	_hash	text;
+	_salt	text;
 
 begin
 
 	select
-		into _user_id, hashy_hash, salty_salt
+		into _user_id, _hash, _salt
 		"user_id", "login_hash", "login_salt"
 		from	"user"
 		where
@@ -35,7 +35,7 @@ begin
 		return null;
 	end if;
 
-	if encode(digest(crypt(password_plain, salty_salt), 'sha1'), 'hex') = hashy_hash then
+	if encode(digest(crypt(password_plain, _salt), 'sha1'), 'hex') = _hash then
 		return _user_id;
 	end if;
 
