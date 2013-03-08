@@ -108,9 +108,12 @@ class ControllerUser {
 			];
 		}
 
+		# use session variables
+		$_SESSION['user_id'] = $user_id;
+
 		return [
 			'result'=> true,
-			'msg'	=> 'Successfully set new password.',
+			'msg'	=> 'Successfully set new password. You are now logged in.',
 		];
 	}
 

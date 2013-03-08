@@ -24,7 +24,7 @@ $(document).ready(function () {
 
 			$.post('responder.php', {
 				'method': 'tell',
-				'func': 'login',
+				'func': 'user',
 				'args': loginvars,
 			}, function (data) {
 				$('#progressbar').hide(500);

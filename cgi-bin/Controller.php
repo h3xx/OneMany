@@ -17,7 +17,7 @@ class Controller {
 
 	public function processInstruction ($instr) {
 		# the user must be logged in, or logging in, or requesting public info
-		if (!isset($this->user_id) && !preg_match('/^(login|signup|verify)$/', @$instr['func'])) {
+		if (!isset($this->user_id) && !preg_match('/^(user|signup|verify)$/', @$instr['func'])) {
 			$jsonresponse = [
 				'result'=> false,
 				'msg'	=> 'You are not logged in.',
@@ -33,7 +33,7 @@ class Controller {
 					$jsonresponse = $this->game->processGameInstruction($instr['args']);
 					break;
 					;;
-				case 'login':
+				case 'user':
 					$jsonresponse = $this->user->processInstruction($instr['args']);
 					break;
 					;;
