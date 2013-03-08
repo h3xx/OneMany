@@ -118,9 +118,7 @@ class ModelUser {
 			return false;
 		}
 
-		$result = $sth->fetch(PDO::FETCH_ASSOC);
-
-		return $result;
+		return $sth->fetch(PDO::FETCH_ASSOC);
 	}
 
 	public function resolveUsername ($user_name) {
