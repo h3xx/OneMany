@@ -1,3 +1,5 @@
+@import url('../css/overrides.css');
+
 #progressbar {
 	width: 250px;
 }
