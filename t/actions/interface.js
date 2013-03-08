@@ -1,5 +1,7 @@
 $(document).ready(function () {
 	window.iface = {
+
+// data members {{{
 		elems: {
 			dice: [
 				$('#dice1'),
@@ -29,6 +31,9 @@ $(document).ready(function () {
 			},
 		},
 		gameData: {},
+// data members }}}
+
+// initialization methods {{{
 
 		pullInitialGameData: function () {
 			var self = this;
@@ -66,6 +71,10 @@ $(document).ready(function () {
 			// FIXME : hardcore function implementation
 		},
 
+// initialization methods }}}
+
+// update polling methods {{{
+
 		pollGameUpdate: function () {
 			var self = window.iface;
 			$.post(self.options.servelet,
@@ -94,6 +103,8 @@ $(document).ready(function () {
 			window.setTimeout(this.pollGameUpdate, this.options.pollInterval);
 		},
 
+// update polling methods }}}
+
 		procGameUpdate: function (update) {
 			var self = this,
 			upd = jQuery.parseJSON(update);
@@ -101,6 +112,9 @@ $(document).ready(function () {
 				case 'roll':
 					self.gameData.roll = upd.val;
 					self.setDice(true);
+					break;
+				case 'jail':
+					alert('Jailing not implemented yet.');
 					break;
 				case 'turn':
 					self.updateTurn(upd.id);
@@ -137,6 +151,8 @@ $(document).ready(function () {
 			}
 		},
 
+// user info queries {{{
+
 		isMyTurn: function () {
 			var self = this;
 
@@ -149,14 +165,33 @@ $(document).ready(function () {
 			return uid == self.gameData.my_id;
 		},
 
-		updateTurn: function (uid) {
+		amIInJail: function () {
+			return this.isInJail(this.gameData.my_id);
+		},
+
+		isInJail: function (uid) {
 			var self = this;
+
+			return self._playerInfo(uid).jail;
+		},
+
+// user info queries }}}
+
+		updateTurn: function (uid) {
+			var self = this,
+			iPanel;
 			self.setPlayerInfo({id:uid,turn:true});
+
 			if (self.isMe(uid)) {
-				self.setActionPanel({idlePanel:'roll'});
+				if (self.amIInJail()) {
+					iPanel = 'jail';
+				} else {
+					iPanel = 'roll';
+				}
 			} else {
-				self.setActionPanel({idlePanel:'waiting'});
+				iPanel = 'waiting';
 			}
+			self.setActionPanel({idlePanel:iPanel});
 		},
 
 		askToBuy: function (uid, sid) {
@@ -203,6 +238,7 @@ $(document).ready(function () {
 			self.setActionPanel({idle:true});
 		},
 
+// subpanel init/set methods {{{
 		initDice: function () {
 			for (var i in this.elems.dice) {
 				this.elems.dice[i].dice(this.options.dice.diceUiArgs);
@@ -284,6 +320,8 @@ $(document).ready(function () {
 				});
 		},
 
+// subpanel init/set methods }}}
+
 		init: function () {
 			this.pullInitialGameData();
 			this.scheduleGameUpdatePoll();
@@ -321,3 +359,5 @@ $(document).ready(function () {
 
 	};
 });
+
+// vi: fdm=marker
