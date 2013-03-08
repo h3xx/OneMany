@@ -1,12 +1,12 @@
 ## OneMany Tasks
 
-1. Use random function for rolling dice
+1. *Use random function for rolling dice* **[done]**
 
 2. *Doubles gains user extra turn* **[done]**
 
 3. *3 doubles in a row throws user in jail (no GO money)* **[done]**
 
-4. *Implement buying property* **[done-mostly]**
+4. *Implement buying property* **[done]**
 
  * *If user has enough money, buy un-owned property* **[done]**
 
