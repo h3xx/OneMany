@@ -110,6 +110,7 @@ class ControllerUser {
 
 		# use session variables
 		$_SESSION['user_id'] = $user_id;
+		$_SESSION['user_name'] = $this->model->user->resolveUserId($user_id);
 
 		return [
 			'result'=> true,
@@ -128,6 +129,7 @@ class ControllerUser {
 
 		# use session variables
 		$_SESSION['user_id'] = $user_id;
+		$_SESSION['user_name'] = $user_name;
 
 		return [
 			'result'=> true,
@@ -147,6 +149,7 @@ class ControllerUser {
 		#}
 
 		$_SESSION['user_id'] = null;
+		# don't reset the 'user_name' -- we'll keep that for logging in later
 
 		return [
 			'result'=> true,
