@@ -1,8 +1,9 @@
 <?php
 
 class Tools {
-	public static $can_mail = false;
-	public static $htdocs_path = '/htdocs'; # may be empty in production
+	public static
+			$can_mail = false,
+			$htdocs_path = '/htdocs'; # XXX : may be empty in production
 
 	public static function encodeJson ($json_data) {
 		return json_encode($json_data, JSON_UNESCAPED_UNICODE);
@@ -15,5 +16,9 @@ class Tools {
 			self::$htdocs_path,
 			$subpath
 		);
+	}
+
+	public static function loginUrl () {
+		return self::absUrl('/user/login.php');
 	}
 }

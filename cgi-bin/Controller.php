@@ -16,34 +16,43 @@ class Controller {
 	}
 
 	public function processInstruction ($instr) {
-		switch ($instr['func']) {
-			case 'chat':
-				$jsonresponse = $this->chat->postChatMessage($instr['args']);
-				break;
-				;;
-			case 'game':
-				$jsonresponse = $this->game->processGameInstruction($instr['args']);
-				break;
-				;;
-			case 'login':
-				$jsonresponse = $this->user->processInstruction($instr['args']);
-				break;
-				;;
-			case 'signup':
-				$jsonresponse = $this->signup->processInstruction($instr['args']);
-				break;
-				;;
-			case 'verify':
-				$jsonresponse = $this->verify->processInstruction($instr['args']);
-				break;
-				;;
-			default:
-				$jsonresponse = [
-					'result'=> false,
-					'msg'	=> 'Invalid function.',
-				];
-				break;
-				;;
+		# the user must be logged in, or logging in, or requesting public info
+		if (!isset($this->user_id) && !preg_match('/^(login|signup|verify)$/', @$instr['func'])) {
+			$jsonresponse = [
+				'result'=> false,
+				'msg'	=> 'You are not logged in.',
+				'redirect'=> Tools::loginUrl(),
+			];
+		} else {
+			switch (@$instr['func']) {
+				case 'chat':
+					$jsonresponse = $this->chat->postChatMessage($instr['args']);
+					break;
+					;;
+				case 'game':
+					$jsonresponse = $this->game->processGameInstruction($instr['args']);
+					break;
+					;;
+				case 'login':
+					$jsonresponse = $this->user->processInstruction($instr['args']);
+					break;
+					;;
+				case 'signup':
+					$jsonresponse = $this->signup->processInstruction($instr['args']);
+					break;
+					;;
+				case 'verify':
+					$jsonresponse = $this->verify->processInstruction($instr['args']);
+					break;
+					;;
+				default:
+					$jsonresponse = [
+						'result'=> false,
+						'msg'	=> 'Invalid function.',
+					];
+					break;
+					;;
+			}
 		}
 
 		return Tools::encodeJson($jsonresponse);
