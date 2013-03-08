@@ -2,6 +2,7 @@
 
 $.widget('ui.quitpanel', {
 	options: {
+		logoutLink: '../user/logout.php',
 	},
 
 	leaveGameCallback: function () {
@@ -9,7 +10,8 @@ $.widget('ui.quitpanel', {
 	},
 
 	logoutCallback: function () {
-		alert('logoutCallback');
+		var self = this;
+		window.location = self.options.logoutLink;
 	},
 
 	makePanel: function () {
