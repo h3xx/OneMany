@@ -121,9 +121,9 @@ $.widget("ui.playerinfo", {
 		disp = self.displays['id' + id];
 
 		if (jail) {
-			disp.name.addClass('injail');
+			disp.main.addClass('injail');
 		} else {
-			disp.name.removeClass('injail');
+			disp.main.removeClass('injail');
 		}
 	},
 

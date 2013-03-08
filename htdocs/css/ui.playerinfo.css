@@ -33,3 +33,8 @@
 .ui-playerinfo .msg .negative {
 	color: red;
 }
+
+.ui-playerinfo .subpanel.injail {
+	background-image: url('../images/bars.png');
+	background-clip: border-box;
+}
