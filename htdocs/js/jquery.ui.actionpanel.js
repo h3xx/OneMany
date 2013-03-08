@@ -74,7 +74,7 @@ $.widget("ui.actionpanel", {
 
 		self.displays.jail = jp;
 
-		return rp;
+		return jp;
 	},
 
 	makePropPanel: function () {
