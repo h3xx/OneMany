@@ -18,6 +18,7 @@ $(document).ready(function () {
 		options: {
 			pollInterval: 2000,
 			servelet: 'responder.php',
+			loginLink: '../user/login.php',
 			dice: {
 				rollTimeout: 500,
 				diceUiArgs: {
@@ -37,6 +38,29 @@ $(document).ready(function () {
 
 // initialization methods {{{
 
+		dialogNotLoggedIn: function (msg) {
+			var self = this;
+			self.elems.dialog
+				.attr('title', 'Not logged in.')
+				.empty()
+				.append(
+					$('<div></div>')
+						.text(msg),
+					$('<div></div>')
+						.addClass('gotologin')
+						.append(
+							$('<a></a>')
+								.addClass('loginlink')
+								.text('Log in')
+								.attr('href', self.options.loginLink)
+						)
+				)
+				.dialog({
+					modal: true,
+				})
+				.show();
+		},
+
 		pullInitialGameData: function () {
 			var self = this;
 			$.post(self.options.servelet,
@@ -47,18 +71,8 @@ $(document).ready(function () {
 				function (data) {
 					if (!data || !data.board) {
 						// uh-oh, we may not be logged in
-
-						self.elems.dialog
-							.attr('title', 'Not logged in.')
-							.empty()
-							.append(
-								$('<div></div>')
-								.text(data.msg)
-							)
-							.dialog({
-								modal: true,
-							})
-							.show();
+						self.elems.chat.text(null).hide();
+						self.dialogNotLoggedIn(data.msg);
 						return;
 					}
 					self.gameData = data;
