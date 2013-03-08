@@ -1,24 +1,24 @@
 <?php
 session_start();
 
-require_once('../cgi-bin/Model.php');
-require_once('../cgi-bin/Controller.php');
-require_once('../cgi-bin/View.php');
-
 $uid = @$_SESSION['user_id'];
 $gid = @$_SESSION['game_id'];
 $gid = 4;
 
-$mdl = new Model($gid);
-
-$what = @$_REQUEST['method'];
+$method = @$_REQUEST['method'];
 $func = @$_REQUEST['func'];
 $args = @$_REQUEST['args'];
+
+require_once('../cgi-bin/Model.php');
+require_once('../cgi-bin/Controller.php');
+require_once('../cgi-bin/View.php');
+
+$mdl = new Model($gid);
 
 $buff = ['func' => $func, 'args' => $args];
 
 $res = null;
-switch ($what) {
+switch ($method) {
 	case 'ask':
 		$view = new View($mdl, $uid);
 		$res = $view->processInstruction($buff);
