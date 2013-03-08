@@ -14,7 +14,8 @@ class ModelUser {
 				'"c_user_game"."user_id" as "id", '.
 				'"user_name" as "name", '.
 				'"cash", '.
-				'"on_space" '.
+				'"on_space", '.
+				'"in_jail" as "jail" '.
 			'from "c_user_game" '.
 			'left join "user" on ("c_user_game"."user_id" = "user"."user_id") '.
 			'where "game_id" = :gid '.
@@ -34,10 +35,11 @@ class ModelUser {
 			# one whose turn it is, and the rest to false.
 			$result[$i]['turn'] = ($i == 0);
 
-			# XXX : overcome PDO bug
+			# XXX : overcome PDO bug re: all column types being strings
 			$result[$i]['id'] = (int)$result[$i]['id'];
 			$result[$i]['cash'] = (int)$result[$i]['cash'];
 			$result[$i]['on_space'] = (int)$result[$i]['on_space'];
+			$result[$i]['jail'] = (boolean)$result[$i]['jail'];
 		}
 
 		return $result;
