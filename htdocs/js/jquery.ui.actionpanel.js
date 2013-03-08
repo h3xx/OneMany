@@ -65,7 +65,7 @@ $.widget("ui.actionpanel", {
 				// Roll button
 				$('<button>Roll</button>')
 					.button()
-					.click(function () {self.rollCallback();})
+					.click(function () {self.rollCallback();}),
 				$('<button>Use GOJF card</button>')
 					.button()
 					.click(function () {self.gojfCallback();})

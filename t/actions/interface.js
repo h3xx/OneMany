@@ -222,6 +222,9 @@ $(document).ready(function () {
 			// update our data
 			uinfo.jail = injail;
 
+			// update player info display
+			self.setPlayerInfo({id:uid,jail:injail});
+
 			// user thrown in jail is already notified
 			if (!self.isMe(uid)) {
 				var msg = uinfo.name +

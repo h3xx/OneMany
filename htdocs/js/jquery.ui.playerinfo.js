@@ -116,6 +116,17 @@ $.widget("ui.playerinfo", {
 		disp.cash.data('cash', cash);
 	},
 
+	setJail: function (id, jail) {
+		var self = this,
+		disp = self.displays['id' + id];
+
+		if (jail) {
+			disp.name.addClass('injail');
+		} else {
+			disp.name.removeClass('injail');
+		}
+	},
+
 	setMsg: function (id, msg) {
 		var self = this,
 		disp = self.displays['id' + id];
@@ -161,27 +172,36 @@ $.widget("ui.playerinfo", {
 		if (key == 'data') {
 			// expect an array
 			for (var i in value) {
-				var turn = value[i].turn,
-				name = value[i].name,
-				cash = value[i].cash,
+				var uinfo = value[i],
+				turn = uinfo.turn,
+				name = uinfo.name,
+				cash = uinfo.cash,
+				jail = uinfo.jail,
+				uid = uinfo.id,
 				data = self.options.data;
 
 				if (turn != null && turn) {
-					self.setTurn(value[i].id);
+					self.setTurn(uid);
 				}
 
 				if (name) {
-					self.setName(value[i].id, name);
+					self.setName(uid, name);
 				}
 
 				if (cash) {
-					self.setCash(value[i].id, cash);
+					self.setCash(uid, cash);
+				}
+
+				if (jail != null) {
+					self.setJail(uid, jail);
 				}
 
 				// merge at same id in our data
+				// XXX : do we really care?
+				// XXX : SHOULD we really care?
 				jQuery.map(data, function (elem, idx) {
-					if (elem.id == value[i].id) {
-						$.extend(elem, value[i]);
+					if (elem.id == uid) {
+						$.extend(elem, uinfo);
 					}
 				});
 			}
