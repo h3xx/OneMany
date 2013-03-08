@@ -12,6 +12,7 @@ $(document).ready(function () {
 			actionPanel: $('#actions'),
 			board: $('#board'),
 			propcard: $('#propcard'),
+			quitPanel: $('#quitpanel'),
 			dialog: $('#dialog'),
 		},
 		options: {
@@ -79,6 +80,7 @@ $(document).ready(function () {
 			self.elems.dialog.hide();
 
 			self.initPlayerInfo();
+			self.initQuitPanel();
 			self.initActionPanel();
 			self.initBoard();
 			//self.setPlayerInfo({id:2,turn:true});
@@ -309,6 +311,11 @@ $(document).ready(function () {
 				.playerinfo({
 					data: [data],
 				});
+		},
+		initQuitPanel: function () {
+			var self = this;
+			self.elems.quitPanel
+				.quitpanel();
 		},
 		initActionPanel: function () {
 			var self = this,
