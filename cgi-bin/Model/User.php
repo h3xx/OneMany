@@ -101,8 +101,29 @@ class ModelUser {
 		return @$result[0];
 	}
 
-	public function resolveUsername ($user_name) {
+	public function getUserInfo ($user_id) {
+		$sth = $this->model->prepare(
+			'select '.
+				'"user_id" as "id", '.
+				'"user_name" as "name", '.
+				'"user_email" as "email" '.
+			'from "user" '.
+			'where "user_id" = :uid '.
+			'and "verified"'
+		);
 
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_ASSOC);
+
+		return $result;
+	}
+
+	public function resolveUsername ($user_name) {
 		$sth = $this->model->prepare(
 			'select "user_id" from "user" '.
 			'where "user_name" = :un '.

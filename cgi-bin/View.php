@@ -25,6 +25,10 @@ class View {
 			];
 		} else {
 			switch (@$instr['func']) {
+				case 'myUserInfo':
+					$jsonresponse = $this->model->user->getUserInfo($this->user_id);
+					break;
+					;;
 				case 'pollChat':
 					$jsonresponse = $this->chat->getChatUpdate(@$instr['args']);
 					break;
