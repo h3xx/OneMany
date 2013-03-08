@@ -27,6 +27,12 @@ class View {
 			switch (@$instr['func']) {
 				case 'myUserInfo':
 					$jsonresponse = $this->model->user->getUserInfo($this->user_id);
+					if (!$jsonresponse) {
+						$jsonresponse = [
+							'result'=> false,
+							'msg'	=> 'Is your account verified?',
+						];
+					}
 					break;
 					;;
 				case 'pollChat':
