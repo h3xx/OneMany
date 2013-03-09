@@ -56,7 +56,7 @@ class ModelAuction {
 
 		$result = $sth->fetch(PDO::FETCH_ASSOC);
 
-		return @$result[0];
+		return $result;
 
 	}
 
@@ -82,9 +82,9 @@ class ModelAuction {
 			return false;
 		}
 
-		$result = $sth->fetch(PDO::FETCH_NUM);
+		$result = $sth->fetch(PDO::FETCH_ASSOC);
 
-		return isset($result[0]) ? $result[0] : []; # empty array if no auction
+		return isset($result) ? $result : []; # empty array if no auction
 
 	}
 
