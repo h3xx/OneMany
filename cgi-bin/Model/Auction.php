@@ -92,18 +92,16 @@ class ModelAuction {
 		return @$result[0];
 	}
 
-	public function setAuctionBid ($space_id, $user_id, $bid) {
+	public function setAuctionBid ($user_id, $bid) {
 		$sth = $this->model->prepare(
 			'update "game" '.
 			'set '.
-				'"auction_space" = :sid, '.
 				'"auction_user" = :uid, '.
 				'"auction_bid" = :bd '.
 			'where "game_id" = :gid'
 		);
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
-		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 		$sth->bindParam(':bd', $bid, PDO::PARAM_INT);
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 
@@ -113,8 +111,7 @@ class ModelAuction {
 
 		return $this->model->update->pushUpdate([
 			'type'	=> 'bid',
-			'id'	=> $user_id,
-			'space'	=> $space_id,
+			'who'	=> $user_id,
 			'bid'	=> $bid,
 		]);
 	}
