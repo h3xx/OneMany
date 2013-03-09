@@ -11,7 +11,7 @@ $.widget("ui.actionpanel", {
 		data: null,
 		propId: null,
 		auctionTimer: null,
-		auctionPollInterval: 100,
+		auctionPollInterval: 500,
 		bidsteps: [1, 10, 25, 50, 100],
 		currBid: 0,
 	},
@@ -287,7 +287,6 @@ $.widget("ui.actionpanel", {
 			{
 				method: 'ask',
 				func: 'auction',
-				args: 'time',
 			},
 			function (data) {
 				if (data) {
@@ -295,7 +294,10 @@ $.widget("ui.actionpanel", {
 						// TODO : handle failure
 						alert('doAuctionPoll:' + data.msg);
 					} else {
+						self.setBidMsg('Auctioning ' + data.aname);
 						self.setBidTime(data.aseconds);
+						self.setBidAmt(self.options.currBid = data.abid);
+						self.setBidWinner(data.auser);
 					}
 				}
 			});
@@ -334,7 +336,15 @@ $.widget("ui.actionpanel", {
 		var self = this,
 		ap = self.displays.auction,
 		timedisp = ap.data('time');
-		timedisp.text('Time left: ' + parseInt(time));
+		timedisp.text(
+			/* first method - produces stupid displays like '20:4'
+			(time / 60).toFixed(0) + // minutes
+			':' +
+			(time % 60).toFixed(0) // seconds
+			*/
+			(parseInt(time / 60) + (time % 60 / 100)).toFixed(2)
+			.replace(/\./, ':')
+		);
 	},
 
 	setBidAmt: function (bid) {

@@ -285,20 +285,13 @@ $(document).ready(function () {
 		},
 
 		auctionStart: function (uid, sid, bid) {
-			var self = this;
-			// placeholder - must actually start auction panel
-			/*self.setActionPanel({
-				info:
-					self._playerInfo(upd.who).name +
-					' started an auction of ' +
-					self._spaceInfo(upd.space).name
-				});*/
-			self.setActionPanel({currBid: bid, idlePanel:'auction',idle:true});
+			this.setActionPanel({currBid: bid, idlePanel:'auction',idle:true});
 		},
 
 		auctionBid: function (uid, bid) {
-			var self = this;
-			self.setActionPanel({currBid: bid});
+			// actionpanel handles everything now
+			//var self = this;
+			//self.setActionPanel({currBid: bid});
 		},
 
 		moveUser: function (uid, sid, sbid) {
