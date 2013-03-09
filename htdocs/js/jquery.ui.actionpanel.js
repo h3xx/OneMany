@@ -31,6 +31,8 @@ $.widget("ui.actionpanel", {
 		}
 	},
 
+// constructors for different panels {{{
+
 	makePanelContainer: function () {
 		var self = this,
 		pc =
@@ -197,6 +199,8 @@ $.widget("ui.actionpanel", {
 
 		return wp;
 	},
+
+// constructors for different panels }}}
 
 	setBuyQuestion: function (what) {
 		var self = this,
@@ -470,3 +474,4 @@ $.widget("ui.actionpanel", {
 
 })(jQuery);
 
+// vi: fdm=marker
