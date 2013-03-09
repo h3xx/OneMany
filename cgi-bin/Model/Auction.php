@@ -161,4 +161,19 @@ class ModelAuction {
 
 	}
 
+	private function clearAuctionInfo () {
+		$sth = $this->model->prepare(
+			'update "game" set '.
+			'"auction_user" = null, '.
+			'"auction_space" = null, '.
+			'"auction_bid" = null, '.
+			'"auction_expire" = null, '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		return $sth->execute();
+	}
+
 }
