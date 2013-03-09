@@ -178,12 +178,7 @@ $(document).ready(function () {
 					self.elems.propcard.propcard({shown:false});
 					break;
 				case 'auctionStart':
-					self.setActionPanel({
-						info:
-							self._playerInfo(upd.who).name +
-							' started an auction of ' +
-							self._spaceInfo(upd.space).name
-						});
+					self.auctionStart(upd.who, upd.space, upd.bid);
 					break;
 				case 'card':
 					if (upd.who && !self.isMe(upd.who)) {
@@ -273,7 +268,17 @@ $(document).ready(function () {
 			});
 		},
 
-		moveUser: function (uid, sid) {
+		auctionStart: function (uid, sid) {
+			// placeholder - must actually start auction panel
+			self.setActionPanel({
+				info:
+					self._playerInfo(upd.who).name +
+					' started an auction of ' +
+					self._spaceInfo(upd.space).name
+				});
+		},
+
+		moveUser: function (uid, sid, sbid) {
 			var self = this;
 			self.setPlayerInfo({id:uid,on_space:sid});
 			self.setBoard({id:sid,user:uid});
