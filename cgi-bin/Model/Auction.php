@@ -137,12 +137,16 @@ class ModelAuction {
 	public function getAuctionInfo () {
 		$sth = $this->model->prepare(
 			'select '.
-			'"auction_user" as "auser", '.
+			'"auction_user" as "auid", '.
+			'"user"."user_name" as "auser", '.
 			'"auction_space" as "aspace", '.
+			'"space"."space_name" as "aname", '.
 			'"auction_bid" as "abid", '.
 			#'"auction_expire" as "aexpire", '.
 			'date_part(\'epoch\', "auction_expire" - now()) as "aseconds" '.
 			'from "game" '.
+			'left join "space" on ("game"."auction_space" = "space"."space_id") '.
+			'left join "user" on ("game"."auction_user" = "user"."user_id") '.
 			'where "game_id" = :gid'
 		);
 
@@ -161,12 +165,16 @@ class ModelAuction {
 	public function getAuctionInfoNoExpired () {
 		$sth = $this->model->prepare(
 			'select '.
-			'"auction_user" as "auser", '.
+			'"auction_user" as "auid", '.
+			'"user"."user_name" as "auser", '.
 			'"auction_space" as "aspace", '.
+			'"space"."space_name" as "aname", '.
 			'"auction_bid" as "abid", '.
 			#'"auction_expire" as "aexpire", '.
 			'date_part(\'epoch\', "auction_expire" - now()) as "aseconds" '.
 			'from "game" '.
+			'left join "space" on ("game"."auction_space" = "space"."space_id") '.
+			'left join "user" on ("game"."auction_user" = "user"."user_id") '.
 			'where "game_id" = :gid and '.
 			# make sure it hasn't expired
 			'"auction_expire" > now()'

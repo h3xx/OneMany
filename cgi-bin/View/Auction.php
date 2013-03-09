@@ -10,10 +10,17 @@ class ViewAuction {
 
 	public function getAuctionInfo ($args) {
 		if ($args === 'time') {
-			return $this->model->game->auction->getAuctionTimeleft();
+			$inf = $this->model->game->auction->getAuctionTimeleft();
+		} else {
+			# all data
+			$inf = $this->model->game->auction->getAuctionInfo();
 		}
 
-		# all data
-		return $this->model->game->auction->getAuctionInfo();
+		# XXX : hack! expire auction if it's observed to be expired
+		if ($inf['aseconds'] <= 0) {
+			$this->model->game->auction->closeAuction();
+		}
+
+		return $inf;
 	}
 }
