@@ -64,9 +64,13 @@ class ModelAuction {
 
 		$ainfo = $this->getAuctionInfo();
 
-		if (isset($ainfo['auid']) && isset($ainfo['abid'])) {
+		if (isset($ainfo['auid']) && isset($ainfo['abid']) && isset($ainfo['aspace'])) {
 			# make the user pay
 			if (!$this->model->user->addUserCash($ainfo['auid'], -$ainfo['abid'])) {
+				return false;
+			}
+			# make them the new owner
+			if (!$this->model->game->board->setPropertyOwner($ainfo['aspace'], $ainfo['auid'])) {
 				return false;
 			}
 		}
