@@ -75,7 +75,7 @@ class ModelAuction {
 			'from "game" '.
 			'where "game_id" = :gid and '.
 			# make sure it hasn't expired
-			'"auction_expire" > now() + rule_or_default(:ggid,\'auction_timeout\')::interval'
+			'"auction_expire" > now()'
 
 		);
 
