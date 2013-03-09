@@ -120,7 +120,6 @@ class ModelAuction {
 	}
 
 	public function getAuctionInfo () {
-		# deprecated
 		$sth = $this->model->prepare(
 			'select '.
 			'"auction_user" as "auser", '.

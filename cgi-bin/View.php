@@ -56,7 +56,7 @@ class View {
 					break;
 					;;
 				case 'auction':
-					$jsonresponse = $this->model->getAuctionInfoNoExpired();
+					$jsonresponse = $this->model->getAuctionInfo();
 					break;
 					;;
 				default:
