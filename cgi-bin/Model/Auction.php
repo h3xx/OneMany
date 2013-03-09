@@ -64,13 +64,22 @@ class ModelAuction {
 
 		$ainfo = $this->getAuctionInfo();
 
+		if (isset($ainfo['auid']) && isset($ainfo['abid'])) {
+			# make the user pay
+			if (!$this->model->user->addUserCash($ainfo['auid'], -$ainfo['abid'])) {
+				return false;
+			}
+		}
+
 		$this->clearAuctionInfo();
 
 		return $this->model->update->pushUpdate([
 			'type'	=> 'auctionClose',
-			'winner'=> $ainfo['auser'],
+			'winner'=> $ainfo['auid'],
+			'wname'	=> $ainfo['auser'],
 			'winbid'=> $ainfo['abid'],
 			'space'	=> $ainfo['aspace'],
+			'sname'	=> $ainfo['aname'],
 		]);
 	}
 
