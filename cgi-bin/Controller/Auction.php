@@ -8,14 +8,8 @@ class ControllerAuction {
 		$this->user_id = $user_id;
 	}
 
+	# note: also handles declining to buy if auctions are not enabled
 	public function startAuction ($space_id) {
-		if (!$this->model->rules->getRuleValue('auctions')) {
-			return [
-				'result'=> false,
-				'msg'	=> 'Auctions are not enabled for this game.',
-			];
-		}
-
 		$whose_turn = $this->model->game->whoseTurn();
 		if ($whose_turn !== $this->user_id) {
 			return [
@@ -32,6 +26,14 @@ class ControllerAuction {
 					'msg'	=> 'Failed to determine your location.',
 				];
 			}
+		}
+
+		if (!$this->model->rules->getRuleValue('auctions')) {
+			$this->model->game->noBuy($this->user_id, $space_id);
+			return [
+				'result'=> true,
+				'msg'	=> 'Declined to buy property.',
+			];
 		}
 
 		if (!$this->model->game->board->isOwnable($space_id)) {

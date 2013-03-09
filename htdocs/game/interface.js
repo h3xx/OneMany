@@ -164,6 +164,17 @@ $(document).ready(function () {
 					}
 					self.elems.propcard.propcard({shown:false});
 					break;
+				case 'noBuy':
+					if (upd.who && !self.isMe(upd.who)) {
+						self.setActionPanel({
+							info:
+								self._playerInfo(upd.who).name +
+								' declined to buy ' +
+								self._spaceInfo(upd.space).name
+							});
+					}
+					self.elems.propcard.propcard({shown:false});
+					break;
 				case 'move':
 					self.moveUser(upd.id, upd.space);
 					break;

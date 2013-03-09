@@ -421,6 +421,14 @@ class ModelGame {
 		]);
 	}
 
+	public function noBuy ($user_id, $space_id) {
+		return $this->model->update->pushUpdate([
+			'type'	=> 'noBuy',
+			'who'	=> $user_id,
+			'space'	=> $space_id,
+		]);
+	}
+
 	public function setGojf ($user_id, $has_gojf) {
 		$sth = $this->model->prepare(
 			'update "c_user_game" '.
