@@ -10,12 +10,20 @@ $.widget("ui.actionpanel", {
 		hasGojf: false,
 		data: null,
 		propId: null,
+		auctionTimer: null,
+		auctionPollInterval: 100,
 	},
 	displays: {},
 
 	selectDisplay: function (dispId) {
 		var self = this,
 		showdisp = null;
+
+		if (dispId == 'auction') {
+			self.startAuctionPoll();
+		} else {
+			self.stopAuctionPoll();
+		}
 
 		// hide all other displays, then unhide the found one
 		for (var id in self.displays) {
@@ -201,6 +209,55 @@ $.widget("ui.actionpanel", {
 	},
 
 // constructors for different panels }}}
+
+// auction polling {{{
+
+	startAuctionPoll: function () {
+		var self = this,
+		options = self.options,
+		atid = options.auctionTimer;
+
+		if (atid == null) {
+			options.auctionTimer = window.setInterval(
+				function() {
+					self.doAuctionPoll();
+				},
+				options.auctionPollInterval
+			);
+		}
+	},
+
+	stopAuctionPoll: function () {
+		var self = this,
+		options = self.options,
+		atid = options.auctionTimer;
+
+		if (atid != null) {
+			window.clearInterval(atid);
+			options.auctionTimer = null;
+		}
+	},
+
+	doAuctionPoll: function () {
+		$.post(self.options.servlet,
+			{
+				method: 'ask',
+				func: 'auction',
+				args: 'time',
+			},
+			function (data) {
+				if (data) {
+					if (data.atime == null && !data.result) {
+						// TODO : handle failure
+						alert(data.msg);
+					} else {
+						self.setBidTime(data.atime);
+					}
+				}
+			});
+	},
+
+// auction polling }}}
 
 	setBuyQuestion: function (what) {
 		var self = this,
