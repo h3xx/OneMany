@@ -72,6 +72,8 @@ class View {
 		return Tools::encodeJson($jsonresponse);
 	}
 
+# member getters {{{
+
 	private function getChat () {
 		if (!isset($this->chat)) {
 			$this->chat = new ViewChat($this->model, $this->user_id);
@@ -120,4 +122,9 @@ class View {
 				;;
 		}
 	}
+
+# member getters }}}
+
 }
+
+# vi: fdm=marker
