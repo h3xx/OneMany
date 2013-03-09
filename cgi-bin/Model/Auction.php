@@ -12,6 +12,27 @@ class ModelAuction {
 		return $this->getAuctionInfoNoExpired();
 	}
 
+	public function startAuction ($space_id, $auctioning_user, $opening_bid) {
+		$sth = $this->model->prepare(
+			'update "game" '.
+			'set '.
+				'"auction_space" = :sid, '.
+				'"auction_user" = :uid, '.
+				'"auction_bid" = :bd, '.
+				'"auction_expire" = now() + rule_or_default(:ggid,\'auction_timeout\')::interval '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':ggid', $this->game_id, PDO::PARAM_INT);
+
+		$sth->bindParam(':bd', $opening_bid, PDO::PARAM_INT);
+		$sth->bindParam(':uid', $auctioning_user, PDO::PARAM_INT);
+
+		return $sth->execute();
+	}
+
 	public function setAuctionBid ($space_id, $user_id, $bid) {
 		$sth = $this->model->prepare(
 			'update "game" '.
