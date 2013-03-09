@@ -55,6 +55,9 @@ class View {
 					$jsonresponse = $this->list->listGames();
 					break;
 					;;
+				case 'auction':
+					$jsonresponse = $this->model->getAuctionInfo();
+					break;
 				default:
 					$jsonresponse = [
 						'result'=> false,
