@@ -72,7 +72,7 @@ class ControllerAuction {
 		if (empty($ainfo)) {
 			return [
 				'result'=> false,
-				'msg'	=> 'Space is not up for auction.',
+				'msg'	=> 'There is no auction currently in progress.',
 			];
 		}
 
