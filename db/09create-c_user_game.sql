@@ -14,6 +14,7 @@ CREATE TABLE c_user_game
   sequence serial NOT NULL, -- What order the players take turns.
   extra_turn boolean NOT NULL DEFAULT false, -- Whether the user can go again after the current turn has completed.
   ask_buy integer, -- What space (if any) the user is being asked if they want to buy.
+  token integer NOT NULL DEFAULT 0, -- What token the player is using for this game.
   CONSTRAINT c_user_game_pkey PRIMARY KEY (user_id, game_id),
   CONSTRAINT c_user_game_ask_buy_fkey FOREIGN KEY (ask_buy)
       REFERENCES space (space_id) MATCH SIMPLE
@@ -38,3 +39,4 @@ COMMENT ON COLUMN c_user_game.sequence IS 'What order the players take turns.';
 COMMENT ON COLUMN c_user_game.extra_turn IS 'Whether the user can go again after the current turn has completed.';
 COMMENT ON COLUMN c_user_game.ask_buy IS 'What space (if any) the user is being asked if they want to buy.';
 COMMENT ON COLUMN c_user_game.in_jail IS 'Whether the user is in jail.';
+COMMENT ON COLUMN c_user_game.token IS 'What token the player is using for this game.';
