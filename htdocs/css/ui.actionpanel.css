@@ -28,3 +28,8 @@
 	text-align: center;
 	font-size: 150%;
 }
+
+.ui-actionpanel .ui-actionpanel-auction .auctionbuttons {
+	position: absolute;
+	bottom: 4px;
+}

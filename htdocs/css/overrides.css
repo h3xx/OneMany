@@ -35,3 +35,7 @@
 
 	margin: 0 !important;
 }
+
+.ui-button-text-only .ui-button-text {
+	padding: .4em .9em;
+}
