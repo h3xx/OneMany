@@ -373,7 +373,7 @@ $.widget("ui.actionpanel", {
 			{
 				method: 'tell',
 				func: 'game',
-				args: (really ? 'buy' : 'auction'),
+				args: (really ? 'buy' : 'noBuy'),
 			},
 			function (data) {
 				if (data) {

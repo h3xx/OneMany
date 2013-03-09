@@ -51,9 +51,16 @@ class ControllerGame {
 				return $this->board->sellHouses(@$buff[1], @$buff[2]);
 				break;
 				;;
-			case 'auction':
+			case 'noBuy':
 				# note: buff[1] doesn't have to be set
-				return $this->auction->startAuction(@$buff[1]);
+				if ($this->model->rules->getRuleValue('auctions')) {
+					return $this->auction->startAuction(@$buff[1]);
+				} else {
+					return [
+						'result'=> true,
+						'msg'	=> 'Declined to buy property.',
+					];
+				}
 				break;
 				;;
 			case 'bid':
