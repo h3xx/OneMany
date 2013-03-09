@@ -58,6 +58,7 @@ class View {
 				case 'auction':
 					$jsonresponse = $this->model->getAuctionInfo();
 					break;
+					;;
 				default:
 					$jsonresponse = [
 						'result'=> false,
