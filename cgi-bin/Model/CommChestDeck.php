@@ -44,7 +44,7 @@ class ModelCommchestDeck {
 			'who'	=> $user_id,
 			'deck'	=> self::$table_name,
 			'msg'	=> $result['text'],
-		]) {
+		])) {
 			return false;
 		}
 
