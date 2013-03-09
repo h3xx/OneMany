@@ -239,6 +239,7 @@ $.widget("ui.actionpanel", {
 	},
 
 	doAuctionPoll: function () {
+		var self = this;
 		$.post(self.options.servlet,
 			{
 				method: 'ask',
