@@ -139,7 +139,7 @@ $.widget("ui.actionpanel", {
 			$('<div></div>')
 			.addClass('auctionwinner'),
 
-		buttons =
+		buttondisp =
 			$('<div></div>')
 			.addClass('auctionbuttons'),
 
@@ -150,7 +150,7 @@ $.widget("ui.actionpanel", {
 				timedisp,
 				winnerdisp,
 				biddisp,
-				buttons
+				buttondisp
 			)
 			.data('msg', msgdisp)
 			.data('time', timedisp)
@@ -170,7 +170,7 @@ $.widget("ui.actionpanel", {
 					self.bidCallback(b);
 				});
 
-			buttons.append(btn);
+			buttondisp.append(btn);
 		}
 
 		self.displays.auction = ap;
@@ -294,6 +294,10 @@ $.widget("ui.actionpanel", {
 						// TODO : handle failure
 						alert('doAuctionPoll:' + data.msg);
 					} else {
+						if (data.aseconds <= 0) {
+							self.stopAuctionPoll();
+						}
+
 						self.setBidMsg('Auctioning ' + data.aname);
 						self.setBidTime(data.aseconds);
 						self.setBidAmt(self.options.currBid = data.abid);
@@ -336,6 +340,11 @@ $.widget("ui.actionpanel", {
 		var self = this,
 		ap = self.displays.auction,
 		timedisp = ap.data('time');
+
+		if (time < 0) {
+			time = 0;
+		}
+
 		timedisp.text(
 			/* first method - produces stupid displays like '20:4'
 			(time / 60).toFixed(0) + // minutes
