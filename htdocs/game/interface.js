@@ -265,6 +265,14 @@ $(document).ready(function () {
 			var self = this;
 			self.setPlayerInfo({id:uid,on_space:sid});
 			self.setBoard({id:sid,user:uid});
+			if (!self.isMe(uid)) {
+				self.setActionPanel({
+					info:
+						self._playerInfo(uid).name +
+						' landed on ' +
+						self._spaceInfo(sid).name
+					});
+			}
 		},
 
 		jailUser: function (uid, injail) {
