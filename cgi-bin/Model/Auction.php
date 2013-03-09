@@ -17,7 +17,7 @@ class ModelAuction {
 			'update "game" '.
 			'set '.
 				'"auction_space" = :sid, '.
-				'"auction_user" = :uid, '.
+				'"auction_user" = null, '.
 				'"auction_bid" = :bd, '.
 				'"auction_reportedclosed" = false, '.
 				'"auction_expire" = now() + rule_or_default(:ggid,\'auction_timeout\')::interval '.
@@ -29,7 +29,6 @@ class ModelAuction {
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
 		$sth->bindParam(':bd', $opening_bid, PDO::PARAM_INT);
-		$sth->bindParam(':uid', $auctioning_user, PDO::PARAM_INT);
 
 		if (!$sth->execute()) {
 			return false;
@@ -39,6 +38,7 @@ class ModelAuction {
 			'type'	=> 'auctionStart',
 			'who'	=> $auctioning_user,
 			'space'	=> $space_id,
+			'bid'	=> $opening_bid,
 		]);
 	}
 
