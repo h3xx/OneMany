@@ -360,6 +360,18 @@ class ModelGame {
 		]);
 	}
 
+	public function payBail ($user_id) {
+		$jail_bail = $this->model->rules->getRuleValue('jail_bail');
+
+		$newcash = $this->model->user->addUserCash($user_id, -$jail_bail);
+
+		return $this->model->update->pushUpdate([
+			'type'	=> 'bail',
+			'who'	=> $user_id,
+			'paid'	=> $jail_bail,
+		]);
+	}
+
 	public function setGojf ($user_id, $has_gojf) {
 		$sth = $this->model->prepare(
 			'update "c_user_game" '.

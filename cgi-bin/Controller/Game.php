@@ -53,6 +53,10 @@ class ControllerGame {
 				return $this->rollDice();
 				break;
 				;;
+			case 'payBail':
+				return $this->payBail();
+				break;
+				;;
 			default:
 				return [
 					'result'=> false,
@@ -371,6 +375,37 @@ class ControllerGame {
 		];
 	}
 
+	private function payBail () {
+		if (!$this->model->user->isInJail($this->user_id)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'You are not in jail.',
+			];
+		}
+
+		$jail_bail = $this->model->rules->getRuleValue('jail_bail');
+		$cash = $this->model->user->getUserCash($this->user_id);
+
+		if ($jail_bail > $cash) {
+			return [
+				'result'=> false,
+				'msg'	=> 'You cannot afford bail.',
+			];
+		}
+
+		if (!$this->model->game->payBail($this->user_id)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Something went horribly wrong paying bail [WTF].',
+			];
+		}
+
+		return [
+			'result'=> true,
+			'msg'	=> 'Successfully paid bail.',
+		];
+	}
+
 	private function throwUserInJail ($success_return) {
 		# figure out where we need to send the user
 		$jail_ids = $this->model->game->board->getSpaceIdsInGroup('JV');
@@ -391,7 +426,7 @@ class ControllerGame {
 			];
 		}
 		# throw the user in jail
-		if (!$this->model->user->setInJail($this->user_id, false)) {
+		if (!$this->model->user->setInJail($this->user_id, true)) {
 			return [
 				'result'=> false,
 				'msg'	=> 'Failed to put you in jail [WTF].',
