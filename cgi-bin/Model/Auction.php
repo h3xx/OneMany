@@ -19,6 +19,7 @@ class ModelAuction {
 				'"auction_space" = :sid, '.
 				'"auction_user" = :uid, '.
 				'"auction_bid" = :bd, '.
+				'"auction_reportedclosed" = false, '.
 				'"auction_expire" = now() + rule_or_default(:ggid,\'auction_timeout\')::interval '.
 			'where "game_id" = :gid'
 		);
@@ -31,6 +32,35 @@ class ModelAuction {
 		$sth->bindParam(':uid', $auctioning_user, PDO::PARAM_INT);
 
 		return $sth->execute();
+	}
+
+	public function closeAuction () {
+		$sth = $this->model->prepare(
+			# database function - returns boolean
+			'select close_auction(:gid)'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		if (!@$result[0]) {
+			# no need to report update
+			return true;
+		}
+
+		$ainfo = $this->getAuctionInfo();
+
+		return $this->model->update->pushUpdate([
+			'type'	=> 'auctionClose',
+			'winner'=> $ainfo['auser'],
+			'winbid'=> $ainfo['abid'],
+			'space'	=> $ainfo['aspace'],
+		]);
 	}
 
 	public function isAuctionClosed () {
