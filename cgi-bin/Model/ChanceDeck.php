@@ -38,6 +38,16 @@ class ModelChanceDeck {
 			$this->model->game->setGojf($user_id, true);
 		}
 
+		# XXX : update our model
+		if (!$this->model->update->pushUpdate([
+			'type'	=> 'card',
+			'who'	=> $user_id,
+			'deck'	=> self::$table_name,
+			'msg'	=> $result['text'],
+		]) {
+			return false;
+		}
+
 		$this->moveCardToBack($result['id']);
 
 		return $result;
