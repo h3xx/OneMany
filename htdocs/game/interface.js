@@ -187,6 +187,9 @@ $(document).ready(function () {
 				case 'auctionStart':
 					self.auctionStart(upd.who, upd.space, upd.bid);
 					break;
+				case 'auctionClose':
+					self.auctionClose(upd.wname, upd.sname, upd.winbid);
+					break;
 				case 'bid':
 					self.auctionBid(upd.who, upd.bid);
 					break;
@@ -285,7 +288,19 @@ $(document).ready(function () {
 		},
 
 		auctionStart: function (uid, sid, bid) {
-			this.setActionPanel({currBid: bid, idlePanel:'auction',idle:true});
+			this.setActionPanel({currBid: bid, selectedPanel:'auction',idle:false});
+		},
+
+		auctionClose: function (uname, sname, bid) {
+			var self = this,
+			msg = (
+				(uname != null) ?
+					(uname + ' won the auction of ' + sname + ' for $' + bid + '.') :
+					(sname + ' was auctioned but nobody bought it.')
+			),
+			pc = self.elems.propcard;
+			self.setActionPanel({info: msg});
+			pc.propcard({shown:false});
 		},
 
 		auctionBid: function (uid, bid) {

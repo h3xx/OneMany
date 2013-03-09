@@ -523,7 +523,7 @@ $.widget("ui.actionpanel", {
 						self.options.idle = true;
 						self.setIdle(true);
 						// FIXME : clear violation of top-down
-						$('#propcard').propcard({shown:false});
+						$('#propcard').propcard({shown:!really});
 					}
 				}
 			});
