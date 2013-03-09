@@ -83,6 +83,14 @@ class ControllerAuction {
 			];
 		}
 
+		$cash = $this->model->user->getUserCash($this->user_id);
+		if ($bid > $cash) {
+			return [
+				'result'=> false,
+				'msg'	=> 'You cannot afford to make that bid.',
+			];
+		}
+
 		if (!$this->model->game->auction->setAuctionBid($this->user_id, $bid)) {
 			return [
 				'result'=> false,
