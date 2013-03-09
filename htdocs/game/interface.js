@@ -180,7 +180,7 @@ $(document).ready(function () {
 						self.setActionPanel({
 							info:
 								self._playerInfo(upd.who).name +
-								' drew a ' + upd.deck + ' card: '
+								' drew a ' + upd.deck + ' card: ' +
 								upd.msg
 							});
 					}
