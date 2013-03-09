@@ -11,17 +11,6 @@ class ModelChanceDeck {
 		$this->game_id = $game_id;
 	}
 
-	function init () {
-		# XXX : method stub
-		#       ( Nothing to do here! )
-		#       v
-		#    /\o
-		#     /\/
-		#    /\
-		#   /  \
-		#  LOL LOL
-	}
-
 	public function drawCard ($user_id) {
 		$sth = $this->model->prepare(
 			'select '.
