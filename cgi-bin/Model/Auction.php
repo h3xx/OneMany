@@ -119,6 +119,26 @@ class ModelAuction {
 		]);
 	}
 
+	public function getAuctionTimeleft () {
+		$sth = $this->model->prepare(
+			'select '.
+			'date_part(\'epoch\', "auction_expire" - now()) as "aseconds" '.
+			'from "game" '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
+
+	}
+
 	public function getAuctionInfo () {
 		$sth = $this->model->prepare(
 			'select '.

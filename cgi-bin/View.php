@@ -6,6 +6,7 @@ require_once('View/List.php');
 require_once('View/Board.php');
 require_once('View/Game.php');
 require_once('View/PropertyCard.php');
+require_once('View/Auction.php');
 
 class View {
 	private $model, $user_id;
@@ -56,7 +57,7 @@ class View {
 					break;
 					;;
 				case 'auction':
-					$jsonresponse = $this->model->getAuctionInfo();
+					$jsonresponse = $this->auction->getAuctionInfo(@$instr['args']);
 					break;
 					;;
 				default:
@@ -102,6 +103,13 @@ class View {
 		return $this->list;
 	}
 
+	private function getAuction () {
+		if (!isset($this->auction)) {
+			$this->auction = new ViewAuction($this->model, $this->user_id);
+		}
+		return $this->auction;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'chat':
@@ -118,6 +126,10 @@ class View {
 				;;
 			case 'list':
 				return $this->getList();
+				break;
+				;;
+			case 'auction':
+				return $this->getAuction();
 				break;
 				;;
 		}
