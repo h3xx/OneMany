@@ -134,7 +134,6 @@ $.widget("ui.actionpanel", {
 			$('<div></div>')
 			.addClass('auctionbid'),
 
-
 		winnerdisp =
 			$('<div></div>')
 			.addClass('auctionwinner'),
