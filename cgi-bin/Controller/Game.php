@@ -376,6 +376,15 @@ class ControllerGame {
 	}
 
 	private function payBail () {
+		# check whether it's their turn
+		$whose_turn = $this->model->game->whoseTurn();
+		if ($whose_turn !== $this->user_id) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Not your turn.',
+			];
+		}
+
 		if (!$this->model->user->isInJail($this->user_id)) {
 			return [
 				'result'=> false,
