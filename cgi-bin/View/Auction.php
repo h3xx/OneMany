@@ -10,10 +10,10 @@ class ViewAuction {
 
 	public function getAuctionInfo ($args) {
 		if ($args === 'time') {
-			return $this->model->auction->getAuctionTimeleft();
+			return $this->model->game->auction->getAuctionTimeleft();
 		}
 
 		# all data
-		return $this->model->auction->getAuctionInfo();
+		return $this->model->game->auction->getAuctionInfo();
 	}
 }
