@@ -175,6 +175,16 @@ $(document).ready(function () {
 					}
 					self.elems.propcard.propcard({shown:false});
 					break;
+				case 'card':
+					if (upd.who && !self.isMe(upd.who)) {
+						self.setActionPanel({
+							info:
+								self._playerInfo(upd.who).name +
+								' drew a ' + upd.deck + ' card: '
+								upd.msg
+							});
+					}
+					break;
 				case 'move':
 					self.moveUser(upd.id, upd.space);
 					break;
