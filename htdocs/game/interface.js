@@ -278,13 +278,15 @@ $(document).ready(function () {
 		},
 
 		auctionStart: function (uid, sid) {
+			var self = this;
 			// placeholder - must actually start auction panel
-			self.setActionPanel({
+			/*self.setActionPanel({
 				info:
 					self._playerInfo(upd.who).name +
 					' started an auction of ' +
 					self._spaceInfo(upd.space).name
-				});
+				});*/
+			self.setActionPanel({idlePanel:'auction',idle:true});
 		},
 
 		auctionBid: function (uid, bid) {
@@ -347,6 +349,7 @@ $(document).ready(function () {
 		},
 
 // subpanel init/set methods {{{
+
 		initDice: function () {
 			for (var i in this.elems.dice) {
 				this.elems.dice[i].dice(this.options.dice.diceUiArgs);
