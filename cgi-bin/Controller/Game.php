@@ -242,7 +242,6 @@ class ControllerGame {
 					break;
 				case 'C':
 					# Chance
-					# FIXME
 					$card = $this->model->game->chance->drawCard($this->user_id);
 					$landed_msg = $landed_msg . ' - '.$card['text'];
 					if (is_numeric($card['action'])) {
@@ -292,8 +291,18 @@ class ControllerGame {
 								return $this->landOnSpace($sp, $dice, $landed_msg);
 								break;
 
+							case 'G2':
+								# GO TO JAIL
+								# FIXME
+								break;
+
+							case 'GOJF':
+								# get out of jail free card
+								# FIXME
+								break;
+
 							case 'PA50':
-								# collect $50 from all players
+								# pay $50 to all players
 								# FIXME
 								break;
 						}
@@ -307,13 +316,34 @@ class ControllerGame {
 					# Community Chest
 					# FIXME
 					$card = $this->model->game->commchest->drawCard($this->user_id);
+					$landed_msg = $landed_msg . ' - '.$card['text'];
 					if (is_numeric($card['action'])) {
 						# paid
 						$this->model->user->addUserCash($this->user_id, $card['action']);
+					} else {
+						switch ($card['action']) {
+							case 'G0':
+								# to to GO
+								$this->addGoMoney();
+								return $this->landOnSpace(0, $dice, $landed_msg);
+								break;
+							case 'G2':
+								# GO TO JAIL
+								# FIXME
+								break;
+							case 'GOJF':
+								# get out of jail free card
+								# FIXME
+								break;
+							case 'CA50':
+								# collect $50 from all players
+								# FIXME
+								break;
+						}
 					}
 					return $this->turnIsOver([
 						'result'=> true,
-						'msg'	=> $landed_msg . ' - '.$card['text'],
+						'msg'	=> $landed_msg,
 					]);
 					break;
 				case 'G2':
