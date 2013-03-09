@@ -23,14 +23,32 @@ class ModelAuction {
 			'where "game_id" = :gid'
 		);
 
-		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':ggid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
 		$sth->bindParam(':bd', $opening_bid, PDO::PARAM_INT);
 		$sth->bindParam(':uid', $auctioning_user, PDO::PARAM_INT);
 
 		return $sth->execute();
+	}
+
+	public function isAuctionClosed () {
+		$sth = $this->model->prepare(
+			'select count(*) '.
+			'from "game" '.
+			'where "game_id" = :gid '.
+			'and "auction_expire" > now()'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+		return @$result[0];
 	}
 
 	public function setAuctionBid ($space_id, $user_id, $bid) {
