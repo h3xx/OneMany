@@ -136,6 +136,8 @@ $(document).ready(function () {
 
 // update polling methods }}}
 
+// update processing {{{
+
 		procGameUpdate: function (update) {
 			var self = this,
 			upd = jQuery.parseJSON(update);
@@ -202,6 +204,8 @@ $(document).ready(function () {
 					break;
 			}
 		},
+
+// update processing }}}
 
 // user info queries {{{
 
