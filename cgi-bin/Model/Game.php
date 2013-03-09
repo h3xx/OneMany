@@ -3,6 +3,7 @@
 require_once('ChanceDeck.php');
 require_once('CommChestDeck.php');
 require_once('Board.php');
+require_once('Auction.php');
 
 class ModelGame {
 	private $model, $game_id;
@@ -87,10 +88,17 @@ class ModelGame {
 		return $this->board;
 	}
 
+	private function getAuction () {
+		if (!isset($this->auction)) {
+			$this->auction = new ModelAuction($this->model, $this->game_id);
+		}
+		return $this->auction;
+	}
+
 	public function exportModel () {
 		$state = $this->getGameState();
 		$gameinfos = $this->getGameNameAndLastRoll();
-		$auction = $this->getAuctionInfoNoExpired();
+		$auction = $this->auction->getAuctionInfoNoExpired();
 		$board = $this->board->exportModel();
 		$users = $this->model->user->exportModel();
 		$last_update = $this->model->update->exportModel();
@@ -104,57 +112,6 @@ class ModelGame {
 			'users'	=> $users,
 			'update'=> $last_update,
 		];
-	}
-
-	public function getAuctionInfo () {
-		# deprecated
-		$sth = $this->model->prepare(
-			'select '.
-			'"auction_user" as "auser", '.
-			'"auction_space" as "aspace", '.
-			'"auction_bid" as "abid", '.
-			'"auction_expire" as "aexpire" '.
-			'from "game" '.
-			'where "game_id" = :gid'
-		);
-
-		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
-
-		if (!$sth->execute()) {
-			return false;
-		}
-
-		$result = $sth->fetch(PDO::FETCH_ASSOC);
-
-		return @$result[0];
-
-	}
-
-	public function getAuctionInfoNoExpired () {
-		$sth = $this->model->prepare(
-			'select '.
-			'"auction_user", '.
-			'"auction_space", '.
-			'"auction_bid", '.
-			'"auction_expire" '.
-			'from "game" '.
-			'where "game_id" = :gid and '.
-			# make sure it hasn't expired
-			'"auction_expire" > now() + rule_or_default(:ggid,\'auction_timeout\')::interval'
-
-		);
-
-		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
-		$sth->bindParam(':ggid', $this->game_id, PDO::PARAM_INT);
-
-		if (!$sth->execute()) {
-			return false;
-		}
-
-		$result = $sth->fetch(PDO::FETCH_NUM);
-
-		return isset($result[0]) ? $result[0] : []; # empty array if no auction
-
 	}
 
 	public function getGameState () {
@@ -386,32 +343,6 @@ class ModelGame {
 		return @$result[0];
 	}
 
-	public function setAuctionBid ($space_id, $user_id, $bid) {
-		$sth = $this->model->prepare(
-			'update "game" '.
-			'set '.
-				'"auction_space" = :sid, '.
-				'"auction_user" = :uid, '.
-				'"auction_bid" = :bd '.
-			'where "game_id" = :gid'
-		);
-
-		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
-		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
-		$sth->bindParam(':bd', $bid, PDO::PARAM_INT);
-		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
-
-		if (!$sth->execute()) {
-			return false;
-		}
-
-		return $this->model->update->pushUpdate([
-			'type'	=> 'bid',
-			'id'	=> $user_id,
-			'space'	=> $space_id,
-			'bid'	=> $bid,
-		]);
-	}
 
 	public function askBuy ($user_id, $space_id) {
 		return $this->model->update->pushUpdate([
@@ -467,9 +398,10 @@ class ModelGame {
 				return $this->getBoard();
 				break;
 				;;
-			#case 'game_id':
-			#	return $this->game_id;
-			#	;;
+			case 'auction':
+				return $this->getAuction();
+				break;
+				;;
 		}
 	}
 }
