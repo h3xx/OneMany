@@ -42,7 +42,8 @@ class ModelAuction {
 			'"auction_user" as "auser", '.
 			'"auction_space" as "aspace", '.
 			'"auction_bid" as "abid", '.
-			'"auction_expire" as "aexpire" '.
+			'"auction_expire" as "aexpire", '.
+			'date_part(\'epoch\', "auction_expire" - now()) as "aseconds" '.
 			'from "game" '.
 			'where "game_id" = :gid'
 		);
@@ -62,10 +63,11 @@ class ModelAuction {
 	public function getAuctionInfoNoExpired () {
 		$sth = $this->model->prepare(
 			'select '.
-			'"auction_user", '.
-			'"auction_space", '.
-			'"auction_bid", '.
-			'"auction_expire" '.
+			'"auction_user" as "auser", '.
+			'"auction_space" as "aspace", '.
+			'"auction_bid" as "abid", '.
+			'"auction_expire" as "aexpire", '.
+			'date_part(\'epoch\', "auction_expire" - now()) as "aseconds" '.
 			'from "game" '.
 			'where "game_id" = :gid and '.
 			# make sure it hasn't expired
