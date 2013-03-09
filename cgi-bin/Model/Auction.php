@@ -35,6 +35,7 @@ class ModelAuction {
 	}
 
 	public function closeAuction () {
+		# note: does not do any checking for expiration
 		$sth = $this->model->prepare(
 			# database function - returns boolean
 			'select close_auction(:gid)'
@@ -54,6 +55,8 @@ class ModelAuction {
 		}
 
 		$ainfo = $this->getAuctionInfo();
+
+		$this->clearAuctionInfo();
 
 		return $this->model->update->pushUpdate([
 			'type'	=> 'auctionClose',
