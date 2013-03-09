@@ -12,6 +12,7 @@ $.widget("ui.actionpanel", {
 		propId: null,
 		auctionTimer: null,
 		auctionPollInterval: 100,
+		bidsteps: [1, 10, 25, 50, 100],
 	},
 	displays: {},
 
@@ -118,17 +119,58 @@ $.widget("ui.actionpanel", {
 
 	makeAuctionPanel: function () {
 		var self = this,
-		biddisp = $('<button></button>'),
-		timedisp = $('<div></div>'),
+		bidsteps = self.options.bidsteps,
+
+		msgdisp =
+			$('<div></div>')
+			.addClass('auctionmsg'),
+
+		timedisp =
+			$('<div></div>')
+			.addClass('auctiontime'),
+
+		biddisp =
+			$('<div></div>')
+			.addClass('auctionbid'),
+
+
+		winnerdisp =
+			$('<div></div>')
+			.addClass('auctionwinner'),
+
+		buttons =
+			$('<div></div>')
+			.addClass('auctionbuttons'),
+
 		ap = self.makePanelContainer()
 			.addClass('ui-actionpanel-auction')
 			.append(
+				msgdisp,
 				timedisp,
-				biddisp
+				winnerdisp,
+				biddisp,
+				buttons
 			)
+			.data('msg', msgdisp)
 			.data('time', timedisp)
+			.data('winner', winnerdisp)
 			.data('bid', biddisp)
 			.hide();
+
+		for (var i in bidsteps) {
+			var bid = bidsteps[i],
+			btn = $('<button></button>')
+				.addClass('ui-actionpanel-bidbtn')
+				.data('amt', bid)
+				.text('$' + bid)
+				.button()
+				.click(function () {
+					var b = $(this).data('amt');
+					self.bidCallback(b);
+				});
+
+			buttons.append(btn);
+		}
 
 		self.displays.auction = ap;
 
@@ -280,6 +322,13 @@ $.widget("ui.actionpanel", {
 		ip.data('disp').text(what);
 	},
 
+	setBidMsg: function (msg) {
+		var self = this,
+		ap = self.displays.auction,
+		msgdisp = ap.data('msg');
+		msgdisp.text(msg);
+	},
+
 	setBidTime: function (time) {
 		var self = this,
 		ap = self.displays.auction,
@@ -292,9 +341,19 @@ $.widget("ui.actionpanel", {
 		ap = self.displays.auction,
 		biddisp = ap.data('bid');
 
-		biddisp.text('Bid: $' + bid)
-			.button()
-			.click(function () {self.bidCallback(bid);});
+		biddisp.text('Bid: $' + bid);
+	},
+
+	setBidWinner: function (winner) {
+		var self = this,
+		ap = self.displays.auction,
+		winnerdisp = ap.data('winner');
+
+		if (winner == null) {
+			winner = 'nobody';
+		}
+
+		winnerdisp.text('Ahead: ' + winner);
 	},
 
 	bidCallback: function (bidAmt) {
@@ -525,6 +584,7 @@ $.widget("ui.actionpanel", {
 				self.options.idle = false;
 				self.setIdle(false);
 				break;
+
 		}
 		self._superApply(arguments);
 	},
