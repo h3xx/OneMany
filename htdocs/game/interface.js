@@ -107,7 +107,8 @@ $(document).ready(function () {
 // update polling methods {{{
 
 		pollGameUpdate: function () {
-			var self = window.iface;
+			var self = this;
+
 			$.post(self.options.servelet,
 			{
 				'method': 'ask',
@@ -127,11 +128,16 @@ $(document).ready(function () {
 					self.gameData.state = data.newstate;
 				}
 			});
-			self.scheduleGameUpdatePoll();
 		},
 
-		scheduleGameUpdatePoll: function () {
-			window.setTimeout(this.pollGameUpdate, this.options.pollInterval);
+		startGameUpdatePoll: function () {
+			var self = this;
+			window.setInterval(
+				function () {
+					self.pollGameUpdate();
+				},
+				self.options.pollInterval
+			);
 		},
 
 // update polling methods }}}
@@ -179,6 +185,9 @@ $(document).ready(function () {
 					break;
 				case 'auctionStart':
 					self.auctionStart(upd.who, upd.space, upd.bid);
+					break;
+				case 'bid':
+					self.auctionBid(upd.who, upd.bid);
 					break;
 				case 'card':
 					if (upd.who && !self.isMe(upd.who)) {
@@ -276,6 +285,9 @@ $(document).ready(function () {
 					' started an auction of ' +
 					self._spaceInfo(upd.space).name
 				});
+		},
+
+		auctionBid: function (uid, bid) {
 		},
 
 		moveUser: function (uid, sid, sbid) {
@@ -425,7 +437,7 @@ $(document).ready(function () {
 
 		init: function () {
 			this.pullInitialGameData();
-			this.scheduleGameUpdatePoll();
+			this.startGameUpdatePoll();
 		},
 
 		_playerInfo: function (user_id) {
