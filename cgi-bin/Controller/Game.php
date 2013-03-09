@@ -11,20 +11,6 @@ class ControllerGame {
 		$this->user_id = $user_id;
 	}
 
-	private function getBoard () {
-		if (!isset($this->board)) {
-			$this->board = new ControllerBoard($this->model, $this->user_id);
-		}
-		return $this->board;
-	}
-
-	private function getAuction () {
-		if (!isset($this->auction)) {
-			$this->auction = new ControllerAuction($this->model, $this->user_id);
-		}
-		return $this->auction;
-	}
-
 	public function processGameInstruction ($instruction) {
 		$buff = preg_split('/:/', $instruction);
 
@@ -427,6 +413,23 @@ class ControllerGame {
 		return $success_return;
 	}
 
+# member getters {{{
+
+	private function getBoard () {
+		if (!isset($this->board)) {
+			$this->board = new ControllerBoard($this->model, $this->user_id);
+		}
+		return $this->board;
+	}
+
+	private function getAuction () {
+		if (!isset($this->auction)) {
+			$this->auction = new ControllerAuction($this->model, $this->user_id);
+		}
+		return $this->auction;
+	}
+
+
 	function __get ($name) {
 		switch ($name) {
 			case 'board':
@@ -440,5 +443,8 @@ class ControllerGame {
 		}
 	}
 
+# member getters }}}
+
 }
 
+# vi: fdm=marker
