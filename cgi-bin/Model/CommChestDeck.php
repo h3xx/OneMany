@@ -37,6 +37,7 @@ class ModelCommchestDeck {
 			# TODO : mark card drawn???
 			$this->model->game->setGojf($user_id, true);
 		}
+
 		$this->moveCardToBack($result['id']);
 
 		return $result;
@@ -55,12 +56,8 @@ class ModelCommchestDeck {
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':gida', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':cid', $card_id, PDO::PARAM_INT);
-		if (!$sth->execute()) {
-			return false;
-		}
 
-		# XXX : update internal structure too?
-		return true;
+		return $sth->execute();
 	}
 
 	public function markCardNotDrawn ($card_id) {
