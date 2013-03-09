@@ -34,6 +34,7 @@ $(document).ready(function () {
 			},
 		},
 		gameData: {},
+
 // data members }}}
 
 // initialization methods {{{
@@ -221,6 +222,12 @@ $(document).ready(function () {
 
 // user info queries {{{
 
+		isInAuction: function () {
+			var self = this;
+
+			return self.gameData.auction.aspace != null;
+		},
+
 		isMyTurn: function () {
 			var self = this;
 
@@ -277,7 +284,7 @@ $(document).ready(function () {
 			});
 		},
 
-		auctionStart: function (uid, sid) {
+		auctionStart: function (uid, sid, bid) {
 			var self = this;
 			// placeholder - must actually start auction panel
 			/*self.setActionPanel({
@@ -286,10 +293,12 @@ $(document).ready(function () {
 					' started an auction of ' +
 					self._spaceInfo(upd.space).name
 				});*/
-			self.setActionPanel({idlePanel:'auction',idle:true});
+			self.setActionPanel({currBid: bid, idlePanel:'auction',idle:true});
 		},
 
 		auctionBid: function (uid, bid) {
+			var self = this;
+			self.setActionPanel({currBid: bid});
 		},
 
 		moveUser: function (uid, sid, sbid) {
@@ -395,12 +404,15 @@ $(document).ready(function () {
 		initActionPanel: function () {
 			var self = this,
 			myturn = self.isMyTurn(),
-			sp = (myturn ? 'roll' : 'waiting');
+			inauction = self.isInAuction(),
+			sp = (inauction ? 'auction' : (myturn ? 'roll' : 'waiting'));
+
 			self.elems.actionPanel
 				.actionpanel({
 					selectedPanel: sp,
 					idlePanel: sp,
 					idle: true,
+					currBid: self.gameData.auction.abid,
 				});
 		},
 		setActionPanel: function (data) {

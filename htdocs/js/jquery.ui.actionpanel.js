@@ -13,6 +13,7 @@ $.widget("ui.actionpanel", {
 		auctionTimer: null,
 		auctionPollInterval: 100,
 		bidsteps: [1, 10, 25, 50, 100],
+		currBid: 0,
 	},
 	displays: {},
 
@@ -345,25 +346,24 @@ $.widget("ui.actionpanel", {
 	},
 
 	setBidWinner: function (winner) {
-		var self = this,
-		ap = self.displays.auction,
-		winnerdisp = ap.data('winner');
-
-		if (winner == null) {
-			winner = 'nobody';
+		if (winner != null) {
+			var self = this,
+			ap = self.displays.auction,
+			winnerdisp = ap.data('winner');
+			winnerdisp.text('Ahead: ' + winner);
 		}
-
-		winnerdisp.text('Ahead: ' + winner);
 	},
 
 	bidCallback: function (bidAmt) {
-		var self = this;
+		var self = this,
+		ap = self.displays.auction,
+		currBid = parseInt(self.options.currBid);
 
 		$.post(self.options.servlet,
 			{
 				method: 'tell',
 				func: 'game',
-				args: 'bid:' + bidAmt,
+				args: 'bid:' + (currBid+bidAmt),
 			},
 			function (data) {
 				if (data) {
@@ -574,6 +574,9 @@ $.widget("ui.actionpanel", {
 				break;
 			case 'idle':
 				self.setIdle(value);
+				break;
+			case 'currBid':
+				self.setBidAmt(value);
 				break;
 			case 'info':
 				self.showInfo(value);
