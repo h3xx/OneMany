@@ -5,6 +5,7 @@ insert  into "rules"("rule_name","rule_default","rule_desc") values
 	('go_salary',		'200',		'How much cash the player gets for passing GO.'),
 	('free_parking',	'0',		'Whether "Free Parking" is a thing.'),
 	('auctions',		'1',		'Whether unbought properties may be auctioned by the bank upon landing on the space.'),
+	('auction_startbid_perc','50',		'What percentage of the face value auctions start at.'),
 	('incometax_flat',	'200',		'How much Income Tax charges (flat rate option).'),
 	('incometax_perc',	'10',		'How much Income Tax charges (percentage option).'),
 	('luxurytax',		'75',		'How much Luxury Tax charges (flat rate).'),
