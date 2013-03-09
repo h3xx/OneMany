@@ -118,7 +118,7 @@ class ModelAuction {
 			'"auction_user" as "auser", '.
 			'"auction_space" as "aspace", '.
 			'"auction_bid" as "abid", '.
-			'"auction_expire" as "aexpire", '.
+			#'"auction_expire" as "aexpire", '.
 			'date_part(\'epoch\', "auction_expire" - now()) as "aseconds" '.
 			'from "game" '.
 			'where "game_id" = :gid'
@@ -142,7 +142,7 @@ class ModelAuction {
 			'"auction_user" as "auser", '.
 			'"auction_space" as "aspace", '.
 			'"auction_bid" as "abid", '.
-			'"auction_expire" as "aexpire", '.
+			#'"auction_expire" as "aexpire", '.
 			'date_part(\'epoch\', "auction_expire" - now()) as "aseconds" '.
 			'from "game" '.
 			'where "game_id" = :gid and '.
