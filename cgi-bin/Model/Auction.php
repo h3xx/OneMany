@@ -8,6 +8,10 @@ class ModelAuction {
 		$this->game_id = $game_id;
 	}
 
+	public function exportModel () {
+		return $this->getAuctionInfoNoExpired();
+	}
+
 	public function setAuctionBid ($space_id, $user_id, $bid) {
 		$sth = $this->model->prepare(
 			'update "game" '.

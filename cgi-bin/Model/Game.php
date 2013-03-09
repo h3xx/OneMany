@@ -98,7 +98,7 @@ class ModelGame {
 	public function exportModel () {
 		$state = $this->getGameState();
 		$gameinfos = $this->getGameNameAndLastRoll();
-		$auction = $this->auction->getAuctionInfoNoExpired();
+		$auction = $this->auction->exportModel();
 		$board = $this->board->exportModel();
 		$users = $this->model->user->exportModel();
 		$last_update = $this->model->update->exportModel();
