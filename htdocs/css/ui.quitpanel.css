@@ -6,6 +6,7 @@
 
 .ui-quitpanel .ui-quitpanel-button {
 	width: 40%;
+	white-space: nowrap;
 }
 
 .ui-quitpanel .panel {
