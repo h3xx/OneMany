@@ -68,7 +68,7 @@ class ControllerAuction {
 			];
 		}
 
-		$ainfo = $this->model->game->getAuctionInfoNoExpired();
+		$ainfo = $this->model->game->auction->getAuctionInfoNoExpired();
 		if (empty($ainfo)) {
 			return [
 				'result'=> false,
@@ -76,14 +76,23 @@ class ControllerAuction {
 			];
 		}
 
-		$space_id = $ainfo['aspace'];
+		if ($bid <= $ainfo['abid']) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Bid must be higher than current winning bid. [' . $bid . ':' . $ainfo['abid'] . ']',
+			];
+		}
+
+		if (!$this->model->game->auction->setAuctionBid($this->user_id, $bid)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Failed to place bid. [WTF]',
+			];
+		}
 
 		return [
 			'result'=> true,
 			'msg'	=> 'Successfully placed bid.',
 		];
-
-		# FIXME : implement
-
 	}
 }
