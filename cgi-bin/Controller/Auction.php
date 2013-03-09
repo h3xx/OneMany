@@ -47,11 +47,16 @@ class ControllerAuction {
 		$buying_price = $this->model->game->board->getBuyFromBankCost($space_id);
 		$auction_startbid = $buying_price * $this->model->rules->getRuleValue('auction_startbid_perc') / 100;
 
-		$this->model->game->auction->startAuction($space_id, $this->user_id, $auction_startbid);
+		if (!$this->model->game->auction->startAuction($space_id, $this->user_id, $auction_startbid)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Failed to start an auction. [WTF]',
+			];
+		}
 
 		return [
-			'result'=> false,
-			'msg'	=> 'FIXME: auctions.',
+			'result'=> true,
+			'msg'	=> 'Auctioning property.',
 		];
 	}
 
