@@ -58,6 +58,8 @@ class Controller {
 		return Tools::encodeJson($jsonresponse);
 	}
 
+# member getters {{{
+
 	private function getChat () {
 		if (!isset($this->chat)) {
 			$this->chat = new ControllerChat($this->model, $this->user_id);
@@ -117,4 +119,9 @@ class Controller {
 				;;
 		}
 	}
+
+# member getters }}}
+
 }
+
+# vi: fdm=marker
