@@ -177,6 +177,14 @@ $(document).ready(function () {
 					}
 					self.elems.propcard.propcard({shown:false});
 					break;
+				case 'auctionStart':
+					self.setActionPanel({
+						info:
+							self._playerInfo(upd.who).name +
+							' started an auction of ' +
+							self._spaceInfo(upd.space).name
+						});
+					break;
 				case 'card':
 					if (upd.who && !self.isMe(upd.who)) {
 						self.setActionPanel({

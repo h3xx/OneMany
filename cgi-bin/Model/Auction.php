@@ -31,7 +31,15 @@ class ModelAuction {
 		$sth->bindParam(':bd', $opening_bid, PDO::PARAM_INT);
 		$sth->bindParam(':uid', $auctioning_user, PDO::PARAM_INT);
 
-		return $sth->execute();
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		return $this->model->update->pushUpdate([
+			'type'	=> 'auctionStart',
+			'who'	=> $auctioning_user,
+			'space'	=> $space_id,
+		]);
 	}
 
 	public function closeAuction () {
