@@ -248,11 +248,11 @@ $.widget("ui.actionpanel", {
 			},
 			function (data) {
 				if (data) {
-					if (data.atime == null && !data.result) {
+					if (data.aseconds == null && !data.result) {
 						// TODO : handle failure
-						alert(data.msg);
+						alert('doAuctionPoll:' + data.msg);
 					} else {
-						self.setBidTime(data.atime);
+						self.setBidTime(data.aseconds);
 					}
 				}
 			});
@@ -284,7 +284,7 @@ $.widget("ui.actionpanel", {
 		var self = this,
 		ap = self.displays.auction,
 		timedisp = ap.data('time');
-		timedisp.text('Time left: ' + time);
+		timedisp.text('Time left: ' + parseInt(time));
 	},
 
 	setBidAmt: function (bid) {
