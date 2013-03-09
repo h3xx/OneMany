@@ -133,9 +133,7 @@ class ModelAuction {
 			return false;
 		}
 
-		$result = $sth->fetch(PDO::FETCH_NUM);
-
-		return @$result[0];
+		return $sth->fetch(PDO::FETCH_ASSOC);
 
 	}
 
