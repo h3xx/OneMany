@@ -432,7 +432,7 @@ class ModelGame {
 	}
 
 	public function joinGame ($user_id, $game_id) {
-		if ($this->isFull($game_id) {
+		if ($this->isFull($game_id)) {
 			return false;
 		}
 
