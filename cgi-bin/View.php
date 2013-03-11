@@ -60,6 +60,10 @@ class View {
 					$jsonresponse = $this->auction->getAuctionInfo(@$instr['args']);
 					break;
 					;;
+				case 'hasEnoughPlayers':
+					$jsonresponse = $this->model->game->hasEnoughPlayers();
+					break;
+					;;
 				default:
 					$jsonresponse = [
 						'result'=> false,
