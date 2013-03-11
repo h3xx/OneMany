@@ -132,6 +132,7 @@ class ModelGame {
 		$gameinfos = $this->getGameNameAndLastRoll();
 		$auction = $this->auction->exportModel();
 		$board = $this->board->exportModel();
+		$free_parking = $this->getFreeParking();
 		$users = $this->model->user->exportModel();
 		$last_update = $this->model->update->exportModel();
 
@@ -141,6 +142,7 @@ class ModelGame {
 			'roll'	=> $gameinfos['roll'],
 			'auction'=> $auction,
 			'board'	=> $board,
+			'free_parking' => $free_parking,
 			'users'	=> $users,
 			'update'=> $last_update,
 		];
@@ -387,6 +389,23 @@ class ModelGame {
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 
 		return $sth->execute();
+	}
+
+	public function getFreeParking () {
+		$sth = $this->model->prepare(
+			'select "free_parking" from "game" '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		return @$result[0];
 	}
 
 	public function doRoll ($user_id, $num_dice) {
