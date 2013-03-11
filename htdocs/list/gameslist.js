@@ -13,6 +13,7 @@ $(document).ready(function () {
 	gameUrl = window.location.href + '../game/',
 
 	gamename = $('#gamename'),
+	dlgRules = $('#dialog-rules'),
 	pbar = $("#progressbar")
 		.progressbar({
 			value: false,
@@ -20,6 +21,7 @@ $(document).ready(function () {
 		.show(500),
 
 	allFields = $([]).add(gamename),
+	ruleFields = $([]),
 
 	dialogform = $('#dialog-form')
 		.dialog({
@@ -35,8 +37,12 @@ $(document).ready(function () {
 						gamename.addClass('ui-state-error');
 						return;
 					}
-					// FIXME : do something with this information
-					self.dialog('close');
+					gamename.removeClass('ui-state-error');
+
+					var createData = collateRules();
+					createData.name = gn;
+
+					sendCreateGame(createData, function () {self.dialog('close');});
 				},
 				'Cancel': function () {
 					$(this).dialog('close');
@@ -57,6 +63,51 @@ $(document).ready(function () {
 
 	// the elements that are to be disabled if not logged in
 	nliDisable = $([]).add(creategame),
+
+// makeRules {{{
+	// make rules dialogs
+	makeRules = function () {
+		$.post('responder.php',
+			{
+				method: 'ask',
+				func: 'rules',
+			},
+			function (data) {
+				if (data) {
+					for (var i in data) {
+						var rud = data[i],
+						rulabel = $('<label></label>')
+							.attr('for', rud.name)
+							.addClass('sublabel rulelabel')
+							.text(rud.name),
+						ruinput = $('<input></input>')
+							.addClass('ruleinput')
+							.attr('name', rud.name)
+							.attr('title', rud.desc)
+							.attr('value', rud.val),
+						rubuff = $('<div></div>')
+							.addClass('rule')
+							.append(rulabel, ruinput);
+
+						dlgRules.append(rubuff);
+						ruleFields.add(ruinput);
+					}
+				}
+				// activate fancy tooltips
+				$(document).tooltip();
+			});
+	},
+// makeRules }}}
+
+// collateRules {{{
+	collateRules = function () {
+		// FIXME : gather rules into an array
+		return {
+			'starting_cash': 1499,
+		};
+	},
+
+// collateRules }}}
 
 // joinGame {{{
 	joinGame = function (gid) {
@@ -154,6 +205,28 @@ $(document).ready(function () {
 	};
 // createGamesList }}}
 
+// sendCreateGame {{{
+	sendCreateGame = function (data, successCallback) {
+		$.post('responder.php',
+			{
+				method: 'tell',
+				func: 'create',
+				args: data
+			},
+			function (data) {
+				if (data.result) {
+					if (successCallback) {
+						successCallback();
+					}
+					window.location = gameUrl;
+				} else {
+					alert(data.msg);
+				}
+			});
+
+	},
+// sendCreateGame }}}
+
 	$.post('responder.php',
 		{
 			'method': 'ask',
@@ -172,7 +245,7 @@ $(document).ready(function () {
 			createGamesList();
 		});
 
-
+	makeRules();
 });
 
 // vi: fdm=marker

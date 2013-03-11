@@ -16,3 +16,26 @@
 .cell {
 	width: 100px;
 }
+
+.label {
+	font-size: 85%;
+}
+
+.sublabel {
+	font-size: 75%;
+}
+
+.rule {
+	float: left;
+	width: 100%;
+}
+
+.ruleinput, .gninput {
+	float: right;
+	clear: right;
+}
+
+.rulelabel, .gnlabel {
+	float: left;
+	clear: left;
+}
