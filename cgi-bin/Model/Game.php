@@ -67,33 +67,6 @@ class ModelGame {
 		return $res;
 	}
 
-	private function getChance () {
-		if (!isset($this->chance)) {
-			$this->chance = new ModelChanceDeck($this->model, $this->game_id);
-		}
-		return $this->chance;
-	}
-
-	private function getCommChest () {
-		if (!isset($this->commchest)) {
-			$this->commchest = new ModelCommChestDeck($this->model, $this->game_id);
-		}
-		return $this->commchest;
-	}
-
-	private function getBoard () {
-		if (!isset($this->board)) {
-			$this->board = new ModelBoard($this->model, $this->game_id);
-		}
-		return $this->board;
-	}
-
-	private function getAuction () {
-		if (!isset($this->auction)) {
-			$this->auction = new ModelAuction($this->model, $this->game_id);
-		}
-		return $this->auction;
-	}
 
 	public function exportModel () {
 		$state = $this->getGameState();
@@ -437,6 +410,36 @@ class ModelGame {
 		]);
 	}
 
+# member getters {{{
+
+	private function getChance () {
+		if (!isset($this->chance)) {
+			$this->chance = new ModelChanceDeck($this->model, $this->game_id);
+		}
+		return $this->chance;
+	}
+
+	private function getCommChest () {
+		if (!isset($this->commchest)) {
+			$this->commchest = new ModelCommChestDeck($this->model, $this->game_id);
+		}
+		return $this->commchest;
+	}
+
+	private function getBoard () {
+		if (!isset($this->board)) {
+			$this->board = new ModelBoard($this->model, $this->game_id);
+		}
+		return $this->board;
+	}
+
+	private function getAuction () {
+		if (!isset($this->auction)) {
+			$this->auction = new ModelAuction($this->model, $this->game_id);
+		}
+		return $this->auction;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'chance':
@@ -457,4 +460,9 @@ class ModelGame {
 				;;
 		}
 	}
+
+# member getters }}}
+
 }
+
+# vi: fdm=marker
