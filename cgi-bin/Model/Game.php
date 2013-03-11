@@ -13,13 +13,13 @@ class ModelGame {
 		$this->game_id = $game_id;
 	}
 
-	/*private function newGame () {
-		
+	public function createGame ($name) {
 		$sth = $this->model->prepare(
-			'insert into game ("game_name") values (:name) '.
+			'insert into "game" ("game_name") '.
+			'values (:name) '.
 			'returning "game_id"' # return the last inserted row id as the result set
 		);
-		$sth->bindParam(':name', $this->game_name, PDO::PARAM_STR);
+		$sth->bindParam(':name', $name, PDO::PARAM_STR);
 
 		if (!$sth->execute()) {
 			return false;
@@ -40,9 +40,7 @@ class ModelGame {
 		$res = $sth_pop->fetch(PDO::FETCH_NUM);
 
 		return $res[0];
-
-		#logger("Game: inserted game named `{$this->game_name}' : game_id : {$this->game_id}");
-	}*/
+	}
 
 	public function getGamesList ($my_user_id) {
 		if (!isset($my_user_id)) {
