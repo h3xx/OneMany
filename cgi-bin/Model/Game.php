@@ -54,7 +54,7 @@ class ModelGame {
 			'left join ( '.
 				'select '.
 					'"game_id", '.
-					'count(*) as sz '.
+					'count(*) as "sz" '.
 				'from "c_user_game" '.
 				'group by "game_id" '.
 			') as "foo" '.
