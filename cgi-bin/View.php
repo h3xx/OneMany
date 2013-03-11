@@ -60,8 +60,12 @@ class View {
 					$jsonresponse = $this->auction->getAuctionInfo(@$instr['args']);
 					break;
 					;;
-				case 'hasEnoughPlayers':
-					$jsonresponse = $this->model->game->hasEnoughPlayers();
+				case 'playerCount':
+					$jsonresponse = [
+						'players'	=> $this->model->game->numPlayers(),
+						'min'		=> $this->model->rules->ruleValue('min_players', 2),
+						'max'		=> $this->model->rules->ruleValue('max_players', 5),
+					];
 					break;
 					;;
 				default:
