@@ -432,6 +432,10 @@ class ModelGame {
 	}
 
 	public function joinGame ($user_id, $game_id) {
+		if ($this->isFull($game_id) {
+			return false;
+		}
+
 		$sth = $this->model->prepare(
 			'insert into "c_user_game" ("user_id", "game_id", "cash") '.
 			'values (:uid, :gid, rule_or_default(:ggid,\'starting_cash\')::integer) '.
