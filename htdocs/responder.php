@@ -3,7 +3,6 @@ session_start();
 
 $uid = @$_SESSION['user_id'];
 $gid = @$_SESSION['game_id'];
-$gid = 4;
 
 $method = @$_REQUEST['method'];
 $func = @$_REQUEST['func'];
