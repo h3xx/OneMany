@@ -16,7 +16,7 @@ $BODY$
 begin
 
 	perform
-		count(*)
+		"user_id"
 		from "c_user_game"
 		where "game_id" = _game_id and "user_id" = _user_id;
 
