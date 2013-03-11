@@ -18,7 +18,7 @@ class View {
 
 	public function processInstruction ($instr) {
 		# the user must be logged in, or logging in, or requesting public info
-		if (!isset($this->user_id) && !preg_match('/^(listGames)$/', @$instr['func'])) {
+		if (!isset($this->user_id) && !preg_match('/^(listGames|rules)$/', @$instr['func'])) {
 			$jsonresponse = [
 				'result'=> false,
 				'msg'	=> 'You are not logged in.',
