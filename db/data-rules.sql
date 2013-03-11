@@ -11,7 +11,7 @@ insert  into "rules"("rule_name","rule_default","rule_desc") values
 	('incometax_flat',	'200',		'How much Income Tax charges (flat rate option).'),
 	('incometax_perc',	'10',		'How much Income Tax charges (percentage option).'),
 	('luxurytax',		'75',		'How much Luxury Tax charges (flat rate).'),
-	('buy_gojf_card',	'1',		'Whether players may purchase a "Get out of Jail Free" card from another player.'),
+	('unmortgage_rate_perc','110',		'What percentage of the mortgage cost it will take to unmortgage a property.'),
 	('jail_bail',		'50',		'How much a player pays to get out of jail.'),
 	('jail_doubles',	'3',		'How many times in a row the user can roll doubles before being thrown in jail (0 to disable).'),
 	('parallel_improvement','1',		'Whether improvements must be bought in parallel.'),

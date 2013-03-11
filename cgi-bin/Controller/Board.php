@@ -215,6 +215,62 @@ class ControllerBoard {
 		];
 	}
 
+	public function unMortgageProperty ($space_id) {
+		# check whether it's their turn
+		$whose_turn = $this->model->game->whoseTurn();
+		if ($whose_turn !== $this->user_id) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Not your turn.',
+			];
+		}
+
+		$owner_id = $this->model->game->whoOwnsSpace($space_id);
+		if (!isset($owner_id) || $owner_id !== $this->user_id) {
+			return [
+				'result'=> false,
+				'msg'	=> 'You do not own that property.',
+			];
+		}
+
+		$is_mortgaged = $this->model->game->isPropertyMortgaged($space_id);
+		if (!$is_mortgaged) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Property is not mortgaged.',
+			];
+		}
+
+		if (!$this->model->game->board->setPropertyMortgaged($space_id, false)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Failed to mortgage property.',
+			];
+		}
+
+		$mortgage = $this->model->game->board->getMortgageCost($space_id);
+		if (!isset($mortgage)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Something went horribly wrong finding the mortgage cost [WTF].',
+			];
+		}
+
+		$mortgage_factor = $this->model->rules->getRuleValue('unmortgage_rate_perc', 110);
+		$new_cash = $this->model->user->addUserCash($this->user_id, -$mortgage * $mortgage_factor);
+		if (!is_numeric($new_cash)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Something went horribly wrong setting the user cash [WTF].',
+			];
+		}
+
+		return [
+			'result'=> true,
+			'msg'	=> 'Sucessfully unmortgaged property.',
+		];
+	}
+
 	private function _sellHousesNonParallel ($space_id, $houses_to_sell) {
 		# caveat: must have done all checking beforehand
 		$numhouses = $this->model->game->board->housesOnSpace($space_id);

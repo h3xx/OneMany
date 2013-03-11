@@ -318,6 +318,26 @@ class ModelGame {
 		return $ids;
 	}
 
+	public function allUidsInGameNoBankrupt () {
+		$sth = $this->model->prepare(
+			'select "user_id" '.
+			'from "c_user_game" '.
+			'where "game_id" = :gid and "cash" > 0'
+		);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$ids = $sth->fetchAll(PDO::FETCH_COLUMN, 0);
+
+		return $ids;
+	}
+
+	public function hasWinner () {
+		return count($this->allUidsInGameNoBankrupt()) == 1;
+	}
+
 	public function isUserInGame ($user_id) {
 		return $this->_isUserInGame($this->game_id, $user_id);
 	}
@@ -366,8 +386,9 @@ class ModelGame {
 	}
 
 	public function payToFreeParking ($user_id, $amt) {
-		return $this->model->user->addUserCash($user_id, -$amt) &&
-			$this->addFreeParking($amt);
+		return 
+			$this->addFreeParking($amt) &&
+			$this->model->user->addUserCash($user_id, -$amt);
 	}
 
 	public function addFreeParking ($amt) {
@@ -552,7 +573,8 @@ class ModelGame {
 	public function payBail ($user_id) {
 		$jail_bail = $this->model->rules->getRuleValue('jail_bail');
 
-		$newcash = $this->model->user->addUserCash($user_id, -$jail_bail);
+		#$newcash = $this->model->user->addUserCash($user_id, -$jail_bail);
+		$this->payToFreeParking($user_id, $jail_bail);
 
 		return $this->model->update->pushUpdate([
 			'type'	=> 'bail',
