@@ -185,6 +185,26 @@ class ModelGame {
 		return $m[0];
 	}
 
+	public function numPlayers () {
+		$sth = $this->model->prepare(
+			'select '.
+			'count(*) '.
+			'from c_user_game '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		# convert to array
+		return @$result[0];
+	}
+
 	public function hasEnoughPlayers () {
 		$sth = $this->model->prepare(
 			'select '.
