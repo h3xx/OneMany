@@ -20,7 +20,8 @@ class ControllerCreate {
 			];
 		}
 
-		if (!$this->model->game->createGame($args['name'])) {
+		$game_id = $this->model->game->createGame($args['name']);
+		if (!is_numeric($game_id)) {
 			return [
 				'result'=> false,
 				'msg'	=> 'Error creating game.',
@@ -40,9 +41,11 @@ class ControllerCreate {
 			}
 		}
 
+		$_SESSION['game_id'] = $game_id;
+
 		return [
-			'result'=> false,
-			'msg'	=> 'gcpoop: ' . @$args['name'],
+			'result'=> true,
+			'msg'	=> 'Successfully created a new game.',
 		];
 	}
 }

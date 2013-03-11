@@ -38,9 +38,8 @@ class ModelGame {
 		if (!$sth_pop->execute()) {
 			return false;
 		}
-		$res = $sth_pop->fetch(PDO::FETCH_NUM);
 
-		return $res[0];
+		return $this->game_id;
 	}
 
 	public function getGamesList ($my_user_id) {
