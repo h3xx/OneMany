@@ -10,7 +10,8 @@ CREATE TABLE "user"
   reset_string character varying(128), -- String needed to reset the user's password via email.
   reset_expire timestamp without time zone,
   login_hash character(40) NOT NULL, -- Hexadecimal SHA1 hash.
-  verify_string character varying(128) DEFAULT encode(gen_random_bytes(40), 'base64'::text), -- String needed to verify the user's email address. login_salt character varying(40) NOT NULL,
+  verify_string character varying(128) DEFAULT encode(gen_random_bytes(40), 'base64'::text), -- String needed to verify the user's email address.
+  login_salt character varying(40) NOT NULL,
   verified boolean NOT NULL DEFAULT false, -- Whether the user has verified their email address.
   CONSTRAINT user_pkey PRIMARY KEY (user_id),
   CONSTRAINT user_user_email_key UNIQUE (user_email)
