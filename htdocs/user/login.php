@@ -11,6 +11,7 @@
 <body>
 <h1>Login Form</h1>
 <form>
+<div><a href="../list/">Go to game list</a></div>
 <div id="loggedinas"></div>
 <input id="logname" type="text" name="logname" placeholder="Username" value="<?= htmlentities(@$_SESSION['user_name']); ?>" />
 <input id="pw" type="password" name="pw" placeholder="Password" />
