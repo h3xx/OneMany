@@ -15,6 +15,16 @@ class ControllerGame {
 		$buff = preg_split('/:/', $instruction);
 
 		switch ($buff[0]) {
+			case 'join':
+				if (!isset($buff[1]) || !is_numeric($buff[1])) {
+					return [
+						'result'=> false,
+						'msg'	=> 'Usage: join:GAME_ID',
+					];
+				}
+				return $this->joinGame($buff[1]);
+				break;
+				;;
 			case 'buy':
 				$result = $this->board->buyPropertyYoureOn();
 				if ($result['result']) {
@@ -65,6 +75,23 @@ class ControllerGame {
 				break;
 				;;
 		}
+	}
+
+	private function joinGame ($game_id) {
+		# TODO : send a request to the owner of the game?
+		if (!$this->model->game->joinGame($this->user_id, $game_id)) {
+			# failed to join game
+			# TODO : tell user why? [IDGAF]
+			return [
+				'result'=> false,
+				'msg'	=> 'Failed to join game (is it full?).',
+			];
+		}
+
+		return [
+			'result'=> true,
+			'msg'	=> 'Successfully joined game.',
+		];
 	}
 
 	private function rollDice () {
