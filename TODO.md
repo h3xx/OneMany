@@ -36,9 +36,9 @@
 
  * *Rolling doubles frees you, move that many, NO EXTRA TURN* **[done]**
 
- * *Pay $50 before roll to exit* **[almost done]**
+ * *Pay $50 before roll to exit* **[done]**
 
- * *[A] use get out of jail free card* **[almost done]**
+ * *[A] use get out of jail free card* **[done]**
 
 14. *Pay $75 to bank on Luxury tax* **[done]**
 
@@ -95,7 +95,7 @@
 
 ***These are not requirements for any level, but are good additions.  These are basically the ‘house rules’ ***
 
-# HOUSE RULES ARE DONE
+# HOUSE RULES ARE DONE, BITCH
 
 Use a configuration file to set these options site-wide.
 
