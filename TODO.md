@@ -14,7 +14,7 @@
 
 5. *Do the actual buying if they said 'yes' (end turn)* **[done]**
 
-6. *[A+] Auction property if they said 'no' (must figure out how to do so)* **[almost done]**
+6. *[A+] Auction property if they said 'no' (must figure out how to do so)* **[done]**
 
 7. *Pay regular rent* **[done]**
 
@@ -54,7 +54,7 @@
 
 17. Implement appropriate bankruptcy procedure (move icon off of board? no more turns?)
 
-18. Implement checking to see if someone has won (last person standing)
+18. *Implement checking to see if someone has won (last person standing)* **[done]**
 
 19. *Implement ability for user to quit* **[done]**
 
@@ -70,7 +70,7 @@
 
 25. *Store prop cost/mortgage amounts* **[done]**
 
-26. Un-mortgage properties at 110%
+26. *Un-mortgage properties at 110%* **[done]**
 
 27. *Transferring property to correct entity on player bankruptcy* **[done]**
 
@@ -78,15 +78,15 @@
 
 29. -
 
- * Number of players set to number of available users in DB if new game exists.
+ * *Number of players set to number of available users in DB if new game exists.* **[N/A]**
 
- * Allow number of players/which players to be selected at game start.
+ * *Allow number of players/which players to be selected at game start.* **[done]**
 
- * Implement ‘New Game’ function to start new game.
+ * *Implement ‘New Game’ function to start new game.* **[done]**
 
- * Implement ‘Join Game’ functions to join new (un-started) game.
+ * *Implement ‘Join Game’ functions to join new (un-started) game.* **[done]**
 
- * Implement creating user function to BEGIN game. Disable Join Game function for this game.
+ * *Implement creating user function to BEGIN game. Disable Join Game function for this game.* **[done]**
 
 ***NOTE: this list is NOT comprehensive.  There will be other things you will need to implement in order to fulfill these tasks correctly.***
 
