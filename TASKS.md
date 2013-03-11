@@ -1,3 +1,3 @@
-* (M)Jailing
+* (M)Trading
 
 * (M)Bankruptcy
