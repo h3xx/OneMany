@@ -283,7 +283,11 @@ class ControllerGame {
 
 							case 'G2':
 								# GO TO JAIL
-								# FIXME
+								return $this->throwUserInJail([
+									'result'=> true,
+									'msg'	=> $landed_msg,
+								]);
+
 								break;
 
 							case 'GOJF':
@@ -319,7 +323,10 @@ class ControllerGame {
 								break;
 							case 'G2':
 								# GO TO JAIL
-								# FIXME
+								return $this->throwUserInJail([
+									'result'=> true,
+									'msg'	=> $landed_msg,
+								]);
 								break;
 							case 'GOJF':
 								# get out of jail free card
@@ -338,13 +345,13 @@ class ControllerGame {
 					break;
 				case 'G2':
 					# Go to jail!
-					# FIXME
-					return $this->turnIsOver([
+					return $this->throwUserInJail([
 						'result'=> true,
 						'msg'	=> $landed_msg,
 					]);
 					break;
 				case 'FP':
+					# Free Parking
 					# FIXME
 					return $this->turnIsOver([
 						'result'=> true,
