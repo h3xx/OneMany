@@ -44,7 +44,14 @@ class ModelGame {
 		#logger("Game: inserted game named `{$this->game_name}' : game_id : {$this->game_id}");
 	}*/
 
-	public function getGamesList () {
+	public function getGamesList ($my_user_id) {
+		if (!isset($my_user_id)) {
+			return $this->_getGamesListNoUser();
+		}
+		return $this->_getGamesListWithUser($my_user_id);
+	}
+
+	private function _getGamesListNoUser () {
 		$sth = $this->model->prepare(
 			'select '.
 				'"game"."game_id" as "id", '.
@@ -68,11 +75,59 @@ class ModelGame {
 			return false;
 		}
 
-		$res = $sth->fetchAll(PDO::FETCH_ASSOC);
+		$result = $sth->fetchAll(PDO::FETCH_ASSOC);
 
-		return $res;
+		for ($i = 0; $i < count($result); ++$i) {
+			# XXX : overcome PDO bug re: all column types being strings
+			$result[$i]['id'] = (int)$result[$i]['id'];
+			$result[$i]['sz'] = (int)$result[$i]['sz'];
+			$result[$i]['sz_min'] = (int)$result[$i]['sz_min'];
+			$result[$i]['sz_max'] = (int)$result[$i]['sz_max'];
+		}
+
+		return $result;
 	}
 
+	private function _getGamesListWithUser ($user_id) {
+		$sth = $this->model->prepare(
+			'select '.
+				'"game"."game_id" as "id", '.
+				'"game"."game_name" as "name", '.
+				'"foo"."sz", '.
+				'rule_or_default("game"."game_id", \'min_players\') as "sz_min", '.
+				'rule_or_default("game"."game_id", \'max_players\') as "sz_max", '.
+				'is_user_in_game("game"."game_id", :uid) as "ingame" '.
+			'from game '.
+			'left join ( '.
+				'select '.
+					'"game_id", '.
+					'count(*) as "sz" '.
+				'from "c_user_game" '.
+				'group by "game_id" '.
+			') as "foo" '.
+			'on ("game"."game_id" = "foo"."game_id") '.
+			'order by "game"."game_id" desc'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetchAll(PDO::FETCH_ASSOC);
+
+		for ($i = 0; $i < count($result); ++$i) {
+			# XXX : overcome PDO bug re: all column types being strings
+			$result[$i]['id'] = (int)$result[$i]['id'];
+			$result[$i]['sz'] = (int)$result[$i]['sz'];
+			$result[$i]['sz_min'] = (int)$result[$i]['sz_min'];
+			$result[$i]['sz_max'] = (int)$result[$i]['sz_max'];
+			$result[$i]['ingame'] = (boolean)$result[$i]['ingame'];
+		}
+
+		return $result;
+	}
 
 	public function exportModel () {
 		$state = $this->getGameState();
@@ -244,9 +299,7 @@ class ModelGame {
 
 	public function isUserInGame ($user_id) {
 		$sth = $this->model->prepare(
-			'select count("user_id") from "c_user_game" '.
-			'where "user_id" = :uid '.
-			'and "game_id" = :gid'
+			'select is_user_in_game(:gid, :uid)'
 		);
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
