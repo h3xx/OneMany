@@ -41,6 +41,14 @@ class ControllerCreate {
 			}
 		}
 
+		if (!$this->model->game->joinGame($this->user_id, $game_id)) {
+			# failed to join game
+			return [
+				'result'=> false,
+				'msg'	=> 'Failed to join game.',
+			];
+		}
+
 		$_SESSION['game_id'] = $game_id;
 
 		return [

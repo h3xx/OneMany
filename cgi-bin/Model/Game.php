@@ -519,7 +519,7 @@ class ModelGame {
 		return $this->model->update->pushUpdate([
 			'type'	=> 'join',
 			'id'	=> $user_id,
-			'name'	=> $this->game->resolveUserId($user_id),
+			'name'	=> $this->model->user->resolveUserId($user_id),
 			'cash'	=> $initial_cash,
 		]);
 	}
