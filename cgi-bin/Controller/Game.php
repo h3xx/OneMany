@@ -88,6 +88,9 @@ class ControllerGame {
 			];
 		}
 
+		# use session variables
+		$_SESSION['game_id'] = $game_id;
+
 		return [
 			'result'=> true,
 			'msg'	=> 'Successfully joined game.',
