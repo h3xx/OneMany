@@ -487,9 +487,4 @@ class ModelUser {
 		# TODO : give up all property
 		return true;
 	}
-
-	function __get ($name) {
-		switch ($name) {
-		}
-	}
 }
