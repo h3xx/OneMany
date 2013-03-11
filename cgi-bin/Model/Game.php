@@ -13,6 +13,7 @@ class ModelGame {
 		$this->game_id = $game_id;
 	}
 
+	# XXX:CAVEAT : all submodels will have an incorrect game_id value once a game has been created
 	public function createGame ($name) {
 		$sth = $this->model->prepare(
 			'insert into "game" ("game_name") '.

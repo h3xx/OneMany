@@ -6,6 +6,7 @@ require_once('Controller/Game.php');
 require_once('Controller/User.php');
 require_once('Controller/Signup.php');
 require_once('Controller/Verify.php');
+require_once('Controller/Create.php');
 
 class Controller {
 	private $model, $user_id;
@@ -31,6 +32,10 @@ class Controller {
 					;;
 				case 'game':
 					$jsonresponse = $this->game->processGameInstruction($instr['args']);
+					break;
+					;;
+				case 'create':
+					$jsonresponse = $this->create->processGameInstruction($instr['args']);
 					break;
 					;;
 				case 'user':
@@ -95,6 +100,13 @@ class Controller {
 		return $this->verify;
 	}
 
+	private function getCreate () {
+		if (!isset($this->create)) {
+			$this->create = new ControllerCreate($this->model, $this->user_id);
+		}
+		return $this->create;
+	}
+
 	function __get ($name) {
 		switch ($name) {
 			case 'chat':
@@ -115,6 +127,10 @@ class Controller {
 				;;
 			case 'verify':
 				return $this->getVerify();
+				break;
+				;;
+			case 'create':
+				return $this->getCreate();
 				break;
 				;;
 		}
