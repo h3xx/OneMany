@@ -292,7 +292,13 @@ class ControllerGame {
 
 							case 'GOJF':
 								# get out of jail free card
-								# FIXME
+								if (!$this->model->game->setGojf($this->user_id, true)) {
+									return [
+										'result'=> false,
+										'msg'	=> 'Failed to give you a GOJF card. [WTF]',
+									];
+								}
+								# caveat: turn is ended below
 								break;
 
 							case 'PA50':
@@ -308,7 +314,6 @@ class ControllerGame {
 					break;
 				case 'CC':
 					# Community Chest
-					# FIXME
 					$card = $this->model->game->commchest->drawCard($this->user_id);
 					$landed_msg = $landed_msg . ' - '.$card['text'];
 					if (is_numeric($card['action'])) {
@@ -330,7 +335,13 @@ class ControllerGame {
 								break;
 							case 'GOJF':
 								# get out of jail free card
-								# FIXME
+								if (!$this->model->game->setGojf($this->user_id, true)) {
+									return [
+										'result'=> false,
+										'msg'	=> 'Failed to give you a GOJF card. [WTF]',
+									];
+								}
+								# caveat: turn is ended below
 								break;
 							case 'CA50':
 								# collect $50 from all players
