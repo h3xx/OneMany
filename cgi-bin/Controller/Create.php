@@ -21,6 +21,7 @@ class ControllerCreate {
 		}
 
 		$game_id = $this->model->game->createGame($args['name']);
+		$_SESSION['game_id'] = 1;
 		if (!is_numeric($game_id)) {
 			return [
 				'result'=> false,

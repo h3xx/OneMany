@@ -261,7 +261,7 @@ class ModelGame {
 	public function isFull ($game_id) {
 		$sth = $this->model->prepare(
 			'select '.
-			'count(*) <= rule_or_default(:gid,\'max_players\')::integer '.
+			'count(*) > rule_or_default(:gid,\'max_players\')::integer '.
 			'from c_user_game '.
 			'where "game_id" = :ggid'
 		);

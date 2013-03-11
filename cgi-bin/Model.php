@@ -8,10 +8,10 @@ require_once('Model/Update.php');
 require_once('Model/Rules.php');
 
 class Model {
-	private $game_id;
+	private $_game_id;
 
 	function __construct ($game_id) {
-		$this->game_id = $game_id;
+		$this->_game_id = $game_id;
 	}
 
 	function prepare ($sql) {
@@ -62,6 +62,10 @@ class Model {
 
 	function __get ($name) {
 		switch ($name) {
+			case 'game_id':
+				return isset($this->_game_id) ? $this->_game_id : $_SESSION['game_id'];
+				break;
+				;;
 			case 'game':
 				return $this->getGame();
 				break;
