@@ -111,6 +111,12 @@ $.widget("ui.actionpanel", {
 					.button()
 					.click(function () {self.sellHouseCallback(self.options.propId);})
 			)
+			.append(
+				// Mortgage button
+				$('<button>Mortgage</button>')
+					.button()
+					.click(function () {self.mortgageCallback(self.options.propId);})
+			)
 			.hide();
 
 		self.displays.prop = pp;
@@ -392,6 +398,25 @@ $.widget("ui.actionpanel", {
 				}
 			});
 
+	},
+
+	mortgageCallback: function (sid) {
+		var self = this;
+
+		$.post(self.options.servlet,
+			{
+				method: 'tell',
+				func: 'game',
+				args: 'mortgage: ' + sid,
+			},
+			function (data) {
+				if (data) {
+					if (!data.result) {
+						// TODO : handle failure
+						alert('mortgageCallback: ' +data.msg);
+					}
+				}
+			});
 	},
 
 	sellPropCallback: function (sid) {
