@@ -190,10 +190,11 @@ class ModelGame {
 			'select '.
 			'count(*) >= rule_or_default(:gid,\'min_players\')::integer '.
 			'from c_user_game '.
-			'where "game_id" = :gid'
+			'where "game_id" = :ggid'
 		);
 
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':ggid', $this->game_id, PDO::PARAM_INT);
 
 		if (!$sth->execute()) {
 			return false;
