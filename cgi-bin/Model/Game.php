@@ -470,7 +470,7 @@ class ModelGame {
 		$sth = $this->model->prepare(
 			'update "c_user_game" '.
 			'set '.
-				'"has_gojf" = :hg, '.
+				'"has_gojf" = :hg '.
 			'where "game_id" = :gid '.
 			'and "user_id" = :uid'
 		);
