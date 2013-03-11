@@ -72,7 +72,7 @@
 
 26. Un-mortgage properties at 110%
 
-27. Transferring property to correct entity on player bankruptcy
+27. *Transferring property to correct entity on player bankruptcy* **[done]**
 
 28. *Mortgage transferring fee (see above)* **[done - by design]**
 
