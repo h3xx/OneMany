@@ -520,7 +520,7 @@ $(document).ready(function () {
 			var ulocs = [];
 			for (var i in self.gameData.users) {
 				var ud = self.gameData.users[i];
-				ulocs[i] = {id: ud.on_space, user: ud.id};
+				ulocs[i] = {id: ud.on_space, user: ud.id, token: ud.token};
 			}
 
 			self.elems.board

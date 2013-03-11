@@ -8,6 +8,15 @@ $.widget("ui.board", {
 		houseImage: 'images/house.svg',
 		hotelImage: 'images/hotel.svg',
 		spaceClickCallback: null,
+		tokens: [
+			'images/pieces/battleship.jpg',
+			'images/pieces/car.jpg',
+			'images/pieces/dog.jpg',
+			'images/pieces/rider.jpg',
+			'images/pieces/thimble.jpg',
+			'images/pieces/tophat.jpg',
+			'images/pieces/wheelbarrow.jpg',
+		],
 	},
 	userlocs: {},
 	displays: {}, // indexed by 'id1', 'id26', etc for space_id
@@ -241,7 +250,7 @@ $.widget("ui.board", {
 		elem.data('houses', numHouses);
 	},
 
-	setUserLocation: function (user_id, space_id) {
+	setUserLocation: function (user_id, space_id, token) {
 		var self = this,
 		oldloc = self.userlocs['id' + user_id],
 		disp = self.displays['id' + space_id],
@@ -255,12 +264,20 @@ $.widget("ui.board", {
 
 		self.userlocs['id' + user_id] = space_id;
 
-		disp.pieces.append(
-			$('<span></span>')
-			.attr('id', piece_id)
-			.addClass('token')
-			.text('poop'+user_id)
-		);
+		disp.pieces.append(self.tokenImg(token,piece_id));
+	},
+
+	tokenImg: function (token, id) {
+		var self = this,
+		tokens = self.options.tokens,
+
+		imgsrc = tokens[token%tokens.length],
+		img = $('<img/>')
+			.attr('id', id)
+			.attr('src', imgsrc)
+			.addClass('token');
+
+		return img;
 	},
 
 	_create: function () {
@@ -308,9 +325,10 @@ $.widget("ui.board", {
 			// expect an array
 			for (var i in value) {
 				if (value[i].user) {
-					self.setUserLocation(value[i].user, value[i].id);
+					self.setUserLocation(value[i].user, value[i].id, value[i].token);
 					// we don't need to be storing that shit in our array
 					delete value[i].user;
+					delete value[i].token;
 				}
 				// merge at same id in our data
 				jQuery.map(data, function (elem, idx) {
