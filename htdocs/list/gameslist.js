@@ -10,6 +10,7 @@ $(document).ready(function () {
 		.hide(),
 
 	loggedIn = false,
+	gameUrl = window.location.href + '../game/',
 
 	gamename = $('#gamename'),
 	pbar = $("#progressbar")
@@ -62,11 +63,13 @@ $(document).ready(function () {
 		$.post('responder.php',
 			{
 				method: 'tell',
-				func: 'join',
-				args: gid,
+				func: 'game',
+				args: 'join:' + gid,
 			},
 			function (data) {
-				if (!data.result) {
+				if (data.result) {
+					window.location = gameUrl;
+				} else {
 					alert(data.msg);
 				}
 			});
@@ -82,8 +85,9 @@ $(document).ready(function () {
 		}, function (data) {
 			pbar.hide(500);
 			if (data) {
-				glist.empty();
-				glist.append(
+				glist
+				.empty()
+				.append(
 					$('<div></div>')
 					.addClass('row ui-widget-header')
 					.append(
@@ -120,7 +124,7 @@ $(document).ready(function () {
 
 							$('<div></div>')
 							.addClass('cell')
-							.text(gdata.sz),
+							.text(gdata.sz + '/' + gdata.sz_max),
 
 							joinbtn =
 							$('<button></button>')
@@ -130,7 +134,7 @@ $(document).ready(function () {
 							.click(function () {
 								joinGame($(this).data('gid'));
 							})
-							.text('Join')
+							.text(gdata.ingame ? 'Back to Game' : 'Join')
 						)
 					);
 

@@ -10,7 +10,7 @@ class ViewList {
 
 	public function listGames () {
 
-		$json_data = $this->model->game->getGamesList();
+		$json_data = $this->model->game->getGamesList($this->user_id);
 		return $json_data;
 	}
 }
