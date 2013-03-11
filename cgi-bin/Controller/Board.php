@@ -9,8 +9,6 @@ class ControllerBoard {
 	}
 
 	public function buyProperty ($space_id) {
-		# TODO : this is horribly inefficient
-
 		$space_cost = $this->model->game->board->getBuyFromBankCost($space_id);
 		if (!isset($space_cost) || $space_cost < 0) {
 			return [
