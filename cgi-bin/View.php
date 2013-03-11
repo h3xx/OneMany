@@ -63,8 +63,8 @@ class View {
 				case 'playerCount':
 					$jsonresponse = [
 						'players'	=> $this->model->game->numPlayers(),
-						'min'		=> $this->model->rules->ruleValue('min_players', 2),
-						'max'		=> $this->model->rules->ruleValue('max_players', 5),
+						'min'		=> $this->model->rules->getRuleValue('min_players', 2),
+						'max'		=> $this->model->rules->getRuleValue('max_players', 5),
 					];
 					break;
 					;;
