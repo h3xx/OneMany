@@ -365,6 +365,11 @@ class ModelGame {
 		}
 	}
 
+	public function payToFreeParking ($user_id, $amt) {
+		return $this->model->user->addUserCash($user_id, -$amt) &&
+			$this->addFreeParking($amt);
+	}
+
 	public function addFreeParking ($amt) {
 		$sth = $this->model->prepare(
 			'update "game" '.
