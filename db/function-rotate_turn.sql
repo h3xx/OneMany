@@ -28,7 +28,7 @@ begin
 		"user_id" = (
 			select "user_id"
 			from "c_user_game"
-			where "game_id" = 4
+			where "game_id" = _game_id
 			order by "sequence"
 			limit 1
 		);
