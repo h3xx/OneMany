@@ -46,7 +46,7 @@
 
  * *Pay $200 on Income Tax* **[done]**
 
- * *Ask user to pay $200 or 10% of total worth (DO NOT SHOW THEM THIS 10%, but CALCULATE IT WHEN THEY DECIDE)* **[almost done]**
+ * *Ask user to pay $200 or 10% of total worth (DO NOT SHOW THEM THIS 10%, but CALCULATE IT WHEN THEY DECIDE)* **[done, but buggy]**
 
 16. *Implement payment for passing GO* **[done]**
 
@@ -58,7 +58,7 @@
 
 19. *Implement ability for user to quit* **[done]**
 
-20. *[A+] Implement trading* **[almost done]**
+20. *[A+] Implement trading* **[done, but buggy]**
 
 21. *Implement logging in system to allow user to only play when it's their turn* **[done]**
 
