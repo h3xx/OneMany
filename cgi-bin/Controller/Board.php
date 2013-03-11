@@ -153,7 +153,7 @@ class ControllerBoard {
 			];
 		}
 
-		$owner_id = $this->model->game->whoOwnsSpace($space_id);
+		$owner_id = $this->model->game->board->whoOwnsSpace($space_id);
 		if (!isset($owner_id) || $owner_id !== $this->user_id) {
 			return [
 				'result'=> false,
@@ -161,7 +161,7 @@ class ControllerBoard {
 			];
 		}
 
-		$is_mortgaged = $this->model->game->isPropertyMortgaged($space_id);
+		$is_mortgaged = $this->model->game->board->isPropertyMortgaged($space_id);
 		if ($is_mortgaged) {
 			return [
 				'result'=> false,
@@ -223,7 +223,7 @@ class ControllerBoard {
 			];
 		}
 
-		$owner_id = $this->model->game->whoOwnsSpace($space_id);
+		$owner_id = $this->model->game->board->whoOwnsSpace($space_id);
 		if (!isset($owner_id) || $owner_id !== $this->user_id) {
 			return [
 				'result'=> false,
@@ -231,7 +231,7 @@ class ControllerBoard {
 			];
 		}
 
-		$is_mortgaged = $this->model->game->isPropertyMortgaged($space_id);
+		$is_mortgaged = $this->model->game->board->isPropertyMortgaged($space_id);
 		if (!$is_mortgaged) {
 			return [
 				'result'=> false,
