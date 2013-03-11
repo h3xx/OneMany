@@ -199,6 +199,27 @@ class ModelGame {
 		return @$result[0];
 	}
 
+	public function isFull ($game_id) {
+		$sth = $this->model->prepare(
+			'select '.
+			'count(*) <= rule_or_default(:gid,\'max_players\')::integer '.
+			'from c_user_game '.
+			'where "game_id" = :ggid'
+		);
+
+		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
+		$sth->bindParam(':ggid', $game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		# convert to array
+		return @$result[0];
+	}
+
 	public function getUserOnSpace ($user_id) {
 		$sth = $this->model->prepare(
 			'select "on_space" '.
