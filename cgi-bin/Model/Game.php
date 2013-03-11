@@ -411,20 +411,22 @@ class ModelGame {
 	}
 
 	public function joinGame ($user_id, $game_id) {
-		$initial_cash = $this->model->rules->getRuleValue('starting_cash');
-
 		$sth = $this->model->prepare(
 			'insert into "c_user_game" ("user_id", "game_id", "cash") '.
-			'values (:uid, :gid, :csh)'
+			'values (:uid, :gid, rule_or_default(:ggid,\'starting_cash\')::integer) '.
+			'returning "cash"'
 		);
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
 		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
-		$sth->bindParam(':csh', $initial_cash, PDO::PARAM_INT);
+		$sth->bindParam(':ggid', $game_id, PDO::PARAM_INT);
 
 		if (!$sth->execute()) {
 			return false;
 		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+		$initial_cash = @$result[0];
 
 		# XXX : tell update module about it
 		return $this->model->update->pushUpdate([
