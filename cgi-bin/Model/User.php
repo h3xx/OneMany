@@ -15,6 +15,8 @@ class ModelUser {
 				'"user_name" as "name", '.
 				'"cash", '.
 				'"on_space", '.
+				'"has_gojf", '.
+				'"token", '.
 				'"in_jail" as "jail" '.
 			'from "c_user_game" '.
 			'left join "user" on ("c_user_game"."user_id" = "user"."user_id") '.
@@ -39,7 +41,9 @@ class ModelUser {
 			$result[$i]['id'] = (int)$result[$i]['id'];
 			$result[$i]['cash'] = (int)$result[$i]['cash'];
 			$result[$i]['on_space'] = (int)$result[$i]['on_space'];
+			$result[$i]['token'] = (int)$result[$i]['token'];
 			$result[$i]['jail'] = (boolean)$result[$i]['jail'];
+			$result[$i]['has_gojf'] = (boolean)$result[$i]['has_gojf'];
 		}
 
 		return $result;
