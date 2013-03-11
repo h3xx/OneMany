@@ -6,6 +6,7 @@ insert  into "rules"("rule_name","rule_default","rule_desc") values
 	('min_players',		'2',		'Minimum players needed for a game.'),
 	('max_players',		'5',		'Maximul players allowed for a game.'),
 	('free_parking',	'0',		'Whether "Free Parking" is a thing.'),
+	('trading',		'0',		'Whether players are allowed to trade property.'),
 	('auctions',		'1',		'Whether unbought properties may be auctioned by the bank upon landing on the space.'),
 	('auction_startbid_perc','50',		'What percentage of the face value auctions start at.'),
 	('incometax_flat',	'200',		'How much Income Tax charges (flat rate option).'),
