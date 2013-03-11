@@ -242,7 +242,7 @@ class ControllerBoard {
 		if (!$this->model->game->board->setPropertyMortgaged($space_id, false)) {
 			return [
 				'result'=> false,
-				'msg'	=> 'Failed to mortgage property.',
+				'msg'	=> 'Failed to unmortgage property.',
 			];
 		}
 
