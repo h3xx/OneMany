@@ -59,6 +59,10 @@ class ControllerGame {
 				return $this->board->mortgageProperty(@$buff[1]);
 				break;
 				;;
+			case 'unmortgage':
+				return $this->board->unmortgageProperty(@$buff[1]);
+				break;
+				;;
 			case 'roll':
 				return $this->rollDice();
 				break;
