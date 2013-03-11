@@ -57,8 +57,8 @@ class ModelGame {
 				'select '.
 					'"game_id", '.
 					'count(*) as "sz", '.
-					'rule_or_default("game_id", \'min_players\') as "sz_min", '
-					'rule_or_default("game_id", \'max_players\') as "sz_max" '
+					'rule_or_default("game_id", \'min_players\') as "sz_min", '.
+					'rule_or_default("game_id", \'max_players\') as "sz_max" '.
 				'from "c_user_game" '.
 				'group by "game_id" '.
 			') as "foo" '.
