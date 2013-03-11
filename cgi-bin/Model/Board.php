@@ -538,7 +538,8 @@ class ModelBoard {
 			'"game_id" = :gid'
 		);
 
-		$sth->bindParam(':mrt', $is_mortgaged, PDO::PARAM_BOOL);
+		$is_mortgagedp = $is_mortgaged ? 'true' : 'false';
+		$sth->bindParam(':mrt', $is_mortgagedp, PDO::PARAM_BOOL);
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
 		$sth->bindParam(':sid', $space_id, PDO::PARAM_INT);
 
