@@ -115,9 +115,10 @@ class ControllerBoard {
 			];
 		}
 
+		# TODO : auction it?
 		return [
 			'result'=> true,
-			'msg'	=> 'FIXME: implement selling property.',
+			'msg'	=> 'Successfully sold property.',
 		];
 	}
 
