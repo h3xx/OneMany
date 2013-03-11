@@ -32,7 +32,7 @@
 
  * *[C] +/- $75 for landing on card* **[done]**
 
-13. Implement jailing
+13. *Implement jailing* **[done]**
 
  * *Rolling doubles frees you, move that many, NO EXTRA TURN* **[done]**
 
@@ -42,7 +42,7 @@
 
 14. *Pay $75 to bank on Luxury tax* **[done]**
 
-15. Implement income tax
+15. *Implement income tax* **[done]**
 
  * *Pay $200 on Income Tax* **[done]**
 
