@@ -74,7 +74,7 @@ class ControllerSignup {
 				'Content-Type: text/html; charset=utf8',
 			];
 			$content = '<a href="'.htmlspecialchars($url).'">Verify your email.</a>';
-			if (!mail($user_email, $subject, $content, implode("\r\n", $headers))) {
+			if (!mail($email, $subject, $content, implode("\r\n", $headers))) {
 				# TODO : just mark as verified - OR - better messages
 				return [
 					'result'=> true,
