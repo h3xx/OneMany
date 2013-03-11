@@ -174,7 +174,6 @@ class ModelGame {
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
-		# convert to array
 		return @$result[0];
 	}
 
@@ -195,7 +194,6 @@ class ModelGame {
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
-		# convert to array
 		return @$result[0];
 	}
 
@@ -216,7 +214,6 @@ class ModelGame {
 
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
-		# convert to array
 		return @$result[0];
 	}
 
