@@ -36,6 +36,28 @@
 	margin: 0 !important;
 }
 
+.ui-progressbar {
+	background-color: #5b5b5b;
+	background-image: none;
+}
+
 .ui-button-text-only .ui-button-text {
 	padding: .4em .9em;
+}
+
+.progress-label {
+	color: #eee;
+	width: 100%;
+	text-align: center;
+	font-size: 75%;
+	float: left;
+	margin-top: 7px;
+	font-weight: bold;
+	text-shadow: 1px 1px 0 #222;
+}
+
+.dialog-msg {
+	font-size: 75%;
+	font-weight: bold;
+	margin-bottom: 1em;
 }
