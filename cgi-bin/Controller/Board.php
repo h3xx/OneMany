@@ -255,7 +255,7 @@ class ControllerBoard {
 			];
 		}
 
-		$mortgage_factor = $this->model->rules->getRuleValue('unmortgage_rate_perc', 110);
+		$mortgage_factor = $this->model->rules->getRuleValue('unmortgage_rate_perc', 110) / 100;
 		$new_cash = $this->model->user->addUserCash($this->user_id, -$mortgage * $mortgage_factor);
 		if (!is_numeric($new_cash)) {
 			return [
