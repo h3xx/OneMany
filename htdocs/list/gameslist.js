@@ -34,6 +34,7 @@ $(document).ready(function () {
 						gamename.addClass('ui-state-error');
 						return;
 					}
+					// FIXME : do something with this information
 					self.dialog('close');
 				},
 				'Cancel': function () {
@@ -50,11 +51,28 @@ $(document).ready(function () {
 		.text('Create Game')
 		.button()
 		.click(function() {
-			$('#dialog-form').dialog('open');
+			dialogform.dialog('open');
 		}),
 
 	// the elements that are to be disabled if not logged in
 	nliDisable = $([]).add(creategame),
+
+// joinGame {{{
+	joinGame = function (gid) {
+		$.post('responder.php',
+			{
+				method: 'tell',
+				func: 'join',
+				args: gid,
+			},
+			function (data) {
+				if (!data.result) {
+					alert(data.msg);
+				}
+			});
+
+	},
+// joinGame }}}
 
 // createGamesList {{{
 	createGamesList = function () {
@@ -106,24 +124,12 @@ $(document).ready(function () {
 
 							joinbtn =
 							$('<button></button>')
+							.data('gid', gdata.id)
 							.addClass('cell')
 							.button()
 							.click(function () {
-								var gid = $(this).data('gid');
-								$.post('responder.php',
-									{
-										method: 'tell',
-										func: 'join',
-										args: gid,
-									},
-									function (data) {
-										if (!data.result) {
-											alert(data.msg);
-										}
-									});
-
+								joinGame($(this).data('gid'));
 							})
-							.data('gid', gdata.id)
 							.text('Join')
 						)
 					);
