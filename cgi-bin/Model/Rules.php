@@ -10,10 +10,14 @@ class ModelRules {
 		$this->game_id = $game_id;
 	}
 
-	/*
 	public function getDefaultRules () {
 		$sth = $this->model->prepare(
-			'select * from rules'
+			'select '.
+				'"rule_name" as "name", '.
+				'"rule_default" as "val", '.
+				'"rule_desc" as "desc" '.
+			'from "rules" '.
+			'order by "rule_name"'
 		);
 
 		if (!$sth->execute()) {
@@ -24,7 +28,6 @@ class ModelRules {
 
 		return $result;
 	}
-	*/
 
 	public function getRuleValue ($rule_name, $fallback=null) {
 		# use cache first
