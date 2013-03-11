@@ -342,9 +342,16 @@ $(document).ready(function () {
 // user info queries }}}
 
 		paidBail: function (uid, paid) {
+			// pretty unnecessary
+			//var self = this,
+			//self.setActionPanel({info: self._playerInfo(uid).name + ' paid bail of $' + paid + '.'});
 		},
 
 		usedGojf: function (uid) {
+			self._playerInfo(uid).has_gojf = false;
+			// pretty unnecessary
+			//var self = this,
+			//self.setActionPanel({info: self._playerInfo(uid).name + ' used a GOJF card.'});
 		},
 
 		updateTurn: function (uid) {
@@ -424,6 +431,7 @@ $(document).ready(function () {
 
 			// update player info display
 			self.setPlayerInfo({id:uid,jail:injail});
+			self._playerInfo(uid).jail = injail;
 
 			// user thrown in jail is already notified
 			if (!self.isMe(uid)) {
@@ -431,6 +439,8 @@ $(document).ready(function () {
 					(injail ? ' got thrown in jail!' : ' got let out of jail!');
 
 				self.setActionPanel({info: msg});
+			} else {
+				self.setActionPanel({idlePanel: (self.isMyTurn() ? self.amIInJail() ? 'jail' : 'roll' : 'waiting')});
 			}
 		},
 
