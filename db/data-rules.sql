@@ -4,6 +4,7 @@ insert  into "rules"("rule_name","rule_default","rule_desc") values
 	('starting_cash',	'1500',		'How much cash each player starts with.'),
 	('go_salary',		'200',		'How much cash the player gets for passing GO.'),
 	('min_players',		'2',		'Minimum players needed for a game.'),
+	('max_players',		'5',		'Maximul players allowed for a game.'),
 	('free_parking',	'0',		'Whether "Free Parking" is a thing.'),
 	('auctions',		'1',		'Whether unbought properties may be auctioned by the bank upon landing on the space.'),
 	('auction_startbid_perc','50',		'What percentage of the face value auctions start at.'),
