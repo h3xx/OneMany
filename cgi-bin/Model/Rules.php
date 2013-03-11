@@ -55,4 +55,27 @@ class ModelRules {
 
 		return $this->cache[$rule_name];
 	}
+
+	public function setRule ($rule_name, $rule_value) {
+		$sth = $this->model->prepare(
+			'select set_rule(:gid, :rn, :rv)'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':rn', $rule_name, PDO::PARAM_STR);
+		$sth->bindParam(':rv', $rule_value, PDO::PARAM_STR);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+
+		if (@$result[0]) {
+			# store in cache
+			$this->cache[$rule_name] = $rule_value;
+		}
+
+		return @$result[0];
+	}
 }
