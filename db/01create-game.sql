@@ -12,6 +12,7 @@ CREATE TABLE game
   auction_bid integer, -- How much the highest bid in the current auction was.
   auction_expire timestamp without time zone, -- When the current auction expires.
   auction_reportedclosed boolean NOT NULL DEFAULT false, -- Whether the auction, when closed, has been reported to the game_update table.
+  free_parking integer NOT NULL DEFAULT 0, -- The total for free parking.
   CONSTRAINT game_pkey PRIMARY KEY (game_id)
 )
 WITH (
@@ -24,3 +25,4 @@ COMMENT ON COLUMN game.auction_space IS 'What space is being currently auctioned
 COMMENT ON COLUMN game.auction_bid IS 'How much the highest bid in the current auction was.';
 COMMENT ON COLUMN game.auction_expire IS 'When the current auction expires.';
 COMMENT ON COLUMN game.auction_reportedclosed IS 'Whether the auction, when closed, has been reported to the game_update table.';
+COMMENT ON COLUMN game.free_parking IS 'The total for free parking.';

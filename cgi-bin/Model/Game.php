@@ -276,6 +276,11 @@ class ModelGame {
 		return @$result[0];
 	}
 
+	public function transferCash ($from_uid, $to_uid, $amt) {
+		return $this->model->user->addUserCash($from_uid, -$amt) &&
+			$this->model->user->addUserCash($to_uid, $amt);
+	}
+
 	public function getUserOnSpace ($user_id) {
 		$sth = $this->model->prepare(
 			'select "on_space" '.
@@ -293,6 +298,22 @@ class ModelGame {
 		$result = $sth->fetch(PDO::FETCH_NUM);
 
 		return @$result[0];
+	}
+
+	public function allUidsInGame () {
+		$sth = $this->model->prepare(
+			'select "user_id" '.
+			'from "c_user_game" '.
+			'where "game_id" = :gid'
+		);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$ids = $sth->fetchAll(PDO::FETCH_COLUMN, 0);
+
+		return $ids;
 	}
 
 	public function isUserInGame ($user_id) {
@@ -316,6 +337,57 @@ class ModelGame {
 		return @$result[0];
 	}
 
+	public function awardFreeParking ($user_id) {
+		if (!$this->model->rules->ruleValue('free_parking')) {
+			return true;
+		}
+
+		$sth = $this->model->prepare(
+			'select "free_parking" '.
+			'from "game" '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+		$fp = @$result[0];
+
+		if (is_numeric($fp) && $fp > 0) {
+			$this->setFreeParking(0);
+			return $this->model->user->addUserCash($user_id, $fp);
+		}
+	}
+
+	public function addFreeParking ($amt) {
+		$sth = $this->model->prepare(
+			'update "game" '.
+			'set "free_parking" = "free_parking" + :fpd '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':fpd', $amt, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		return $sth->execute();
+	}
+
+	public function setFreeParking ($amt) {
+		$sth = $this->model->prepare(
+			'update "game" '.
+			'set "free_parking" = :fp '.
+			'where "game_id" = :gid'
+		);
+
+		$sth->bindParam(':fp', $amt, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		return $sth->execute();
+	}
 
 	public function doRoll ($user_id, $num_dice) {
 

@@ -333,7 +333,10 @@ class ControllerGame {
 
 							case 'PA50':
 								# pay $50 to all players
-								# FIXME
+								$ids = $this->model->game->allUidsInGame();
+								foreach ($ids as $i) {
+									$this->model->game->transferCash($this->user_id, $i);
+								}
 								break;
 						}
 					}
@@ -375,7 +378,10 @@ class ControllerGame {
 								break;
 							case 'CA50':
 								# collect $50 from all players
-								# FIXME
+								$ids = $this->model->game->allUidsInGame();
+								foreach ($ids as $i) {
+									$this->model->game->transferCash($i, $this->user_id);
+								}
 								break;
 						}
 					}
@@ -393,7 +399,12 @@ class ControllerGame {
 					break;
 				case 'FP':
 					# Free Parking
-					# FIXME
+					if (!$this->model->game->awardFreeParking($this->user_id)) {
+						return [
+							'result'=> false,
+							'msg'	=> 'Failed to give you Free Parking. [WTF]',
+						];
+					}
 					return $this->turnIsOver([
 						'result'=> true,
 						'msg'	=> $landed_msg,
