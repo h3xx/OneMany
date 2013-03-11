@@ -39,8 +39,10 @@ $(document).ready(function () {
 					}
 					gamename.removeClass('ui-state-error');
 
-					var createData = collateRules();
-					createData.name = gn;
+					var createData = {
+						rules: collateRules(),
+						name: gn,
+					};
 
 					sendCreateGame(createData, function () {self.dialog('close');});
 				},
