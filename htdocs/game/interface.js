@@ -62,6 +62,84 @@ $(document).ready(function () {
 				.show();
 		},
 
+		dialogWaitJoin: function (players, min) {
+			var self = this;
+
+			if (self.elems.wjpbar) {
+				var pbarl = self.elems.wjpbar.data('label');
+				pbarl.text('Players: ' + players + '/' + min);
+
+				self.elems.wjpbar
+					.progressbar({
+						value: (players/min*100),
+					});
+			} else {
+				var pbarl =
+				$('<div></div>')
+					.addClass('progress-label')
+					.text('Players: ' + players + '/' + min);
+
+				self.elems.wjpbar =
+				$('<div></div>')
+					.append(pbarl)
+					.data('label', pbarl)
+					.progressbar({
+						value: (players/min*100),
+					});
+
+				self.elems.dialog
+					.attr('title', 'Waiting...')
+					.empty()
+					.append(
+						$('<div></div>')
+							.addClass('dialog-msg')
+							.text('Please wait for other players to join.'),
+						self.elems.wjpbar
+					)
+					.dialog({
+						modal: true,
+					})
+					.show();
+			}
+		},
+
+		closeDialogWaitJoin: function () {
+			var self = this;
+
+			self.elems.wjpbar = null;
+			self.elems.dialog.empty();
+		},
+
+		checkNumPlayers: function (okayCallback) {
+			var self = this;
+
+			$.post(self.options.servelet,
+				{
+					'method': 'ask',
+					'func': 'playerCount',
+				},
+				function (data) {
+					if (data) {
+						if (data.players < data.min) {
+							window.setTimeout(function () {
+								self.dialogWaitJoin(data.players, data.min);
+							}, self.options.pollInterval);
+						} else if (okayCallback) {
+							self.closeDialogWaitJoin();
+							okayCallback();
+						}
+					}
+				});
+		},
+
+		initData: function (data) {
+			var self = window.iface;
+			self.gameData = data;
+			self.setInitialInterface();
+			// replay the last update
+			self.procGameUpdate(data.update);
+		},
+
 		pullInitialGameData: function () {
 			var self = this;
 			$.post(self.options.servelet,
@@ -76,10 +154,9 @@ $(document).ready(function () {
 						self.dialogNotLoggedIn(data.msg);
 						return;
 					}
-					self.gameData = data;
-					self.setInitialInterface();
-					// replay the last update
-					self.procGameUpdate(data.update);
+					// check if we have enough people to
+					// start, and only call initData when we do
+					self.checkNumPlayers(function () {self.initData(data);});
 				});
 		},
 
