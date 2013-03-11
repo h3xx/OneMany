@@ -298,6 +298,10 @@ class ModelGame {
 	}
 
 	public function isUserInGame ($user_id) {
+		return $this->isUserInGame($this->game_id, $user_id);
+	}
+
+	public function isUserInGame ($game_id, $user_id) {
 		$sth = $this->model->prepare(
 			'select is_user_in_game(:gid, :uid)'
 		);
@@ -488,6 +492,10 @@ class ModelGame {
 	}
 
 	public function joinGame ($user_id, $game_id) {
+		if ($this->isUserInGame($game_id, $user_id)) {
+			return true;
+		}
+
 		if ($this->isFull($game_id)) {
 			return false;
 		}
