@@ -60,6 +60,7 @@ $.widget("ui.playerinfo", {
 			var udata = options.data[i];
 			pbuff = self.playerInfoBuff(udata.name, udata.cash, udata.turn);
 			self.displays['id' + udata.id] = pbuff;
+			self.setJail(udata.id, udata.jail);
 			pan.append(pbuff.main);
 		}
 
@@ -99,7 +100,7 @@ $.widget("ui.playerinfo", {
 	setCash: function (id, cash) {
 		var self = this,
 		disp = self.displays['id' + id],
-		ocash = self.getCash(id);
+		ocash = parseInt(self.getCash(id));
 
 		if (ocash) {
 			var cashmsg =

@@ -576,11 +576,42 @@ class ModelGame {
 		#$newcash = $this->model->user->addUserCash($user_id, -$jail_bail);
 		$this->payToFreeParking($user_id, $jail_bail);
 
-		return $this->model->update->pushUpdate([
-			'type'	=> 'bail',
-			'who'	=> $user_id,
-			'paid'	=> $jail_bail,
-		]);
+		return
+			$this->model->user->setInJail($user_id, false) &&
+			$this->model->update->pushUpdate([
+				'type'	=> 'bail',
+				'who'	=> $user_id,
+				'paid'	=> $jail_bail,
+			]);
+	}
+
+	public function useGojf ($user_id) {
+		return $this->setGojf($user_id, false) &&
+			$this->model->user->setInJail($user_id, false) &&
+			$this->model->update->pushUpdate([
+				'type'	=> 'gojf',
+				'id'	=> $user_id,
+			]);
+			
+	}
+
+	public function hasGojf ($user_id) {
+		$sth = $this->model->prepare(
+			'select "has_gojf" '.
+			'from "c_user_game" '.
+			'where "game_id" = :gid '.
+			'and "user_id" = :uid'
+		);
+
+		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+
+		if (!$sth->execute()) {
+			return false;
+		}
+
+		$result = $sth->fetch(PDO::FETCH_NUM);
+		return @$result[0];
 	}
 
 	public function setGojf ($user_id, $has_gojf) {

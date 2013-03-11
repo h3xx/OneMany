@@ -289,6 +289,12 @@ $(document).ready(function () {
 				case 'improve':
 					self.setBoard({id:upd.space,houses:upd.houses});
 					break;
+				case 'bail':
+					self.paidBail(upd.who, upd.paid);
+					break;
+				case 'gojf':
+					self.usedGojf(upd.id);
+					break;
 				case 'cash':
 					self._mergeAtId(self.gameData.users, upd.id, {
 						cash: upd.cash,
@@ -334,6 +340,12 @@ $(document).ready(function () {
 		},
 
 // user info queries }}}
+
+		paidBail: function (uid, paid) {
+		},
+
+		usedGojf: function (uid) {
+		},
 
 		updateTurn: function (uid) {
 			var self = this,
@@ -493,7 +505,7 @@ $(document).ready(function () {
 			var self = this,
 			myturn = self.isMyTurn(),
 			inauction = self.isInAuction(),
-			sp = (inauction ? 'auction' : (myturn ? 'roll' : 'waiting'));
+			sp = (inauction ? 'auction' : (myturn ? self.amIInJail() ? 'jail' : 'roll' : 'waiting'));
 
 			self.elems.actionPanel
 				.actionpanel({

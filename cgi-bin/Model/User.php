@@ -375,11 +375,16 @@ class ModelUser {
 			'where "user_id" = :uid and "game_id" = :gid'
 		);
 
+		# XXX WEIRD FUCKING PDO BUG!!!
+		# Passing a false boolean by reference will turn it into a damn empty string!!!
+		$in_jailp = $in_jail ? 'true' : 'false';
+
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
 		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
-		$sth->bindParam(':ij', $in_jail, PDO::PARAM_BOOL);
+		$sth->bindParam(':ij', $in_jailp, PDO::PARAM_BOOL);
 
 		if (!$sth->execute()) {
+			var_dump($sth->errorInfo());
 			return false;
 		}
 

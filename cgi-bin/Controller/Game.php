@@ -71,6 +71,10 @@ class ControllerGame {
 				return $this->payBail();
 				break;
 				;;
+			case 'useGojf':
+				return $this->useGojf();
+				break;
+				;;
 			default:
 				return [
 					'result'=> false,
@@ -476,6 +480,43 @@ class ControllerGame {
 			'result'=> true,
 			'msg'	=> 'Successfully paid bail.',
 		];
+	}
+
+	private function useGojf () {
+		# check whether it's their turn
+		$whose_turn = $this->model->game->whoseTurn();
+		if ($whose_turn !== $this->user_id) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Not your turn.',
+			];
+		}
+
+		if (!$this->model->user->isInJail($this->user_id)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'You are not in jail.',
+			];
+		}
+
+		if (!$this->model->game->hasGojf($this->user_id)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'You do not have a Get out of Jail Free card.',
+			];
+		}
+
+		if (!$this->model->game->useGojf($this->user_id)) {
+			return [
+				'result'=> false,
+				'msg'	=> 'Failure to use GOJF card. [WTF]',
+			];
+		}
+
+		return $this->turnIsOver([
+			'result'=> true,
+			'msg'	=> 'Successfully paid bail.',
+		]);
 	}
 
 	private function throwUserInJail ($success_return) {

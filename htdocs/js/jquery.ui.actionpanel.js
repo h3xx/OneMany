@@ -80,7 +80,10 @@ $.widget("ui.actionpanel", {
 					.click(function () {self.rollCallback();}),
 				$('<button>Use GOJF card</button>')
 					.button()
-					.click(function () {self.gojfCallback();})
+					.click(function () {self.gojfCallback();}),
+				$('<button>Pay Bail</button>')
+					.button()
+					.click(function () {self.bailCallback();})
 			)
 			.hide();
 
@@ -490,6 +493,30 @@ $.widget("ui.actionpanel", {
 				method: 'tell',
 				func: 'game',
 				args: 'useGojf',
+			},
+			function (data) {
+				if (data) {
+					if (!data.result) {
+						// TODO : handle failure
+						alert('gojfCallback: ' +data.msg);
+					} else {
+						self.showInfo(data.msg);
+						//self.setIdle(false);
+					}
+				} else {
+					alert('gojfCallback: ' +data);
+				}
+			});
+	},
+
+	bailCallback: function () {
+		var self = this;
+
+		$.post(self.options.servlet,
+			{
+				method: 'tell',
+				func: 'game',
+				args: 'payBail',
 			},
 			function (data) {
 				if (data) {
