@@ -298,16 +298,16 @@ class ModelGame {
 	}
 
 	public function isUserInGame ($user_id) {
-		return $this->isUserInGame($this->game_id, $user_id);
+		return $this->_isUserInGame($this->game_id, $user_id);
 	}
 
-	public function isUserInGame ($game_id, $user_id) {
+	private function _isUserInGame ($game_id, $user_id) {
 		$sth = $this->model->prepare(
 			'select is_user_in_game(:gid, :uid)'
 		);
 
 		$sth->bindParam(':uid', $user_id, PDO::PARAM_INT);
-		$sth->bindParam(':gid', $this->game_id, PDO::PARAM_INT);
+		$sth->bindParam(':gid', $game_id, PDO::PARAM_INT);
 
 		if (!$sth->execute()) {
 			return false;
@@ -492,7 +492,7 @@ class ModelGame {
 	}
 
 	public function joinGame ($user_id, $game_id) {
-		if ($this->isUserInGame($game_id, $user_id)) {
+		if ($this->_isUserInGame($game_id, $user_id)) {
 			return true;
 		}
 
