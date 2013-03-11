@@ -225,6 +225,9 @@ $(document).ready(function () {
 		procGameUpdate: function (update) {
 			var self = this,
 			upd = jQuery.parseJSON(update);
+			if (!upd) {
+				return;
+			}
 			switch (upd.type) {
 				case 'roll':
 					self.gameData.roll = upd.val;
