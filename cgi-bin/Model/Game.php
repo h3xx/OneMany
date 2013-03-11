@@ -360,7 +360,7 @@ class ModelGame {
 	}
 
 	public function awardFreeParking ($user_id) {
-		if (!$this->model->rules->ruleValue('free_parking')) {
+		if (!$this->model->rules->getRuleValue('free_parking')) {
 			return true;
 		}
 
