@@ -116,9 +116,15 @@ $.widget("ui.actionpanel", {
 			)
 			.append(
 				// Mortgage button
-				$('<button>Mortgage</button>')
+				$('<button>Mort.</button>')
 					.button()
 					.click(function () {self.mortgageCallback(self.options.propId);})
+			)
+			.append(
+				// Mortgage button
+				$('<button>Unm.</button>')
+					.button()
+					.click(function () {self.unmortgageCallback(self.options.propId);})
 			)
 			.hide();
 
@@ -417,6 +423,25 @@ $.widget("ui.actionpanel", {
 					if (!data.result) {
 						// TODO : handle failure
 						alert('mortgageCallback: ' +data.msg);
+					}
+				}
+			});
+	},
+
+	unmortgageCallback: function (sid) {
+		var self = this;
+
+		$.post(self.options.servlet,
+			{
+				method: 'tell',
+				func: 'game',
+				args: 'unmortgage: ' + sid,
+			},
+			function (data) {
+				if (data) {
+					if (!data.result) {
+						// TODO : handle failure
+						alert('unmortgageCallback: ' +data.msg);
 					}
 				}
 			});
