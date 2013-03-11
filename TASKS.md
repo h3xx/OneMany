@@ -1,5 +1,3 @@
-* (S)Free Parking
-
 * (M)Jailing
 
 * (M)Bankruptcy
