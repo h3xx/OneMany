@@ -3,10 +3,12 @@
 $.widget('ui.quitpanel', {
 	options: {
 		logoutLink: '../user/logout.php',
+		listLink: '../list/',
 	},
 
 	leaveGameCallback: function () {
-		alert('leaveGameCallback');
+		var self = this;
+		window.location = self.options.listLink;
 	},
 
 	logoutCallback: function () {
