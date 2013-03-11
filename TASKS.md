@@ -1,19 +1,13 @@
-* Changing the loaded model via polled updates (in browser).
+* Joining game / wait for players
 
-* Games list and joining.
-
-* Win conditions.
-
-* Game creation.
+* Creating game / rule sets / game ownershup
 
 ** Rule setting before game starts.
 
-* Rolling (partially done).
+* (S)Free Parking
 
-* Moving.
+* (M)Jailing
 
-* Action upon landing on space.
+* (M)Bankruptcy
 
-* Construct view (in browser) from exported model
-
-* Implement changing view (in browser) via updates
+* (S)Tokens
