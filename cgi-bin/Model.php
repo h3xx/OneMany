@@ -63,7 +63,11 @@ class Model {
 	function __get ($name) {
 		switch ($name) {
 			case 'game_id':
-				return isset($this->_game_id) ? $this->_game_id : $_SESSION['game_id'];
+				return isset($this->_game_id) ?
+					$this->_game_id :
+					(isset($_SESSION['game_id']) ?
+						$_SESSION['game_id'] :
+						null);
 				break;
 				;;
 			case 'game':
