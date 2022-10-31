@@ -1,8 +1,0 @@
-/* include all ui.* stylesheets */
-
-@import url('ui.playerinfo.css');
-@import url('ui.board.css');
-@import url('ui.actionpanel.css');
-@import url('ui.propcard.css');
-@import url('ui.quitpanel.css');
-@import url('jquery.ui.chatbox.css');

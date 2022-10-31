@@ -1,3 +1,0 @@
-* (M)Trading
-
-* (M)Bankruptcy

@@ -1,6 +1,0 @@
-<filesMatch ".otf$">
-	ForceType 'font/opentype'
-</filesMatch>
-<filesMatch ".ttf$">
-	ForceType 'application/x-font-ttf'
-</filesMatch>

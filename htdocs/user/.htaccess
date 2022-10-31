@@ -1,3 +1,0 @@
-DirectoryIndex login.php
-RewriteEngine On
-RewriteRule ^(responder\.php)$ ../$1

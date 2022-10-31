@@ -1,3 +1,0 @@
-DirectoryIndex gameslist.html
-RewriteEngine On
-RewriteRule ^(responder\.php)$ ../$1

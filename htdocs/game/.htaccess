@@ -1,4 +1,0 @@
-DirectoryIndex actionform.php
-RewriteEngine On
-RewriteRule ^(js|css|images|fonts)/(.*)$ ../$1/$2
-RewriteRule ^(responder\.php)$ ../$1
